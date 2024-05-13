@@ -71,6 +71,6 @@
 		@apply border-border;
 	}
 	body {
-		@apply font-comfortaa bg-background text-foreground;
+		@apply bg-background font-comfortaa text-foreground;
 	}
 }
