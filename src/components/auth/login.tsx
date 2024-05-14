@@ -17,13 +17,14 @@ import { z } from "zod"
 import { useRef, type FC } from "react"
 import { type FormsProps } from "."
 import { useTabResize } from "@/hooks/useTabResize"
+import { useLogin } from "@/hooks/auth/useLogin"
 
-export const loginFormSchema = z.object({
+const loginFormSchema = z.object({
 	email: z.string().email(),
 	password: z
 		.string()
-		.regex(/.*[0-9].*/)
-		.min(8)
+		.min(8, "Password must be at least 8 characters long")
+		.regex(/(.*[0-9]){3}.*/, "Password must have at least 3 digits")
 })
 
 export const Login: FC<FormsProps> = ({
@@ -32,16 +33,18 @@ export const Login: FC<FormsProps> = ({
 	setTabSizes
 }) => {
 	const form = useForm<z.infer<typeof loginFormSchema>>({
+		mode: "onChange",
 		resolver: zodResolver(loginFormSchema),
-		mode: "onSubmit",
 		defaultValues: {
 			email: "",
 			password: ""
 		}
 	})
+	const { login } = useLogin()
 
 	const loginFormRef = useRef<HTMLFormElement | null>(null)
-	const onSubmit = () => console.log
+	const onSubmit = (formFields: z.infer<typeof loginFormSchema>) =>
+		login(formFields)
 
 	useTabResize({
 		errors: form.formState.errors,
@@ -110,13 +113,14 @@ export const Login: FC<FormsProps> = ({
 					<p>
 						Dont have an account yet?{" "}
 						<button
+							type="button"
 							onClick={() => setCurrentTab("register")}
 							className="underline"
 						>
 							Register
 						</button>
 					</p>
-					<Button>Submit</Button>
+					<Button type="submit">Submit</Button>
 				</form>
 			</Form>
 		</motion.div>

@@ -7,8 +7,7 @@ export const env = createEnv({
 	 * isn't built with invalid env vars.
 	 */
 	server: {
-		NODE_ENV: z.enum(["development", "test", "production"]),
-		SERVER_URL: z.string().url()
+		NODE_ENV: z.enum(["development", "test", "production"])
 	},
 
 	/**
@@ -17,6 +16,7 @@ export const env = createEnv({
 	 * `NEXT_PUBLIC_`.
 	 */
 	client: {
+		NEXT_PUBLIC_SERVER_URL: z.string().url()
 		// NEXT_PUBLIC_CLIENTVAR: z.string(),
 	},
 
@@ -26,7 +26,7 @@ export const env = createEnv({
 	 */
 	runtimeEnv: {
 		NODE_ENV: process.env.NODE_ENV,
-		SERVER_URL: process.env.SERVER_URL
+		NEXT_PUBLIC_SERVER_URL: process.env.NEXT_PUBLIC_SERVER_URL
 		// NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
 	},
 	/**

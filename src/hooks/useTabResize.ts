@@ -22,7 +22,6 @@ type UseTabResize = (options: {
 
 export const useTabResize: UseTabResize = options => {
 	useEffect(() => {
-		console.log(options.offsetHeight)
 		options.setTabSizes(prev => ({
 			...prev,
 			[options.type]: options.offsetHeight

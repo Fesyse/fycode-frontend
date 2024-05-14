@@ -1,10 +1,9 @@
-import { ThemeProvider } from "@/components/theme-provider"
-import { ToastProvider } from "@/components/toast-provider"
-import { QueryProvider } from "@/components/query-provider"
 import "@/styles/globals.css"
 import { type Metadata } from "next"
 
 import { Comfortaa } from "next/font/google"
+import { Provider } from "@/components/provider"
+import { type PropsWithChildren } from "react"
 
 const comfortaa = Comfortaa({
 	subsets: ["latin"],
@@ -20,19 +19,11 @@ export const metadata: Metadata = {
 	icons: [{ rel: "icon", url: "/favicon.ico" }]
 }
 
-export default function RootLayout({
-	children
-}: {
-	children: React.ReactNode
-}) {
+export default function RootLayout({ children }: PropsWithChildren) {
 	return (
-		<html lang="en" className={`${comfortaa.variable}`}>
+		<html lang="en" className={comfortaa.variable}>
 			<body>
-				<QueryProvider>
-					<ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-						<ToastProvider>{children}</ToastProvider>
-					</ThemeProvider>
-				</QueryProvider>
+				<Provider>{children}</Provider>
 			</body>
 		</html>
 	)

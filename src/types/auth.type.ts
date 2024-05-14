@@ -13,3 +13,7 @@ export interface LoginRequest {
 export interface RegisterRequest extends LoginRequest {
 	username: string
 }
+
+export interface RequestError {
+	message: string
+}
