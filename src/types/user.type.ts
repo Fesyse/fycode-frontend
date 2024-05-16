@@ -6,6 +6,7 @@ export interface User {
 	email: string
 	createdAt: string
 	updatedAt: string
+	avatar?: string
 }
 
 export interface Profile extends User {
