@@ -13,7 +13,8 @@ export const useUser = () => {
 		queryKey: ["user"],
 		queryFn: () => userService.get()
 	})
-	const [isUnauthorized, setIsUnauthorized] = useState<boolean>(true)
+	const [isUnauthorized, setIsUnauthorized] = useState<boolean>(false)
+	if (error?.message.includes("401") && !isUnauthorized) setIsUnauthorized(true)
 
 	return { user, isLoading, isUnauthorized }
 }

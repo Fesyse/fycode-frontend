@@ -18,6 +18,7 @@ import { useRef, type FC } from "react"
 import { type FormsProps } from "."
 import { useTabResize } from "@/hooks/useTabResize"
 import { useRegister } from "@/hooks/auth/useRegister"
+import { useRouter } from "next/navigation"
 
 const registerFormSchema = z.object({
 	email: z.string().email(),
@@ -31,7 +32,8 @@ const registerFormSchema = z.object({
 export const Register: FC<FormsProps> = ({
 	setCurrentTab,
 	tabSizes,
-	setTabSizes
+	setTabSizes,
+	callbackUrl
 }) => {
 	const form = useForm<z.infer<typeof registerFormSchema>>({
 		mode: "onChange",
@@ -43,10 +45,11 @@ export const Register: FC<FormsProps> = ({
 		}
 	})
 	const { register } = useRegister()
+	const router = useRouter()
 
 	const registerFormRef = useRef<HTMLFormElement | null>(null)
 	const onSubmit = (formFields: z.infer<typeof registerFormSchema>) =>
-		register(formFields)
+		register(formFields, { onSuccess: () => router.push(callbackUrl) })
 
 	useTabResize({
 		errors: form.formState.errors,

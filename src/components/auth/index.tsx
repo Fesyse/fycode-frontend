@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react"
+import { type FC, useState } from "react"
 import { AnimatePresence } from "framer-motion"
 import { Login } from "./login"
 import { Register } from "./register"
@@ -10,9 +10,9 @@ import {
 	CardDescription,
 	CardContent
 } from "@/components/shadcn/card"
-import { env } from "@/env"
 
 export type FormsProps = {
+	callbackUrl: string
 	tabSizes: {
 		login: number
 		register: number
@@ -26,14 +26,23 @@ export type FormsProps = {
 	setCurrentTab: React.Dispatch<React.SetStateAction<"login" | "register">>
 }
 
-export const Auth = () => {
+type AuthProps = {
+	callbackUrl?: string
+}
+
+export const Auth: FC<AuthProps> = ({ callbackUrl }) => {
 	const [currentTab, setCurrentTab] = useState<"login" | "register">("register")
 	const [tabSizes, setTabSizes] = useState({
 		login: 200,
 		register: 300
 	})
 
-	const formsProps: FormsProps = { setCurrentTab, tabSizes, setTabSizes }
+	const formsProps: FormsProps = {
+		callbackUrl: callbackUrl ?? "/dashboard",
+		setCurrentTab,
+		tabSizes,
+		setTabSizes
+	}
 
 	return (
 		<Card className="w-[475px]">

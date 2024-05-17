@@ -25,6 +25,7 @@ export const Profile = () => {
 		? `/problem/${lastUserProblemId}`
 		: "/dashboard"
 	const dropDownItemProps = { className: "flex gap-2", asChild: true }
+	console.log(user)
 
 	return (
 		<div>
@@ -46,7 +47,7 @@ export const Profile = () => {
 						</button>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent className="w-48">
-						<DropdownMenuLabel>User options</DropdownMenuLabel>
+						<DropdownMenuLabel>{user?.username}</DropdownMenuLabel>
 						<DropdownMenuSeparator />
 						<DropdownMenuGroup>
 							<DropdownMenuItem {...dropDownItemProps}>
@@ -76,8 +77,10 @@ export const Profile = () => {
 					</DropdownMenuContent>
 				</DropdownMenu>
 			) : (
-				<Button className="flex gap-2">
-					Sign up <Rocket />
+				<Button className="flex gap-2" asChild>
+					<Link href={`/auth?callbackUrl=/dashboard`}>
+						Sign up <Rocket />
+					</Link>
 				</Button>
 			)}
 		</div>

@@ -18,6 +18,7 @@ import { useRef, type FC } from "react"
 import { type FormsProps } from "."
 import { useTabResize } from "@/hooks/useTabResize"
 import { useLogin } from "@/hooks/auth/useLogin"
+import { useRouter } from "next/navigation"
 
 const loginFormSchema = z.object({
 	email: z.string().email(),
@@ -30,7 +31,8 @@ const loginFormSchema = z.object({
 export const Login: FC<FormsProps> = ({
 	setCurrentTab,
 	tabSizes,
-	setTabSizes
+	setTabSizes,
+	callbackUrl
 }) => {
 	const form = useForm<z.infer<typeof loginFormSchema>>({
 		mode: "onChange",
@@ -41,10 +43,11 @@ export const Login: FC<FormsProps> = ({
 		}
 	})
 	const { login } = useLogin()
+	const router = useRouter()
 
 	const loginFormRef = useRef<HTMLFormElement | null>(null)
 	const onSubmit = (formFields: z.infer<typeof loginFormSchema>) =>
-		login(formFields)
+		login(formFields, { onSuccess: () => router.push(callbackUrl) })
 
 	useTabResize({
 		errors: form.formState.errors,
