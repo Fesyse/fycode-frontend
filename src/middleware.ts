@@ -9,7 +9,7 @@ export default async function middleware(request: NextRequest) {
 				name: string
 				value: string
 		  }
-	if (token)
+	if (token?.value !== "undefined" && !token?.value)
 		return NextResponse.redirect(new URL("/dashboard/", request.nextUrl.origin))
 	return NextResponse.next()
 }

@@ -6,13 +6,13 @@ export const metadata: Metadata = {
 }
 
 export default function Page({
-	searchParams
+	searchParams: { callbackUrl }
 }: {
 	searchParams: { callbackUrl?: string }
 }) {
 	return (
 		<div className="flex h-full w-full items-center justify-center">
-			<Auth callbackUrl={searchParams.callbackUrl} />
+			<Auth callbackUrl={callbackUrl} />
 		</div>
 	)
 }
