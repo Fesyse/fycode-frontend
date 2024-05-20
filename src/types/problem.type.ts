@@ -25,6 +25,7 @@ export interface GetSomeProblems {
 	}
 	filters?: {
 		difficulty?: Difficulty
+		title?: string
 	}
 	orderBy?: { id?: Order; likes?: Order }
 }

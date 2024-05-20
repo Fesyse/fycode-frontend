@@ -22,8 +22,6 @@ export const Pagination: FC<PaginationProps> = ({
 	const maxPage = _maxPage ?? 10
 	const getPageLink = (page: number) => `/dashboard?page=${page}`
 
-	console.log(page - 1 < 0)
-
 	return (
 		<_Pagination>
 			<PaginationContent>

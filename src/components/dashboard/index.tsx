@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import {
 	flexRender,
 	getCoreRowModel,
@@ -19,6 +19,7 @@ import {
 import type { GetSomeProblems } from "@/types/problem.type"
 import { useProblems } from "@/hooks/problem/useProblems"
 import { getColumns } from "@/lib/react-utils"
+import debounce from "lodash.debounce"
 import { SkeletonTable } from "./skeleton-table"
 import { Pagination } from "./pagination"
 import { useSearchParams } from "next/navigation"
@@ -36,7 +37,8 @@ export const Dashboard = () => {
 	const [problemsOptions, setProblemsOptions] = useState<GetSomeProblems>(
 		defaultProblemOptions
 	)
-	const { data, refetch, isLoading } = useProblems(problemsOptions)
+	const { data, refetch, isLoading, isRefetching } =
+		useProblems(problemsOptions)
 
 	const columns = useMemo(
 		() => getColumns({ problemsOptions, setProblemsOptions }),
@@ -50,6 +52,14 @@ export const Dashboard = () => {
 		columns,
 		getCoreRowModel: getCoreRowModel()
 	})
+
+	const setTitleFilter = (title: string) =>
+		setProblemsOptions(prev => ({
+			...prev,
+			filters: { ...prev.filters, title }
+		}))
+
+	const handleTitleFilterInput = useCallback(debounce(setTitleFilter, 250), [])
 
 	useEffect(
 		() =>
@@ -67,7 +77,13 @@ export const Dashboard = () => {
 	return (
 		<div className="flex w-full max-w-[1000px] flex-col gap-2">
 			<div className="flex gap-2">
-				<Input placeholder="Find problems..." className="w-full" />
+				<Input
+					// @ts-expect-error react types is so damn good, that input element dont have value property
+					// eslint-disable-next-line @typescript-eslint/no-unsafe-return
+					onInput={e => handleTitleFilterInput(e.target.value as string)}
+					placeholder="Find problems..."
+					className="w-full"
+				/>
 				<SelectPageSize
 					problemsOptions={problemsOptions}
 					setProblemsOptions={setProblemsOptions}
@@ -112,7 +128,7 @@ export const Dashboard = () => {
 									))}
 								</TableRow>
 							))
-						) : isLoading ? (
+						) : isLoading || isRefetching ? (
 							<SkeletonTable />
 						) : (
 							<TableRow>
