@@ -7,6 +7,7 @@ export interface Problem {
 export interface ExtendedProblem extends Problem {
 	description: string
 	creator: {
+		id: string
 		avatar?: string
 		username: string
 	}

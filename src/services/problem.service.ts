@@ -8,7 +8,7 @@ import type {
 class ProblemService {
 	private BASE_URL = `/problem`
 
-	async getById(id: number) {
+	async getById(id: number | string) {
 		const response = await axiosWithAuth.get<ExtendedProblem>(
 			`${this.BASE_URL}/${id}`
 		)

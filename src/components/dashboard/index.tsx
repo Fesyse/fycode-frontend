@@ -79,7 +79,6 @@ export const Dashboard = () => {
 			<div className="flex gap-2">
 				<Input
 					// @ts-expect-error react types is so damn good, that input element dont have value property
-					// eslint-disable-next-line @typescript-eslint/no-unsafe-return
 					onInput={e => handleTitleFilterInput(e.target.value as string)}
 					placeholder="Find problems..."
 					className="w-full"

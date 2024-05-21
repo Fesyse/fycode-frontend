@@ -20,6 +20,14 @@ class UserService {
 		const response = await axiosWithAuth.put<User>(`${this.BASE_URL}/update`)
 		return response.data
 	}
+
+	async updateAvatar() {
+		const response = await axiosWithAuth.patch<User>(
+			`${this.BASE_URL}/update-avatar`,
+			{ avatar: new File(["я не гей"], "pidor.tsx").name }
+		)
+		return response.data
+	}
 }
 
 export const userService = new UserService()
