@@ -8,7 +8,6 @@ import { ScrollArea } from "@/components/shadcn/scroll-area"
 import { Separator } from "@/components/shadcn/separator"
 import { Skeleton } from "@/components/shadcn/skeleton"
 import type { ExtendedProblem } from "@/types/problem.type"
-import { UploadButton } from "@/components/test/upload-image-button"
 import Image from "next/image"
 import Link from "next/link"
 import { type FC } from "react"
@@ -50,7 +49,7 @@ export const Description: FC<DescriptionProps> = ({ problem, isLoading }) => {
 							) : (
 								<>
 									<Image
-										className="rounded-full border border-border p-1"
+										className="h-12 w-12 rounded-full object-cover p-1"
 										src={problem.creator.avatar ?? "/user-round.svg"}
 										width={36}
 										height={36}
@@ -61,13 +60,6 @@ export const Description: FC<DescriptionProps> = ({ problem, isLoading }) => {
 							)}
 						</Link>
 					</div>
-					<UploadButton
-						endpoint=""
-						onClientUploadComplete={res => {
-							console.log("Files: ", res)
-							alert("Upload Completed")
-						}}
-					/>
 				</ScrollArea>
 			</CardContent>
 		</Card>

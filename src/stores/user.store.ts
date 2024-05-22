@@ -1,5 +1,5 @@
 import type { User } from "@/types/user.type"
-import { createStore } from "zustand/vanilla"
+import { create } from "zustand"
 
 export type UserState = {
 	user: User | undefined
@@ -13,14 +13,10 @@ export type UserActions = {
 
 export type UserStore = UserState & UserActions
 
-export const defaultInitState: UserState = { user: undefined }
-
-export const createUserStore = (initState: UserState = defaultInitState) => {
-	return createStore<UserStore>()(set => ({
-		...initState,
-		setUser: user => set({ user }),
-		removeUser: () => set({ user: undefined }),
-		updateUser: newUser =>
-			set(state => ({ user: { ...state.user!, ...newUser } }))
-	}))
-}
+export const useUserStore = create<UserStore>(set => ({
+	user: undefined,
+	setUser: user => set({ user }),
+	removeUser: () => set({ user: undefined }),
+	updateUser: newUser =>
+		set(state => ({ user: { ...state.user!, ...newUser } }))
+}))

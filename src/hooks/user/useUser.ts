@@ -1,8 +1,9 @@
 import { userService } from "@/services/user.service"
 import { type User } from "@/types/user.type"
 import { useQuery } from "@tanstack/react-query"
-import { useUserStore } from "../stores/useUserStore"
-import { useEffect } from "react"
+import { useUserStore } from "@/stores/user.store"
+import { useEffect, useState } from "react"
+import { getAccessToken } from "@/services/auth-token.service"
 
 export const useUser = () => {
 	const setUser = useUserStore(s => s.setUser)
@@ -19,9 +20,17 @@ export const useUser = () => {
 		queryFn: () => userService.get()
 	})
 
+	const token = getAccessToken()
+	const [isAuthorized, setIsAuthorized] = useState<boolean>(
+		token !== undefined && token !== "undefined"
+	)
+
 	useEffect(() => {
-		if (isSuccess && user) setUser(user)
+		if (isSuccess && user) {
+			setIsAuthorized(true)
+			setUser(user)
+		}
 	}, [isSuccess, setUser, user])
 
-	return { user, isLoading, isError, refetchUser, error }
+	return { user, isAuthorized, isLoading, isError, refetchUser, error }
 }

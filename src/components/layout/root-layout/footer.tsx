@@ -5,7 +5,7 @@ import Link from "next/link"
 
 export const Footer = () => {
 	return (
-		<div className="flex w-full justify-center border-t border-border bg-background">
+		<div className="flex w-full justify-center border-t border-border backdrop-blur-lg">
 			<div className="flex w-full max-w-[1440px] items-center justify-between gap-6 p-4">
 				<div className="flex items-center gap-6 text-xl">
 					Built with

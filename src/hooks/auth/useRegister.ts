@@ -2,7 +2,7 @@ import type { RequestError, RegisterRequest } from "@/types/auth.type"
 import { authService } from "@/services/auth.service"
 import { useMutation } from "@tanstack/react-query"
 import { toast } from "sonner"
-import { useUserStore } from "@/hooks/stores/useUserStore"
+import { useUserStore } from "@/stores/user.store"
 
 export const useRegister = () => {
 	const { setUser, removeUser } = useUserStore(s => s)

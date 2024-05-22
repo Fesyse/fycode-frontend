@@ -1,6 +1,6 @@
 import { authService } from "@/services/auth.service"
 import { useMutation } from "@tanstack/react-query"
-import { useUserStore } from "../stores/useUserStore"
+import { useUserStore } from "@/stores/user.store"
 import { toast } from "sonner"
 
 export const useLogout = () => {

@@ -22,11 +22,12 @@ import { getColumns } from "@/lib/react-utils"
 import debounce from "lodash.debounce"
 import { SkeletonTable } from "./skeleton-table"
 import { Pagination } from "./pagination"
-import { useSearchParams } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { SelectPageSize } from "./select-page-size"
 
 export const Dashboard = () => {
 	const searchParams = useSearchParams()
+	const router = useRouter()
 	const defaultProblemOptions: GetSomeProblems = {
 		pagination: {
 			page: parseInt(searchParams.get("page") ?? "0"),
@@ -116,7 +117,12 @@ export const Dashboard = () => {
 					<TableBody>
 						{table.getRowModel().rows?.length ? (
 							table.getRowModel().rows.map(row => (
-								<TableRow key={row.id}>
+								<TableRow
+									// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+									onClick={() => router.push(`/problem/${row.getValue("id")}`)}
+									className="cursor-pointer"
+									key={row.id}
+								>
 									{row.getAllCells().map(cell => (
 										<TableCell key={cell.id}>
 											{flexRender(

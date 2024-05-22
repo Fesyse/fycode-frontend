@@ -10,7 +10,7 @@ import {
 } from "@/components/shadcn/dropdown-menu"
 import { Skeleton } from "@/components/shadcn/skeleton"
 import { useLogout } from "@/hooks/auth/useLogout"
-import { useUserStore } from "@/hooks/stores/useUserStore"
+import { useUserStore } from "@/stores/user.store"
 import { useUser } from "@/hooks/user/useUser"
 import {
 	LogOut,
@@ -25,7 +25,7 @@ import Link from "next/link"
 import { useEffect } from "react"
 
 export const Profile: React.FC = () => {
-	const { user, refetchUser, isLoading, isError, error } = useUser()
+	const { user, isAuthorized, refetchUser, isLoading } = useUser()
 	const userFromStore = useUserStore(s => s.user)
 	const { logout } = useLogout()
 
@@ -44,21 +44,23 @@ export const Profile: React.FC = () => {
 	}, [refetchUser, userFromStore])
 
 	return (
-		<div className="h-10 w-full max-w-32">
-			{isLoading && !isError ? (
-				<Skeleton className="block aspect-square h-[36px] rounded-full" />
-			) : user && userFromStore && !error?.message?.includes("401") ? (
+		<div className="flex w-full max-w-32 justify-end">
+			{!isAuthorized ? (
+				<Button className="flex gap-2" asChild>
+					<Link href="/auth?callbackUrl=/dashboard">
+						Sign up <Rocket />
+					</Link>
+				</Button>
+			) : user && userFromStore && isAuthorized ? (
 				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<button>
-							<Image
-								className="rounded-full border border-border p-1"
-								src={user?.avatar ?? "/user-round.svg"}
-								width={36}
-								height={36}
-								alt="username-image"
-							/>
-						</button>
+					<DropdownMenuTrigger>
+						<Image
+							className="h-12 w-12 rounded-full border border-border object-cover p-1"
+							src={user?.avatar ?? "/user-round.svg"}
+							width={36}
+							height={36}
+							alt="username-image"
+						/>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent className="w-48">
 						<DropdownMenuLabel>{user?.username}</DropdownMenuLabel>
@@ -100,13 +102,9 @@ export const Profile: React.FC = () => {
 						</DropdownMenuGroup>
 					</DropdownMenuContent>
 				</DropdownMenu>
-			) : (
-				<Button className="flex gap-2" asChild>
-					<Link href="/auth?callbackUrl=/dashboard">
-						Sign up <Rocket />
-					</Link>
-				</Button>
-			)}
+			) : isLoading ? (
+				<Skeleton className="block aspect-square h-12 rounded-full" />
+			) : null}
 		</div>
 	)
 }

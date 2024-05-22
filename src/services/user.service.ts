@@ -21,10 +21,16 @@ class UserService {
 		return response.data
 	}
 
-	async updateAvatar() {
+	async updateAvatar(formData: FormData) {
 		const response = await axiosWithAuth.patch<User>(
 			`${this.BASE_URL}/update-avatar`,
-			{ avatar: new File(["я не гей"], "pidor.tsx").name }
+			formData
+		)
+		return response.data
+	}
+	async removeAvatar() {
+		const response = await axiosWithAuth.delete<User>(
+			`${this.BASE_URL}/remove-avatar`
 		)
 		return response.data
 	}
