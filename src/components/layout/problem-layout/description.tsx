@@ -12,6 +12,9 @@ import Image from "next/image"
 import Link from "next/link"
 import { type FC } from "react"
 import Markdown from "react-markdown"
+import { DescriptionLoading } from "./description-loading"
+import { Tag } from "lucide-react"
+import { Badge } from "@/components/shadcn/badge"
 
 type DescriptionProps = {
 	problem: ExtendedProblem | undefined
@@ -24,9 +27,12 @@ export const Description: FC<DescriptionProps> = ({ problem, isLoading }) => {
 		<Card className="h-full rounded-3xl bg-muted/50">
 			<CardHeader className="rounded-t-3xl bg-muted">
 				{isLoading || !problem ? (
-					<Skeleton className="h-6 w-1/3 bg-muted-foreground/50" />
+					<div className="flex gap-2">
+						<Skeleton className="h-6 w-5 bg-muted-foreground/50" />
+						<Skeleton className="h-6 w-1/3 bg-muted-foreground/50" />
+					</div>
 				) : (
-					<CardTitle>{`${problem?.id}. ${problem?.title}`}</CardTitle>
+					<CardTitle>{`${problem.id}. ${problem.title}`}</CardTitle>
 				)}
 			</CardHeader>
 			<CardContent className="h-full px-0 py-4">
@@ -35,19 +41,28 @@ export const Description: FC<DescriptionProps> = ({ problem, isLoading }) => {
 					scrollbarClassName="mr-1"
 				>
 					<div className="flex flex-col gap-4">
-						<Markdown>{problem?.description}</Markdown>
-						<Separator />
-						<Link
-							href={isLoading ? `` : `/user/${problem?.creator.id}`}
-							className="mt-auto flex items-center gap-2"
-						>
-							{isLoading || !problem ? (
-								<>
-									<Skeleton className="h-9 w-9 rounded-full bg-muted-foreground/50" />
-									<Skeleton className="h-4 w-28 bg-muted-foreground/50" />
-								</>
-							) : (
-								<>
+						{isLoading || !problem ? (
+							<DescriptionLoading />
+						) : (
+							<>
+								<Markdown className="leading-8">{problem.description}</Markdown>
+								<Separator />
+								<div className="flex items-center gap-4">
+									<Tag />
+									{problem.tags?.length ? (
+										<div className="-mb-1 flex items-center gap-3">
+											{problem.tags.map((tag, i) => (
+												<Badge key={i}>{tag}</Badge>
+											))}
+										</div>
+									) : (
+										<span>No tags are pinned by creator.</span>
+									)}
+								</div>
+								<Link
+									href={`/user/${problem.creator.id}`}
+									className="mt-auto flex items-center gap-2"
+								>
 									<Image
 										className="h-12 w-12 rounded-full object-cover p-1"
 										src={problem.creator.avatar ?? "/user-round.svg"}
@@ -56,9 +71,9 @@ export const Description: FC<DescriptionProps> = ({ problem, isLoading }) => {
 										alt="username-image"
 									/>
 									<span>{problem.creator.username}</span>
-								</>
-							)}
-						</Link>
+								</Link>
+							</>
+						)}
 					</div>
 				</ScrollArea>
 			</CardContent>

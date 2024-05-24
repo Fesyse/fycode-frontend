@@ -17,8 +17,27 @@ class ProblemService {
 
 	async getPage(options: GetSomeProblems) {
 		const response = await axiosWithAuth.post<GetSomeProblemsResponse>(
-			`${this.BASE_URL}/get/some`,
+			`${this.BASE_URL}/get/page`,
 			options
+		)
+		return response.data
+	}
+
+	async getNextProblemId(currentProblemId: number) {
+		const response = await axiosWithAuth.get<{ id: number }>(
+			`${this.BASE_URL}/get/next?fromProblemId=${currentProblemId}`
+		)
+		return response.data
+	}
+	async getPrevProblemId(currentProblemId: number) {
+		const response = await axiosWithAuth.get<{ id: number }>(
+			`${this.BASE_URL}/get/prev?fromProblemId=${currentProblemId}`
+		)
+		return response.data
+	}
+	async getRandomProblemId() {
+		const response = await axiosWithAuth.get<{ id: number }>(
+			`${this.BASE_URL}/get/random`
 		)
 		return response.data
 	}

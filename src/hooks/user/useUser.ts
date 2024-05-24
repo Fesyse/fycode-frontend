@@ -27,6 +27,7 @@ export const useUser = () => {
 
 	useEffect(() => {
 		if (isSuccess && user) {
+			console.log(user)
 			setIsAuthorized(true)
 			setUser(user)
 		}

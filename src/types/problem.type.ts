@@ -5,6 +5,7 @@ export interface Problem {
 	difficulty: Difficulty
 }
 export interface ExtendedProblem extends Problem {
+	tags: string[]
 	description: string
 	creator: {
 		id: string

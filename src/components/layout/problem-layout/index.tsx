@@ -22,7 +22,7 @@ export const ProblemLayout: FC<PropsWithChildren<ProblemLayoutProps>> = ({
 
 	return (
 		<div className="flex h-screen max-h-screen w-full flex-col gap-3 overflow-hidden p-4">
-			<Header />
+			<Header problemId={problem?.id} />
 			<ResizablePanelGroup direction="horizontal">
 				<ResizablePanel className="pr-4" minSize={15} defaultSize={40}>
 					<Description
