@@ -24,7 +24,7 @@ type DescriptionProps = {
 
 export const Description: FC<DescriptionProps> = ({ problem, isLoading }) => {
 	return (
-		<Card className="h-full rounded-3xl bg-muted/50">
+		<Card className="h-full overflow-hidden rounded-3xl">
 			<CardHeader className="rounded-t-3xl bg-muted">
 				{isLoading || !problem ? (
 					<div className="flex gap-2">
@@ -35,7 +35,7 @@ export const Description: FC<DescriptionProps> = ({ problem, isLoading }) => {
 					<CardTitle>{`${problem.id}. ${problem.title}`}</CardTitle>
 				)}
 			</CardHeader>
-			<CardContent className="h-full px-0 py-4">
+			<CardContent className="h-full bg-[#1e1e1e] px-0 py-4">
 				<ScrollArea
 					className="h-[calc(100vh-11.5rem)] px-6"
 					scrollbarClassName="mr-1"

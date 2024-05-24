@@ -2,7 +2,8 @@ import {
 	ChevronRight,
 	ChevronLeft,
 	Shuffle,
-	LayoutDashboard
+	LayoutDashboard,
+	Rocket
 } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -105,8 +106,11 @@ export const Header: FC<HeaderProps> = ({ problemId }) => {
 					</TooltipProvider>
 				</div>
 			</div>
-			<div className="flex">
-				<Button>Attempt</Button>
+			<div className="flex gap-2">
+				<Button variant="secondary">Attempt</Button>
+				<Button className="flex gap-2">
+					Submit <Rocket />
+				</Button>
 			</div>
 			<div className="flex w-full max-w-64 justify-end [&_img]:h-10 [&_img]:w-10">
 				<Profile />

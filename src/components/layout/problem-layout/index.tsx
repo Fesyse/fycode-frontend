@@ -33,9 +33,9 @@ export const ProblemLayout: FC<PropsWithChildren<ProblemLayoutProps>> = ({
 				</ResizablePanel>
 				<ResizableHandle withHandle />
 				<ResizablePanel className="pl-4" minSize={30} defaultSize={60}>
-					<div className="flex h-full items-center justify-center p-6">
+					<section className="flex h-full items-center justify-center">
 						{children}
-					</div>
+					</section>
 				</ResizablePanel>
 			</ResizablePanelGroup>
 		</div>

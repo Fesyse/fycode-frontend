@@ -1,3 +1,5 @@
+import { CodeEditor } from "@/components/code-editor"
+
 export default function Page() {
-	return <div></div>
+	return <CodeEditor />
 }
