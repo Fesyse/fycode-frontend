@@ -22,12 +22,12 @@ const SelectLanguage: FC<SelectLanguageProps> = ({ setLanguage, language }) => {
 			<DropdownMenuTrigger asChild>
 				<Button
 					variant="secondary"
-					className="bg-[#181818] duration-200 hover:bg-[#1e1e1e]"
+					className="bg-[#1e1e1e] duration-200 hover:bg-[#181818]"
 				>
 					{titleString(language)}
 				</Button>
 			</DropdownMenuTrigger>
-			<DropdownMenuContent className="w-56 bg-[#181818]">
+			<DropdownMenuContent className="w-56 bg-[#1e1e1e]">
 				<DropdownMenuLabel>Language</DropdownMenuLabel>
 				<DropdownMenuSeparator />
 				{Object.values(Languages).map(lang => (

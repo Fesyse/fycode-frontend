@@ -55,7 +55,7 @@ export const Description: FC<DescriptionProps> = ({ problem, isLoading }) => {
 					<CardTitle>{`${problem.id}. ${problem.title}`}</CardTitle>
 				)}
 			</CardHeader>
-			<CardContent className="h-full bg-[#1e1e1e] px-0 py-4">
+			<CardContent className="h-full bg-[#1e1e1e] px-0 py-2">
 				<ScrollArea
 					className="h-[calc(100vh-14rem)] px-6"
 					scrollbarClassName="mr-1"
