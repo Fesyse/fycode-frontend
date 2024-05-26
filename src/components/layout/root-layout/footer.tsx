@@ -9,9 +9,20 @@ export const Footer = () => {
 			<div className="flex w-full max-w-[1440px] items-center justify-between gap-6 p-4">
 				<div className="flex items-center gap-6 text-xl">
 					Built with
-					<Image src="/next-js.svg" alt="NEXT.js" width={75} height={20} />
-					<Image src="/nest-js.svg" alt="NestJS" width={40} height={40} />
-					<Image src="/shadcn-ui.svg" alt="shadcn/ui" width={40} height={40} />
+					<Link href="https://nextjs.org/">
+						<Image src="/next-js.svg" alt="NEXT.js" width={75} height={20} />
+					</Link>
+					<Link href="https://ui.shadcn.com/docs">
+						<Image
+							src="/shadcn-ui.svg"
+							alt="shadcn/ui"
+							width={40}
+							height={40}
+						/>
+					</Link>
+					<Link href="https://nestjs.com/">
+						<Image src="/nest-js.svg" alt="NestJS" width={40} height={40} />
+					</Link>
 				</div>
 				<div className="text-foreground/50">Copyright (c) 2024 Fesyse</div>
 				<div className="flex items-center gap-4">

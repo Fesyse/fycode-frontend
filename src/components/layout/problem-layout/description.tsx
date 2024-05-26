@@ -1,6 +1,7 @@
 import {
 	Card,
 	CardContent,
+	CardFooter,
 	CardHeader,
 	CardTitle
 } from "@/components/shadcn/card"
@@ -10,11 +11,14 @@ import { Skeleton } from "@/components/shadcn/skeleton"
 import type { ExtendedProblem } from "@/types/problem.type"
 import Image from "next/image"
 import Link from "next/link"
-import { type FC } from "react"
+import { useEffect, useState, type FC } from "react"
 import Markdown from "react-markdown"
 import { DescriptionLoading } from "./description-loading"
-import { Tag } from "lucide-react"
+import { Tag, ThumbsDown, ThumbsUp } from "lucide-react"
 import { Badge } from "@/components/shadcn/badge"
+import { Button } from "@/components/shadcn/button"
+import { formatNumber } from "@/lib/utils"
+import { useReaction } from "@/hooks/problem/useReaction"
 
 type DescriptionProps = {
 	problem: ExtendedProblem | undefined
@@ -23,6 +27,22 @@ type DescriptionProps = {
 }
 
 export const Description: FC<DescriptionProps> = ({ problem, isLoading }) => {
+	const [likes, setLikes] = useState<number>(problem?.likes ?? 0)
+	const { mutateAsync: react } = useReaction(problem?.id ?? 1)
+	const [reactionState, setReactionState] = useState({
+		like: problem?.isLikedProblem,
+		dislike: problem?.isDislikedProblem
+	})
+
+	useEffect(() => {
+		if (!problem) return
+		setLikes(problem.likes)
+		setReactionState({
+			like: false,
+			dislike: false
+		})
+	}, [problem])
+
 	return (
 		<Card className="h-full overflow-hidden rounded-3xl">
 			<CardHeader className="rounded-t-3xl bg-muted">
@@ -37,7 +57,7 @@ export const Description: FC<DescriptionProps> = ({ problem, isLoading }) => {
 			</CardHeader>
 			<CardContent className="h-full bg-[#1e1e1e] px-0 py-4">
 				<ScrollArea
-					className="h-[calc(100vh-11.5rem)] px-6"
+					className="h-[calc(100vh-14rem)] px-6"
 					scrollbarClassName="mr-1"
 				>
 					<div className="flex flex-col gap-4">
@@ -76,6 +96,50 @@ export const Description: FC<DescriptionProps> = ({ problem, isLoading }) => {
 						)}
 					</div>
 				</ScrollArea>
+				<CardFooter className="-ml-3">
+					<div className="group flex gap-1 overflow-hidden rounded-xl">
+						<Button
+							variant="secondary"
+							className="gap-2 rounded-sm bg-transparent p-3 group-hover:bg-muted"
+							onClick={async () => {
+								const likes = await react("like")
+								setLikes(likes)
+								setReactionState(p => ({ like: !p.like, dislike: !p.dislike }))
+							}}
+						>
+							<ThumbsUp
+								fill={reactionState.like ? "#FFF" : "transparent"}
+								color={!reactionState.like ? "#FFF" : "#1e1e1e"}
+								size={24}
+								strokeWidth={1}
+							/>
+							{isLoading || !problem ? (
+								<Skeleton className="h-5 w-5 bg-muted-foreground/50" />
+							) : (
+								<span className="-mb-1 text-lg font-thin">
+									{formatNumber(likes, { useOrderSuffix: true })}
+								</span>
+							)}
+						</Button>
+						<Button
+							size="icon"
+							variant="secondary"
+							className="rounded-sm bg-transparent group-hover:bg-muted"
+							onClick={async () => {
+								const likes = await react("dislike")
+								setLikes(likes)
+								setReactionState(p => ({ like: !p.like, dislike: !p.dislike }))
+							}}
+						>
+							<ThumbsDown
+								fill={reactionState.dislike ? "#FFF" : "transparent"}
+								color={!reactionState.dislike ? "#FFF" : "#1e1e1e"}
+								size={24}
+								strokeWidth={1}
+							/>
+						</Button>
+					</div>
+				</CardFooter>
 			</CardContent>
 		</Card>
 	)

@@ -8,9 +8,9 @@ import type {
 class ProblemService {
 	private BASE_URL = `/problem`
 
-	async getById(id: number | string) {
+	async getById(id: number | string, userId: string | undefined) {
 		const response = await axiosWithAuth.get<ExtendedProblem>(
-			`${this.BASE_URL}/${id}`
+			`${this.BASE_URL}/${id}?userId=${userId}`
 		)
 		return response.data
 	}
@@ -19,6 +19,19 @@ class ProblemService {
 		const response = await axiosWithAuth.post<GetSomeProblemsResponse>(
 			`${this.BASE_URL}/get/page`,
 			options
+		)
+		return response.data
+	}
+
+	async like(problemId: number) {
+		const response = await axiosWithAuth.post<number>(
+			`${this.BASE_URL}/like/${problemId}`
+		)
+		return response.data
+	}
+	async dislike(problemId: number) {
+		const response = await axiosWithAuth.post<number>(
+			`${this.BASE_URL}/dislike/${problemId}`
 		)
 		return response.data
 	}

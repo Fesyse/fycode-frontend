@@ -12,6 +12,8 @@ export interface ExtendedProblem extends Problem {
 		avatar?: string
 		username: string
 	}
+	isLikedProblem: boolean
+	isDislikedProblem: boolean
 }
 
 export enum Difficulty {
