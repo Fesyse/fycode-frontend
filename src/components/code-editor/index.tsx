@@ -20,7 +20,7 @@ import { Button } from "@/components/shadcn/button"
 import { Tests } from "./tests"
 import { Results } from "./results"
 import SelectLanguage from "./select-language"
-import { AnimatePresence, motion, MotionProps } from "framer-motion"
+import { AnimatePresence, motion, type MotionProps } from "framer-motion"
 
 type CodeEditorProps = {
 	defaultValue?: string

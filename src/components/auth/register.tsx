@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form"
 import { Input } from "@/components/shadcn/input"
 import { Button } from "@/components/shadcn/button"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { motion } from "framer-motion"
+import { motion, type MotionProps } from "framer-motion"
 import { z } from "zod"
 import { useRef, type FC } from "react"
 import { type FormsProps } from "."
@@ -51,6 +51,27 @@ export const Register: FC<FormsProps> = ({
 	const onSubmit = (formFields: z.infer<typeof registerFormSchema>) =>
 		register(formFields, { onSuccess: () => router.push(callbackUrl) })
 
+	const transitionProps: MotionProps = {
+		transition: {
+			duration: 0.25
+		},
+		initial: {
+			height: tabSizes.login,
+			opacity: 0,
+			filter: "blur(4px)"
+		},
+		animate: {
+			height: tabSizes.register,
+			opacity: 1,
+			filter: "blur(0px)"
+		},
+		exit: {
+			height: tabSizes.login,
+			opacity: 0,
+			filter: "blur(4px)"
+		}
+	}
+
 	useTabResize({
 		errors: form.formState.errors,
 		offsetHeight: registerFormRef.current?.clientHeight ?? 0,
@@ -58,27 +79,7 @@ export const Register: FC<FormsProps> = ({
 		type: "register"
 	})
 	return (
-		<motion.div
-			key="register"
-			transition={{
-				duration: 0.25
-			}}
-			initial={{
-				height: tabSizes.login,
-				opacity: 0,
-				filter: "blur(4px)"
-			}}
-			animate={{
-				height: tabSizes.register,
-				opacity: 1,
-				filter: "blur(0px)"
-			}}
-			exit={{
-				height: tabSizes.login,
-				opacity: 0,
-				filter: "blur(4px)"
-			}}
-		>
+		<motion.div key="register" {...transitionProps}>
 			<Form {...form}>
 				<form
 					ref={registerFormRef}
