@@ -44,8 +44,8 @@ export const Description: FC<DescriptionProps> = ({ problem, isLoading }) => {
 	}, [problem])
 
 	return (
-		<Card className="h-full overflow-hidden rounded-3xl">
-			<CardHeader className="rounded-t-3xl bg-muted">
+		<Card className="h-full overflow-hidden rounded-2xl">
+			<CardHeader className="bg-muted py-4">
 				{isLoading || !problem ? (
 					<div className="flex gap-2">
 						<Skeleton className="h-6 w-5 bg-muted-foreground/50" />
