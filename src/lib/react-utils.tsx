@@ -14,6 +14,7 @@ import {
 } from "@/components/shadcn/dropdown-menu"
 import { type ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown } from "lucide-react"
+import type { MotionProps } from "framer-motion"
 
 type GetColumns = ({
 	problemsOptions,
@@ -138,3 +139,24 @@ export const getColumns: GetColumns = ({
 		)
 	}
 ]
+
+export const opacityTransitionProps: MotionProps = {
+	transition: {
+		duration: 0.25
+	},
+	initial: {
+		opacity: 0,
+		filter: "blur(4px)",
+		position: "absolute"
+	},
+	animate: {
+		opacity: 1,
+		filter: "blur(0px)",
+		position: "relative"
+	},
+	exit: {
+		opacity: 0,
+		filter: "blur(4px)",
+		position: "absolute"
+	}
+}

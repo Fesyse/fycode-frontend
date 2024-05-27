@@ -112,7 +112,7 @@ export const Header: FC<HeaderProps> = ({ problemId }) => {
 					Submit <Rocket />
 				</Button>
 			</div>
-			<div className="flex w-full max-w-64 justify-end [&_img]:h-10 [&_img]:w-10">
+			<div className="flex w-full max-w-64 justify-end">
 				<Profile />
 			</div>
 		</header>

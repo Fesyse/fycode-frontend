@@ -1,3 +1,5 @@
+import type { Argument } from "./test.type"
+
 export interface Problem {
 	id: number
 	title: string
@@ -11,6 +13,10 @@ export interface ExtendedProblem extends Problem {
 		id: string
 		avatar?: string
 		username: string
+	}
+	functionOptions: {
+		name: string
+		args: Argument[]
 	}
 	isLikedProblem: boolean
 	isDislikedProblem: boolean

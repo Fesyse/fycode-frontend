@@ -55,9 +55,9 @@ export const Description: FC<DescriptionProps> = ({ problem, isLoading }) => {
 					<CardTitle>{`${problem.id}. ${problem.title}`}</CardTitle>
 				)}
 			</CardHeader>
-			<CardContent className="h-full bg-[#1e1e1e] px-0 py-2">
+			<CardContent className="h-full bg-[#1e1e1e] px-0 pt-2">
 				<ScrollArea
-					className="h-[calc(100vh-14rem)] px-6"
+					className="h-[calc(100vh-12.5rem)] px-6"
 					scrollbarClassName="mr-1"
 				>
 					<div className="flex flex-col gap-4">
@@ -96,7 +96,7 @@ export const Description: FC<DescriptionProps> = ({ problem, isLoading }) => {
 						)}
 					</div>
 				</ScrollArea>
-				<CardFooter className="-ml-3">
+				<CardFooter className="pl-4">
 					<div className="group flex gap-1 overflow-hidden rounded-xl">
 						<Button
 							variant="secondary"
@@ -104,7 +104,10 @@ export const Description: FC<DescriptionProps> = ({ problem, isLoading }) => {
 							onClick={async () => {
 								const likes = await react("like")
 								setLikes(likes)
-								setReactionState(p => ({ like: !p.like, dislike: !p.dislike }))
+								setReactionState(p => ({
+									like: !p.like,
+									dislike: !p.dislike
+								}))
 							}}
 						>
 							<ThumbsUp
@@ -128,7 +131,10 @@ export const Description: FC<DescriptionProps> = ({ problem, isLoading }) => {
 							onClick={async () => {
 								const likes = await react("dislike")
 								setLikes(likes)
-								setReactionState(p => ({ like: !p.like, dislike: !p.dislike }))
+								setReactionState(p => ({
+									like: !p.like,
+									dislike: !p.dislike
+								}))
 							}}
 						>
 							<ThumbsDown

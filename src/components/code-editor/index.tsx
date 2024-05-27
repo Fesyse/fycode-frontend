@@ -21,17 +21,24 @@ import { Tests } from "./tests"
 import { Results } from "./results"
 import SelectLanguage from "./select-language"
 import { AnimatePresence, motion, type MotionProps } from "framer-motion"
+import { useParams } from "next/navigation"
+import { useProblem } from "@/hooks/problem/useProblem"
+import { ScrollArea } from "../shadcn/scroll-area"
 
 type CodeEditorProps = {
 	defaultValue?: string
 }
 
 export const CodeEditor: FC<CodeEditorProps> = () => {
-	const [value, setValue] = useState("const solution = () => {}")
-	const [language, setLanguage] = useState<Languages>(Languages.JAVASCRIPT)
-	const [tab, setTab] = useState<"tests" | "results">("tests")
+	const { id } = useParams<{ id: string }>()
+	const { data: problem, isLoading } = useProblem(id)
 
+	const [language, setLanguage] = useState<Languages>(Languages.JAVASCRIPT)
+	const [value, setValue] = useState("const solution = () => {}")
 	const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null)
+
+	const [tab, setTab] = useState<"tests" | "results">("tests")
+	const [testsHeight, setTestsHeight] = useState(25)
 
 	const onMount: OnMount = editor => {
 		editorRef.current = editor
@@ -61,14 +68,14 @@ export const CodeEditor: FC<CodeEditorProps> = () => {
 	return (
 		<ResizablePanelGroup direction="vertical">
 			<ResizablePanel className="pb-4" minSize={50} defaultSize={75}>
-				<Card className="h-full w-full overflow-hidden rounded-2xl">
-					<CardHeader className="flex flex-row items-center justify-between bg-muted py-[0.325rem]">
+				<Card className="relative h-full w-full overflow-hidden rounded-2xl">
+					<CardHeader className="sticky left-0 top-0 flex w-full flex-row items-center justify-between bg-muted py-2">
 						<CardTitle className="flex items-center gap-2">
 							<Code color="yellow" /> <span>Code</span>
 						</CardTitle>
 						<SelectLanguage language={language} setLanguage={setLanguage} />
 					</CardHeader>
-					<CardContent className="h-full bg-[#1e1e1e] px-0 py-2">
+					<CardContent className="h-full bg-[#1e1e1e] px-0 pt-[1.875rem]">
 						<Editor
 							theme="vs-dark"
 							language="javascript"
@@ -83,13 +90,18 @@ export const CodeEditor: FC<CodeEditorProps> = () => {
 				</Card>
 			</ResizablePanel>
 			<ResizableHandle withHandle />
-			<ResizablePanel className="pt-4" minSize={25} defaultSize={25}>
-				<Card className="h-full w-full overflow-hidden rounded-2xl">
+			<ResizablePanel
+				onResize={size => setTestsHeight(size)}
+				className="pt-4"
+				minSize={25}
+				defaultSize={25}
+			>
+				<Card className="relative h-full w-full overflow-hidden rounded-2xl bg-[#1e1e1e]">
 					<CardHeader className="bg-muted py-3">
 						<div className="flex gap-2 text-muted-foreground">
 							<Button
 								onClick={() => setTab("tests")}
-								className="flex items-center bg-[#1e1e1e] pl-2.5 pr-4  text-foreground hover:bg-[#181818]"
+								className="flex items-center bg-[#1e1e1e] pl-2.5 pr-4 text-foreground hover:bg-[#181818]"
 							>
 								<TestTube color="green" />
 								Tests
@@ -103,17 +115,25 @@ export const CodeEditor: FC<CodeEditorProps> = () => {
 							</Button>
 						</div>
 					</CardHeader>
-					<CardContent className="h-full bg-[#1e1e1e] py-2">
+					<CardContent className="bg-[#1e1e1e] px-0 py-3">
 						<AnimatePresence>
-							{tab === "tests" ? (
-								<motion.section key="tests" {...motionSectionProps}>
-									<Tests />
-								</motion.section>
-							) : (
-								<motion.section key="results" {...motionSectionProps}>
-									<Results />
-								</motion.section>
-							)}
+							<ScrollArea
+								style={{
+									height: `calc(${testsHeight}vh - 7.25rem)`
+								}}
+								scrollbarClassName="mr-1"
+								className="flex items-center gap-4 px-6"
+							>
+								{tab === "tests" ? (
+									<motion.section key="tests" {...motionSectionProps}>
+										<Tests isLoading={isLoading} problem={problem} />
+									</motion.section>
+								) : (
+									<motion.section key="results" {...motionSectionProps}>
+										<Results />
+									</motion.section>
+								)}
+							</ScrollArea>
 						</AnimatePresence>
 					</CardContent>
 				</Card>

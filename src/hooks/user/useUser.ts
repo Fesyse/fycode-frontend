@@ -20,7 +20,7 @@ export const useUser = () => {
 		queryFn: () => userService.get()
 	})
 
-	const [isAuthorized, setIsAuthorized] = useState<boolean>(false)
+	const [isAuthorized, setIsAuthorized] = useState<boolean>(true)
 
 	useEffect(() => {
 		void (async () => {
@@ -30,7 +30,6 @@ export const useUser = () => {
 	}, [])
 	useEffect(() => {
 		if (isSuccess && user) {
-			console.log(user)
 			setIsAuthorized(true)
 			setUser(user)
 		}

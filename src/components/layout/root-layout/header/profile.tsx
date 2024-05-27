@@ -1,3 +1,14 @@
+import {
+	LogOut,
+	Package,
+	PackagePlus,
+	Rocket,
+	Settings,
+	User2
+} from "lucide-react"
+import Image from "next/image"
+import Link from "next/link"
+import { useEffect } from "react"
 import { Button } from "@/components/shadcn/button"
 import {
 	DropdownMenu,
@@ -12,19 +23,13 @@ import { Skeleton } from "@/components/shadcn/skeleton"
 import { useLogout } from "@/hooks/auth/useLogout"
 import { useUserStore } from "@/stores/user.store"
 import { useUser } from "@/hooks/user/useUser"
-import {
-	LogOut,
-	Package,
-	PackagePlus,
-	Rocket,
-	Settings,
-	User2
-} from "lucide-react"
-import Image from "next/image"
-import Link from "next/link"
-import { useEffect } from "react"
+import { cn } from "@/lib/utils"
 
-export const Profile: React.FC = () => {
+type ProfileProps = {
+	avatarRatio?: number
+}
+
+export const Profile: React.FC<ProfileProps> = ({ avatarRatio }) => {
 	const { user, isAuthorized, refetchUser, isLoading } = useUser()
 	const userFromStore = useUserStore(s => s.user)
 	const { logout } = useLogout()
@@ -55,7 +60,13 @@ export const Profile: React.FC = () => {
 				<DropdownMenu>
 					<DropdownMenuTrigger>
 						<Image
-							className="h-12 w-12 rounded-full border border-border object-cover p-1"
+							className={cn(
+								"aspect-square rounded-full border border-border object-cover p-1",
+								{
+									"h-12": !avatarRatio,
+									[`h-[${avatarRatio}px]`]: !avatarRatio
+								}
+							)}
 							src={user?.avatar ?? "/user-round.svg"}
 							width={36}
 							height={36}
@@ -103,7 +114,12 @@ export const Profile: React.FC = () => {
 					</DropdownMenuContent>
 				</DropdownMenu>
 			) : isLoading ? (
-				<Skeleton className="block aspect-square h-12 rounded-full" />
+				<Skeleton
+					className={cn("block aspect-square h-12 rounded-full", {
+						"h-12": !avatarRatio,
+						[`h-[${avatarRatio}px]`]: !avatarRatio
+					})}
+				/>
 			) : null}
 		</div>
 	)
