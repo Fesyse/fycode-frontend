@@ -24,8 +24,10 @@ export const getNewTokens = async () => {
 	return data
 }
 
-export const getAccessToken = () => {
-	const accessToken = Cookies.get(EnumTokens.ACCESS_TOKEN)
+export const getAccessToken = async () => {
+	let accessToken = Cookies.get(EnumTokens.ACCESS_TOKEN)
+	if (!accessToken) accessToken = (await getNewTokens()).accessToken
+
 	return accessToken ?? null
 }
 

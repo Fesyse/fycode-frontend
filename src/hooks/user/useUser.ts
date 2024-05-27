@@ -20,11 +20,14 @@ export const useUser = () => {
 		queryFn: () => userService.get()
 	})
 
-	const token = getAccessToken()
-	const [isAuthorized, setIsAuthorized] = useState<boolean>(
-		token !== undefined && token !== "undefined"
-	)
+	const [isAuthorized, setIsAuthorized] = useState<boolean>(false)
 
+	useEffect(() => {
+		void (async () => {
+			const token = await getAccessToken()
+			setIsAuthorized(token !== undefined && token !== "undefined")
+		})()
+	}, [])
 	useEffect(() => {
 		if (isSuccess && user) {
 			console.log(user)
