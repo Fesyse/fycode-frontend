@@ -35,12 +35,13 @@ export const Description: FC<DescriptionProps> = ({ problem, isLoading }) => {
 	})
 
 	const handleReaction = async (type: "like" | "dislike") => {
-		const likes = await react({ type, undo: reactionState[type]! })
+		const undo = reactionState[type]!
+		const likes = await react({ type, undo })
 		setLikes(likes)
-		setReactionState(p => ({
-			like: !p.like,
-			dislike: !p.dislike
-		}))
+		setReactionState({
+			like: type === "like" ? (undo ? false : true) : false,
+			dislike: type === "dislike" ? (undo ? false : true) : false
+		})
 	}
 
 	useEffect(() => {
