@@ -34,6 +34,15 @@ export const Description: FC<DescriptionProps> = ({ problem, isLoading }) => {
 		dislike: problem?.isDislikedProblem
 	})
 
+	const handleReaction = async (type: "like" | "dislike") => {
+		const likes = await react({ type, undo: reactionState[type]! })
+		setLikes(likes)
+		setReactionState(p => ({
+			like: !p.like,
+			dislike: !p.dislike
+		}))
+	}
+
 	useEffect(() => {
 		if (!problem) return
 		setLikes(problem.likes)
@@ -66,6 +75,13 @@ export const Description: FC<DescriptionProps> = ({ problem, isLoading }) => {
 						) : (
 							<>
 								<Markdown className="leading-8">{problem.description}</Markdown>
+								<p>
+									function name ={" "}
+									<span className="font-bold">
+										{problem.functionOptions.name}
+									</span>
+								</p>
+
 								<Separator />
 								<div className="flex items-center gap-4">
 									<Tag />
@@ -101,14 +117,7 @@ export const Description: FC<DescriptionProps> = ({ problem, isLoading }) => {
 						<Button
 							variant="secondary"
 							className="gap-2 rounded-sm bg-transparent p-3 group-hover:bg-muted"
-							onClick={async () => {
-								const likes = await react("like")
-								setLikes(likes)
-								setReactionState(p => ({
-									like: !p.like,
-									dislike: !p.dislike
-								}))
-							}}
+							onClick={async () => handleReaction("like")}
 						>
 							<ThumbsUp
 								fill={reactionState.like ? "#FFF" : "transparent"}
@@ -128,14 +137,7 @@ export const Description: FC<DescriptionProps> = ({ problem, isLoading }) => {
 							size="icon"
 							variant="secondary"
 							className="rounded-sm bg-transparent group-hover:bg-muted"
-							onClick={async () => {
-								const likes = await react("dislike")
-								setLikes(likes)
-								setReactionState(p => ({
-									like: !p.like,
-									dislike: !p.dislike
-								}))
-							}}
+							onClick={async () => handleReaction("dislike")}
 						>
 							<ThumbsDown
 								fill={reactionState.dislike ? "#FFF" : "transparent"}

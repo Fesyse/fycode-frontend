@@ -1,10 +1,16 @@
 "use client"
 
-import { useRef, useState, type FC } from "react"
+import { useEffect, useRef, useState, type FC } from "react"
 import { BugPlay, Code, TestTube } from "lucide-react"
+import { AnimatePresence, motion, type MotionProps } from "framer-motion"
 import { Editor, type OnMount } from "@monaco-editor/react"
 import { type editor } from "monaco-editor"
+import { useParams } from "next/navigation"
 import { Languages } from "@/types/languages.type"
+import { useProblem } from "@/hooks/problem/useProblem"
+import { Tests } from "./tests"
+import { Results } from "./results"
+import SelectLanguage from "./select-language"
 import {
 	Card,
 	CardContent,
@@ -17,13 +23,7 @@ import {
 	ResizablePanelGroup
 } from "@/components/shadcn/resizable"
 import { Button } from "@/components/shadcn/button"
-import { Tests } from "./tests"
-import { Results } from "./results"
-import SelectLanguage from "./select-language"
-import { AnimatePresence, motion, type MotionProps } from "framer-motion"
-import { useParams } from "next/navigation"
-import { useProblem } from "@/hooks/problem/useProblem"
-import { ScrollArea } from "../shadcn/scroll-area"
+import { ScrollArea } from "@/components/shadcn/scroll-area"
 
 type CodeEditorProps = {
 	defaultValue?: string
@@ -31,10 +31,10 @@ type CodeEditorProps = {
 
 export const CodeEditor: FC<CodeEditorProps> = () => {
 	const { id } = useParams<{ id: string }>()
-	const { data: problem, isLoading } = useProblem(id)
+	const { data: problem } = useProblem(id)
 
 	const [language, setLanguage] = useState<Languages>(Languages.JAVASCRIPT)
-	const [value, setValue] = useState("const solution = () => {}")
+	const [value, setValue] = useState("Loading...")
 	const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null)
 
 	const [tab, setTab] = useState<"tests" | "results">("tests")
@@ -65,6 +65,13 @@ export const CodeEditor: FC<CodeEditorProps> = () => {
 			position: "absolute"
 		}
 	}
+
+	useEffect(() => {
+		if (!problem) return
+		setValue(
+			`function ${problem.functionOptions.name} (${problem.functionOptions.args.map(arg => arg.name).join(", ")}) {\n\treturn\n}`
+		)
+	}, [problem])
 	return (
 		<ResizablePanelGroup direction="vertical">
 			<ResizablePanel className="pb-4" minSize={50} defaultSize={75}>
@@ -126,7 +133,7 @@ export const CodeEditor: FC<CodeEditorProps> = () => {
 							>
 								{tab === "tests" ? (
 									<motion.section key="tests" {...motionSectionProps}>
-										<Tests isLoading={isLoading} problem={problem} />
+										<Tests problem={problem} />
 									</motion.section>
 								) : (
 									<motion.section key="results" {...motionSectionProps}>

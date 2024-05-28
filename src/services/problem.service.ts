@@ -23,15 +23,15 @@ class ProblemService {
 		return response.data
 	}
 
-	async like(problemId: number) {
+	async like(problemId: number, undo: boolean) {
 		const response = await axiosWithAuth.post<number>(
-			`${this.BASE_URL}/like/${problemId}`
+			`${this.BASE_URL}/like/${problemId}?undo=${undo}`
 		)
 		return response.data
 	}
-	async dislike(problemId: number) {
+	async dislike(problemId: number, undo: boolean) {
 		const response = await axiosWithAuth.post<number>(
-			`${this.BASE_URL}/dislike/${problemId}`
+			`${this.BASE_URL}/dislike/${problemId}?undo=${undo}`
 		)
 		return response.data
 	}

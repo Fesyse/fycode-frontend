@@ -1,12 +1,12 @@
-export interface CustomTest {
+export interface Test {
 	input: ExtendedArgument[]
 }
 
 export interface Argument {
 	name: string
-	type: unknown
+	type: "number" | "string" | "number-array" | "string-array"
 }
 
 export interface ExtendedArgument extends Argument {
-	value: unknown
+	value: string
 }
