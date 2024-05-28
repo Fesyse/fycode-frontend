@@ -9,6 +9,7 @@ import {
 	removeFromStorage
 } from "@/services/auth-token.service"
 import { env } from "@/env"
+import { toast } from "sonner"
 
 const options: CreateAxiosDefaults = {
 	baseURL: env.NEXT_PUBLIC_SERVER_URL,
@@ -50,6 +51,9 @@ axiosWithAuth.interceptors.response.use(
 			} catch (error) {
 				if (errorCatch(error) === "jwt expired") removeFromStorage()
 			}
+		}
+		if (error?.response?.status === 429) {
+			toast.error("Rate limit exceeded.")
 		}
 
 		throw error

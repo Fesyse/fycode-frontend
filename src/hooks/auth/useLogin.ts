@@ -1,4 +1,4 @@
-import type { RequestError, LoginRequest } from "@/types/auth.type"
+import type { LoginRequest } from "@/types/auth.type"
 import { authService } from "@/services/auth.service"
 import { useMutation } from "@tanstack/react-query"
 import { toast } from "sonner"
@@ -17,7 +17,7 @@ export const useLogin = () => {
 			setUser(response.user)
 			toast.success("Successfully logged in!")
 		},
-		onError: (error: RequestError) => {
+		onError: error => {
 			removeUser()
 			toast.error("An error occured trying to login.", {
 				description: error.message

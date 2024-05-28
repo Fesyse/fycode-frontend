@@ -1,4 +1,4 @@
-import type { RequestError, RegisterRequest } from "@/types/auth.type"
+import type { RegisterRequest } from "@/types/auth.type"
 import { authService } from "@/services/auth.service"
 import { useMutation } from "@tanstack/react-query"
 import { toast } from "sonner"
@@ -17,7 +17,7 @@ export const useRegister = () => {
 			setUser(response.user)
 			toast.success("Successfully created a new account!")
 		},
-		onError: (error: RequestError) => {
+		onError: (error: Error) => {
 			removeUser()
 			toast.error("An error occured trying to creating a new account.", {
 				description: error.message

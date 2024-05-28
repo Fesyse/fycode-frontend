@@ -31,7 +31,7 @@ type CodeEditorProps = {
 
 export const CodeEditor: FC<CodeEditorProps> = () => {
 	const { id } = useParams<{ id: string }>()
-	const { data: problem } = useProblem(id)
+	const { data: problem, isLoading } = useProblem(id)
 
 	const [language, setLanguage] = useState<Languages>(Languages.JAVASCRIPT)
 	const [value, setValue] = useState("Loading...")
@@ -123,25 +123,33 @@ export const CodeEditor: FC<CodeEditorProps> = () => {
 						</div>
 					</CardHeader>
 					<CardContent className="bg-[#1e1e1e] px-0 py-3">
-						<AnimatePresence>
-							<ScrollArea
-								style={{
-									height: `calc(${testsHeight}vh - 7.25rem)`
-								}}
-								scrollbarClassName="mr-1"
-								className="flex items-center gap-4 px-6"
-							>
+						<ScrollArea
+							style={{
+								height: `calc(${testsHeight}vh - 7.25rem)`
+							}}
+							scrollbarClassName="mr-1"
+							className="flex items-center gap-4 px-6"
+						>
+							<AnimatePresence>
 								{tab === "tests" ? (
-									<motion.section key="tests" {...motionSectionProps}>
-										<Tests problem={problem} />
+									<motion.section
+										key="tests"
+										className="h-full"
+										{...motionSectionProps}
+									>
+										<Tests isLoading={isLoading} problem={problem} />
 									</motion.section>
 								) : (
-									<motion.section key="results" {...motionSectionProps}>
+									<motion.section
+										key="results"
+										className="h-full"
+										{...motionSectionProps}
+									>
 										<Results />
 									</motion.section>
 								)}
-							</ScrollArea>
-						</AnimatePresence>
+							</AnimatePresence>
+						</ScrollArea>
 					</CardContent>
 				</Card>
 			</ResizablePanel>
