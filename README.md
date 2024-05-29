@@ -30,9 +30,12 @@ Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/ver
 
 ## TODO
 
-- add code editor header [+]
-  - add language choose in code editor [+]
-- add code editor footer [-]
+- code editor header [+]
+  - language choose in code editor [+]
+- code editor [+]
+- code editor footer [+]
   - setup custom tests [+]
-  - setup results []
-- add attempt and submit code buttons []
+  - setup results [+]
+- attempt and submit code buttons [+]
+- work on performance - useMemo, useCallback exc. []
+- create problem page []
