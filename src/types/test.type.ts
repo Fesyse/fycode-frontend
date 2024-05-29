@@ -10,3 +10,16 @@ export interface Argument {
 export interface ExtendedArgument extends Argument {
 	value: string
 }
+
+export interface Results {
+	tests: {
+		input: unknown[]
+		expected: unknown
+		output: unknown
+	}[]
+	success: boolean
+	testsStatus: {
+		declined: number
+		passed: number
+	}
+}

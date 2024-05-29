@@ -16,13 +16,16 @@ type SelectLanguageProps = {
 	language: Languages
 }
 
-const SelectLanguage: FC<SelectLanguageProps> = ({ setLanguage, language }) => {
+export const SelectLanguage: FC<SelectLanguageProps> = ({
+	setLanguage,
+	language
+}) => {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
 				<Button
 					variant="secondary"
-					className="!m-0 bg-[#1e1e1e] duration-200 hover:bg-[#181818]"
+					className="bg-[#1e1e1e] duration-200 hover:bg-[#181818]"
 				>
 					{titleString(language)}
 				</Button>
@@ -43,5 +46,3 @@ const SelectLanguage: FC<SelectLanguageProps> = ({ setLanguage, language }) => {
 		</DropdownMenu>
 	)
 }
-
-export default SelectLanguage

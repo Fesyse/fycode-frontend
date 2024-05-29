@@ -10,7 +10,6 @@ import { Languages } from "@/types/languages.type"
 import { useProblem } from "@/hooks/problem/useProblem"
 import { Tests } from "./tests"
 import { Results } from "./results"
-import SelectLanguage from "./select-language"
 import {
 	Card,
 	CardContent,
@@ -24,6 +23,8 @@ import {
 } from "@/components/shadcn/resizable"
 import { Button } from "@/components/shadcn/button"
 import { ScrollArea } from "@/components/shadcn/scroll-area"
+import { Separator } from "../shadcn/separator"
+import { Options } from "./options"
 
 type CodeEditorProps = {
 	defaultValue?: string
@@ -38,7 +39,7 @@ export const CodeEditor: FC<CodeEditorProps> = () => {
 	const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null)
 
 	const [tab, setTab] = useState<"tests" | "results">("tests")
-	const [testsHeight, setTestsHeight] = useState(25)
+	const [testsHeight, setTestsHeight] = useState(40)
 
 	const onMount: OnMount = editor => {
 		editorRef.current = editor
@@ -76,18 +77,23 @@ export const CodeEditor: FC<CodeEditorProps> = () => {
 		<ResizablePanelGroup direction="vertical">
 			<ResizablePanel className="pb-4" minSize={50} defaultSize={75}>
 				<Card className="relative h-full w-full overflow-hidden rounded-2xl">
-					<CardHeader className="sticky left-0 top-0 flex w-full flex-row items-center justify-between bg-muted py-2">
+					<CardHeader className="sticky left-0 top-0 flex w-full flex-row items-center justify-between bg-muted py-4">
 						<CardTitle className="flex items-center gap-2">
 							<Code color="yellow" /> <span>Code</span>
 						</CardTitle>
-						<SelectLanguage language={language} setLanguage={setLanguage} />
 					</CardHeader>
-					<CardContent className="h-full bg-[#1e1e1e] px-0 pt-[1.875rem]">
+					<CardContent className="h-full bg-[#1e1e1e] p-0">
+						<Options language={language} setLanguage={setLanguage} />
+						<Separator />
 						<Editor
 							theme="vs-dark"
-							language="javascript"
+							language={language}
 							options={{
-								minimap: { enabled: false }
+								minimap: { enabled: false },
+								cursorBlinking: "expand",
+								cursorStyle: "line-thin",
+								cursorSmoothCaretAnimation: "on",
+								tabSize: 2
 							}}
 							value={value}
 							onMount={onMount}
@@ -101,7 +107,7 @@ export const CodeEditor: FC<CodeEditorProps> = () => {
 				onResize={size => setTestsHeight(size)}
 				className="pt-4"
 				minSize={25}
-				defaultSize={25}
+				defaultSize={40}
 			>
 				<Card className="relative h-full w-full overflow-hidden rounded-2xl bg-[#1e1e1e]">
 					<CardHeader className="bg-muted py-3">

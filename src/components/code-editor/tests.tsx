@@ -7,7 +7,7 @@ import { Button } from "@/components/shadcn/button"
 import { opacityTransitionProps } from "@/lib/react-utils"
 import { Plus } from "lucide-react"
 import { getDefaultArgumentValue } from "@/lib/utils"
-import { useTestsStore } from "@/stores/tests.store"
+import { useTestsStore } from "@/stores/problem/tests.store"
 import { Skeleton } from "../shadcn/skeleton"
 
 type TestsProps = {
