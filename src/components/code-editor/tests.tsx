@@ -28,7 +28,7 @@ export const Tests: FC<TestsProps> = ({ problem, isLoading }) => {
 		<div className="flex flex-col gap-6">
 			{isLoading || !problem ? (
 				<>
-					<Skeleton className="h-[5rem] w-full bg-muted-foreground/50" />
+					<Skeleton className="h-[5rem] w-full bg-muted-foreground/25" />
 				</>
 			) : (
 				<>

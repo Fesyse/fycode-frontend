@@ -58,8 +58,8 @@ export const Description: FC<DescriptionProps> = ({ problem, isLoading }) => {
 			<CardHeader className="bg-muted py-3">
 				{isLoading || !problem ? (
 					<div className="flex gap-2">
-						<Skeleton className="h-6 w-5 bg-muted-foreground/50" />
-						<Skeleton className="h-6 w-1/3 bg-muted-foreground/50" />
+						<Skeleton className="h-6 w-5 bg-muted-foreground/25" />
+						<Skeleton className="h-6 w-1/3 bg-muted-foreground/25" />
 					</div>
 				) : (
 					<CardTitle>{`${problem.id}. ${problem.title}`}</CardTitle>
@@ -127,7 +127,7 @@ export const Description: FC<DescriptionProps> = ({ problem, isLoading }) => {
 								strokeWidth={1}
 							/>
 							{isLoading || !problem ? (
-								<Skeleton className="h-5 w-5 bg-muted-foreground/50" />
+								<Skeleton className="h-5 w-5 bg-muted-foreground/25" />
 							) : (
 								<span className="-mb-1 text-lg font-thin">
 									{formatNumber(likes, { useOrderSuffix: true })}

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface Test {
 	input: ExtendedArgument[]
 }
@@ -13,9 +14,9 @@ export interface ExtendedArgument extends Argument {
 
 export interface Results {
 	tests: {
-		input: unknown[]
-		expected: unknown
-		output: unknown
+		input: any[]
+		expected: any
+		output: any
 	}[]
 	success: boolean
 	testsStatus: {

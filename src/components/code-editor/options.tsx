@@ -13,13 +13,14 @@ import {
 } from "@/components/shadcn/tooltip"
 import { SelectLanguage } from "./select-language"
 import type { ExtendedProblem } from "@/types/problem.type"
+import { type EditorValueActions } from "@/stores/problem/editor.store"
 
 export type OptionsProps = {
 	problem: ExtendedProblem | undefined
 	language: Languages
 	setLanguage: React.Dispatch<React.SetStateAction<Languages>>
 	editorValue: string
-	setEditorValue: React.Dispatch<React.SetStateAction<string>>
+	setEditorValue: EditorValueActions["setEditorValue"]
 }
 
 export const Options: FC<OptionsProps> = ({
@@ -30,6 +31,7 @@ export const Options: FC<OptionsProps> = ({
 	setEditorValue
 }) => {
 	const formatCode = async () => {
+		if (!problem) return
 		try {
 			const prettier = await import("prettier/standalone")
 			const formattedCode = await prettier.format(editorValue, {
@@ -43,7 +45,7 @@ export const Options: FC<OptionsProps> = ({
 				plugins: [babelPlugin, estreePlugin]
 			})
 
-			setEditorValue(formattedCode)
+			setEditorValue(formattedCode, language, problem.id)
 		} catch {
 			toast.error("An error occured, when tryed to format code.")
 		}
@@ -51,7 +53,9 @@ export const Options: FC<OptionsProps> = ({
 	const resetToDefaultCode = () => {
 		if (!problem) return
 		setEditorValue(
-			`function ${problem.functionOptions.name}(${problem.functionOptions.args.map(arg => arg.name).join(", ")}) {\n\treturn\n}\n`
+			`function ${problem.functionOptions.name}(${problem.functionOptions.args.map(arg => arg.name).join(", ")}) {\n\treturn\n}\n`,
+			language,
+			problem.id
 		)
 	}
 	function toggleFullScreen() {

@@ -86,7 +86,7 @@ export const Tabset: FC<TabsetProps> = ({
 								className="h-full"
 								{...motionSectionProps}
 							>
-								<Results />
+								<Results isLoading={isProblemLoading} problem={problem} />
 							</motion.section>
 						)}
 					</AnimatePresence>

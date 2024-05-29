@@ -47,3 +47,12 @@ export enum Order {
 	ASC = "asc",
 	DESC = "desc"
 }
+
+export interface SubmitProblem {
+	code: string
+}
+
+export interface AttemptProblem extends SubmitProblem {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	tests: { input: any[] }[]
+}

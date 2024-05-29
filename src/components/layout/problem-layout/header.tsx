@@ -18,12 +18,21 @@ import { Button } from "@/components/shadcn/button"
 import { Logo } from "@/components/ui/logo"
 import { useProblemId } from "@/hooks/problem/useProblemId"
 import { Profile } from "@/components/layout/root-layout/header/profile"
+import {
+	type AttemptFunctionProps,
+	useAttemptProblem
+} from "@/hooks/problem/useAttemptProblem"
+import { useTestsStore } from "@/stores/problem/tests.store"
+import { useEditorValueStore } from "@/stores/problem/editor.store"
 
 type HeaderProps = { problemId: number | undefined }
 
 export const Header: FC<HeaderProps> = ({ problemId }) => {
 	const router = useRouter()
 	const { mutateAsync: getProblemId } = useProblemId()
+	const { tests } = useTestsStore()
+	const { editorValue } = useEditorValueStore()
+	const { mutate: attemptProblem } = useAttemptProblem(problemId ?? 1)
 
 	const handleButtonSubmit = async (type: "next" | "prev" | "random") => {
 		if (!problemId) return
@@ -32,6 +41,22 @@ export const Header: FC<HeaderProps> = ({ problemId }) => {
 			type
 		})
 		if (id) router.push(`/problem/${id}`)
+	}
+	const handleAttempt = async (type: "attempt" | "submit") => {
+		const opts: AttemptFunctionProps =
+			type === "attempt"
+				? {
+						type,
+						data: {
+							code: editorValue,
+							tests: tests.map(test => ({
+								// eslint-disable-next-line @typescript-eslint/no-unsafe-return
+								input: test.input.map(arg => JSON.parse(arg.value))
+							}))
+						}
+					}
+				: { type, data: { code: editorValue } }
+		attemptProblem(opts)
 	}
 
 	return (
@@ -107,10 +132,18 @@ export const Header: FC<HeaderProps> = ({ problemId }) => {
 				</div>
 			</div>
 			<div className="flex gap-2">
-				<Button size="sm" variant="secondary">
+				<Button
+					onClick={() => handleAttempt("attempt")}
+					size="sm"
+					variant="secondary"
+				>
 					Attempt
 				</Button>
-				<Button size="sm" className="flex gap-2">
+				<Button
+					onClick={() => handleAttempt("submit")}
+					size="sm"
+					className="flex gap-2"
+				>
 					Submit <Rocket />
 				</Button>
 			</div>

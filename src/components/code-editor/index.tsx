@@ -21,6 +21,7 @@ import {
 import { Separator } from "../shadcn/separator"
 import { Options, type OptionsProps } from "./options"
 import { Tabset, type TabsetProps } from "./tabset"
+import { useEditorValueStore } from "@/stores/problem/editor.store"
 
 type CodeEditorProps = {
 	defaultValue?: string
@@ -31,7 +32,7 @@ export const CodeEditor: FC<CodeEditorProps> = () => {
 	const { data: problem, isLoading: isProblemLoading } = useProblem(id)
 
 	const [language, setLanguage] = useState<Languages>(Languages.JAVASCRIPT)
-	const [editorValue, setEditorValue] = useState("Loading...")
+	const { editorValue, getEditorValue, setEditorValue } = useEditorValueStore()
 	const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null)
 	const [tabsetHeight, setTabsetHeight] = useState(40)
 
@@ -55,10 +56,17 @@ export const CodeEditor: FC<CodeEditorProps> = () => {
 
 	useEffect(() => {
 		if (!problem) return
-		setEditorValue(
-			`function ${problem.functionOptions.name}(${problem.functionOptions.args.map(arg => arg.name).join(", ")}) {\n\treturn\n}\n`
-		)
-	}, [problem])
+		const editorValueFromLocalstorage = getEditorValue(language, problem.id)
+		if (editorValueFromLocalstorage.length) {
+			setEditorValue(editorValueFromLocalstorage, language, problem.id)
+		} else {
+			setEditorValue(
+				`function ${problem.functionOptions.name}(${problem.functionOptions.args.map(arg => arg.name).join(", ")}) {\n\treturn\n}\n`,
+				language,
+				problem.id
+			)
+		}
+	}, [getEditorValue, language, problem, setEditorValue])
 	return (
 		<ResizablePanelGroup direction="vertical">
 			<ResizablePanel className="pb-3" minSize={50} defaultSize={75}>
@@ -83,7 +91,9 @@ export const CodeEditor: FC<CodeEditorProps> = () => {
 							}}
 							value={editorValue}
 							onMount={onMount}
-							onChange={v => setEditorValue(v ?? "")}
+							onChange={v =>
+								setEditorValue(v ?? "", language, problem?.id ?? 1)
+							}
 						/>
 					</CardContent>
 				</Card>
