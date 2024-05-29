@@ -1,7 +1,7 @@
-# Fycode
+<h1 align="center">Fycode</h1>
 
-A place to test your programming skills on real problems
-<img src="./public/main.png" width="1920" height="1080" alt="main-page" />
+<p align="center">A place to test your programming skills on real problems</p>
+<p align="center"><img src="./public/main.png" alt="main-page" /></p>
 
 ## TODO
 
