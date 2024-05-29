@@ -1,15 +1,12 @@
 "use client"
 
 import { useEffect, useRef, useState, type FC } from "react"
-import { BugPlay, Code, TestTube } from "lucide-react"
-import { AnimatePresence, motion, type MotionProps } from "framer-motion"
+import { Code } from "lucide-react"
 import { Editor, type OnMount } from "@monaco-editor/react"
 import { type editor } from "monaco-editor"
 import { useParams } from "next/navigation"
 import { Languages } from "@/types/languages.type"
 import { useProblem } from "@/hooks/problem/useProblem"
-import { Tests } from "./tests"
-import { Results } from "./results"
 import {
 	Card,
 	CardContent,
@@ -21,10 +18,9 @@ import {
 	ResizablePanel,
 	ResizablePanelGroup
 } from "@/components/shadcn/resizable"
-import { Button } from "@/components/shadcn/button"
-import { ScrollArea } from "@/components/shadcn/scroll-area"
 import { Separator } from "../shadcn/separator"
-import { Options } from "./options"
+import { Options, type OptionsProps } from "./options"
+import { Tabset, type TabsetProps } from "./tabset"
 
 type CodeEditorProps = {
 	defaultValue?: string
@@ -32,58 +28,48 @@ type CodeEditorProps = {
 
 export const CodeEditor: FC<CodeEditorProps> = () => {
 	const { id } = useParams<{ id: string }>()
-	const { data: problem, isLoading } = useProblem(id)
+	const { data: problem, isLoading: isProblemLoading } = useProblem(id)
 
 	const [language, setLanguage] = useState<Languages>(Languages.JAVASCRIPT)
-	const [value, setValue] = useState("Loading...")
+	const [editorValue, setEditorValue] = useState("Loading...")
 	const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null)
-
-	const [tab, setTab] = useState<"tests" | "results">("tests")
-	const [testsHeight, setTestsHeight] = useState(40)
+	const [tabsetHeight, setTabsetHeight] = useState(40)
 
 	const onMount: OnMount = editor => {
 		editorRef.current = editor
 		editor.focus()
 	}
 
-	const motionSectionProps: MotionProps = {
-		transition: {
-			duration: 0.25
-		},
-		initial: {
-			opacity: 0,
-			filter: "blur(4px)",
-			position: "absolute"
-		},
-		animate: {
-			opacity: 1,
-			filter: "blur(0px)",
-			position: "relative"
-		},
-		exit: {
-			opacity: 0,
-			filter: "blur(4px)",
-			position: "absolute"
-		}
+	const tabsetProps: TabsetProps = {
+		height: tabsetHeight,
+		isProblemLoading,
+		problem
+	}
+	const optionsProps: OptionsProps = {
+		problem,
+		language,
+		setLanguage,
+		editorValue,
+		setEditorValue
 	}
 
 	useEffect(() => {
 		if (!problem) return
-		setValue(
-			`function ${problem.functionOptions.name} (${problem.functionOptions.args.map(arg => arg.name).join(", ")}) {\n\treturn\n}`
+		setEditorValue(
+			`function ${problem.functionOptions.name}(${problem.functionOptions.args.map(arg => arg.name).join(", ")}) {\n\treturn\n}\n`
 		)
 	}, [problem])
 	return (
 		<ResizablePanelGroup direction="vertical">
-			<ResizablePanel className="pb-4" minSize={50} defaultSize={75}>
-				<Card className="relative h-full w-full overflow-hidden rounded-2xl">
-					<CardHeader className="sticky left-0 top-0 flex w-full flex-row items-center justify-between bg-muted py-4">
+			<ResizablePanel className="pb-3" minSize={50} defaultSize={75}>
+				<Card className="relative h-full w-full overflow-hidden rounded-xl">
+					<CardHeader className="sticky left-0 top-0 flex w-full flex-row items-center justify-between bg-muted py-3">
 						<CardTitle className="flex items-center gap-2">
 							<Code color="yellow" /> <span>Code</span>
 						</CardTitle>
 					</CardHeader>
-					<CardContent className="h-full bg-[#1e1e1e] p-0">
-						<Options language={language} setLanguage={setLanguage} />
+					<CardContent className="bg-editor h-full p-0">
+						<Options {...optionsProps} />
 						<Separator />
 						<Editor
 							theme="vs-dark"
@@ -95,69 +81,21 @@ export const CodeEditor: FC<CodeEditorProps> = () => {
 								cursorSmoothCaretAnimation: "on",
 								tabSize: 2
 							}}
-							value={value}
+							value={editorValue}
 							onMount={onMount}
-							onChange={v => setValue(v ?? "")}
+							onChange={v => setEditorValue(v ?? "")}
 						/>
 					</CardContent>
 				</Card>
 			</ResizablePanel>
 			<ResizableHandle withHandle />
 			<ResizablePanel
-				onResize={size => setTestsHeight(size)}
-				className="pt-4"
+				onResize={size => setTabsetHeight(size)}
+				className="pt-3"
 				minSize={25}
 				defaultSize={40}
 			>
-				<Card className="relative h-full w-full overflow-hidden rounded-2xl bg-[#1e1e1e]">
-					<CardHeader className="bg-muted py-3">
-						<div className="flex gap-2 text-muted-foreground">
-							<Button
-								onClick={() => setTab("tests")}
-								className="flex items-center bg-[#1e1e1e] pl-2.5 pr-4 text-foreground hover:bg-[#181818]"
-							>
-								<TestTube color="green" />
-								Tests
-							</Button>
-							<Button
-								onClick={() => setTab("results")}
-								className="flex items-center gap-1 bg-[#1e1e1e] px-2.5 text-foreground hover:bg-[#181818]"
-							>
-								<BugPlay color="green" />
-								Results
-							</Button>
-						</div>
-					</CardHeader>
-					<CardContent className="bg-[#1e1e1e] px-0 py-3">
-						<ScrollArea
-							style={{
-								height: `calc(${testsHeight}vh - 7.25rem)`
-							}}
-							scrollbarClassName="mr-1"
-							className="flex items-center gap-4 px-6"
-						>
-							<AnimatePresence>
-								{tab === "tests" ? (
-									<motion.section
-										key="tests"
-										className="h-full"
-										{...motionSectionProps}
-									>
-										<Tests isLoading={isLoading} problem={problem} />
-									</motion.section>
-								) : (
-									<motion.section
-										key="results"
-										className="h-full"
-										{...motionSectionProps}
-									>
-										<Results />
-									</motion.section>
-								)}
-							</AnimatePresence>
-						</ScrollArea>
-					</CardContent>
-				</Card>
+				<Tabset {...tabsetProps} />
 			</ResizablePanel>
 		</ResizablePanelGroup>
 	)

@@ -10,6 +10,7 @@ import {
 import { type FC } from "react"
 import { Button } from "@/components/shadcn/button"
 import { titleString } from "@/lib/utils"
+import { ChevronDown } from "lucide-react"
 
 type SelectLanguageProps = {
 	setLanguage: React.Dispatch<React.SetStateAction<Languages>>
@@ -25,12 +26,14 @@ export const SelectLanguage: FC<SelectLanguageProps> = ({
 			<DropdownMenuTrigger asChild>
 				<Button
 					variant="secondary"
-					className="bg-[#1e1e1e] duration-200 hover:bg-[#181818]"
+					size="sm"
+					className="bg-editor px-2 py-1 text-xs duration-200 hover:bg-[#181818]"
 				>
-					{titleString(language)}
+					{titleString(language)}{" "}
+					<ChevronDown size={18} strokeWidth={1.25} className="ml-1" />
 				</Button>
 			</DropdownMenuTrigger>
-			<DropdownMenuContent className="w-56 bg-[#1e1e1e]">
+			<DropdownMenuContent className="bg-editor w-56">
 				<DropdownMenuLabel>Language</DropdownMenuLabel>
 				<DropdownMenuSeparator />
 				{Object.values(Languages).map(lang => (

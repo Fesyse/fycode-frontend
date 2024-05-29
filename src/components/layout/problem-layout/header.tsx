@@ -46,7 +46,7 @@ export const Header: FC<HeaderProps> = ({ problemId }) => {
 							<TooltipTrigger>
 								<Link href="/dashboard">
 									<Button
-										size="icon"
+										size="smallIcon"
 										variant="ghost"
 										className="h-8 w-8 rounded-sm p-[0.3rem] group-hover:bg-muted"
 									>
@@ -61,7 +61,7 @@ export const Header: FC<HeaderProps> = ({ problemId }) => {
 						<Tooltip>
 							<TooltipTrigger>
 								<Button
-									size="icon"
+									size="smallIcon"
 									onClick={() => handleButtonSubmit("prev")}
 									variant="ghost"
 									className="h-8 w-8 rounded-sm p-[0.3rem] group-hover:bg-muted"
@@ -76,7 +76,7 @@ export const Header: FC<HeaderProps> = ({ problemId }) => {
 						<Tooltip>
 							<TooltipTrigger>
 								<Button
-									size="icon"
+									size="smallIcon"
 									onClick={() => handleButtonSubmit("next")}
 									variant="ghost"
 									className="h-8 w-8 rounded-sm p-[0.3rem] group-hover:bg-muted"
@@ -91,7 +91,7 @@ export const Header: FC<HeaderProps> = ({ problemId }) => {
 						<Tooltip>
 							<TooltipTrigger>
 								<Button
-									size="icon"
+									size="smallIcon"
 									onClick={() => handleButtonSubmit("random")}
 									variant="ghost"
 									className="h-8 w-8 rounded-sm p-[0.3rem] group-hover:bg-muted"
@@ -107,8 +107,10 @@ export const Header: FC<HeaderProps> = ({ problemId }) => {
 				</div>
 			</div>
 			<div className="flex gap-2">
-				<Button variant="secondary">Attempt</Button>
-				<Button className="flex gap-2">
+				<Button size="sm" variant="secondary">
+					Attempt
+				</Button>
+				<Button size="sm" className="flex gap-2">
 					Submit <Rocket />
 				</Button>
 			</div>

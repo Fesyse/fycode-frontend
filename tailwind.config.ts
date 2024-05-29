@@ -15,6 +15,7 @@ const config = {
 				comfortaa: "var(--font-comfortaa)"
 			},
 			colors: {
+				editor: "#1e1e1e",
 				border: "hsl(var(--border))",
 				input: "hsl(var(--input))",
 				ring: "hsl(var(--ring))",
