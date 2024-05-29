@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useLayoutEffect } from "react"
 import { type FieldErrors } from "react-hook-form"
 
 type UseTabResize = (options: {
@@ -21,7 +21,7 @@ type UseTabResize = (options: {
 }) => void
 
 export const useTabResize: UseTabResize = options => {
-	useEffect(() => {
+	useLayoutEffect(() => {
 		options.setTabSizes(prev => ({
 			...prev,
 			[options.type]: options.offsetHeight
