@@ -50,12 +50,13 @@ export const Profile: React.FC<ProfileProps> = ({ avatarRatio }) => {
 
 	return (
 		<div className="flex w-full max-w-32 justify-end">
-			{!isAuthorized ? (
-				<Button className="flex gap-2" asChild>
-					<Link href="/auth?callbackUrl=/dashboard">
-						Sign up <Rocket />
-					</Link>
-				</Button>
+			{isLoading ? (
+				<Skeleton
+					className={cn("block aspect-square h-12 rounded-full", {
+						"h-12": !avatarRatio,
+						[`h-[${avatarRatio}px]`]: !avatarRatio
+					})}
+				/>
 			) : user && userFromStore && isAuthorized ? (
 				<DropdownMenu>
 					<DropdownMenuTrigger>
@@ -113,13 +114,12 @@ export const Profile: React.FC<ProfileProps> = ({ avatarRatio }) => {
 						</DropdownMenuGroup>
 					</DropdownMenuContent>
 				</DropdownMenu>
-			) : isLoading ? (
-				<Skeleton
-					className={cn("block aspect-square h-12 rounded-full", {
-						"h-12": !avatarRatio,
-						[`h-[${avatarRatio}px]`]: !avatarRatio
-					})}
-				/>
+			) : !isAuthorized || !user || !userFromStore ? (
+				<Button className="flex gap-2" asChild>
+					<Link href="/auth?callbackUrl=/dashboard">
+						Sign up <Rocket />
+					</Link>
+				</Button>
 			) : null}
 		</div>
 	)

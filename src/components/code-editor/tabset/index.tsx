@@ -1,4 +1,4 @@
-import { useState, type FC } from "react"
+import { useState, memo, type FC } from "react"
 import { TestTube, BugPlay } from "lucide-react"
 import { AnimatePresence, motion, type MotionProps } from "framer-motion"
 import type { ExtendedProblem } from "@/types/problem.type"
@@ -14,11 +14,11 @@ export type TabsetProps = {
 	isProblemLoading: boolean
 }
 
-export const Tabset: FC<TabsetProps> = ({
+export const Tabset: FC<TabsetProps> = memo(function Tabset({
 	problem,
 	height,
 	isProblemLoading
-}) => {
+}) {
 	const [tab, setTab] = useState<"tests" | "results">("tests")
 
 	const motionSectionProps: MotionProps = {
@@ -94,4 +94,4 @@ export const Tabset: FC<TabsetProps> = ({
 			</CardContent>
 		</Card>
 	)
-}
+})

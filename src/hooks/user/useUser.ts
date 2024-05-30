@@ -32,6 +32,9 @@ export const useUser = () => {
 		if (isSuccess && user) {
 			setIsAuthorized(true)
 			setUser(user)
+		} else {
+			setIsAuthorized(false)
+			setUser(undefined)
 		}
 	}, [isSuccess, setUser, user])
 
