@@ -9,9 +9,9 @@ class UserService {
 		return response.data
 	}
 
-	async getProfile() {
+	async getProfile(userId: string) {
 		const response = await axiosWithAuth.get<Profile>(
-			`${this.BASE_URL}/profile`
+			`${this.BASE_URL}/profile/${userId}`
 		)
 		return response.data
 	}

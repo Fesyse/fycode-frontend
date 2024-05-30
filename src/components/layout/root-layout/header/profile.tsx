@@ -79,12 +79,12 @@ export const Profile: React.FC<ProfileProps> = ({ avatarRatio }) => {
 						<DropdownMenuSeparator />
 						<DropdownMenuGroup>
 							<DropdownMenuItem {...dropDownItemProps}>
-								<Link href="/profile">
+								<Link href={`/user/${user.id}`}>
 									<User2 /> <span>Profile</span>
 								</Link>
 							</DropdownMenuItem>
 							<DropdownMenuItem {...dropDownItemProps}>
-								<Link href="/profile/settings">
+								<Link href="/user/${user.id}/settings">
 									<Settings /> <span>Settings</span>
 								</Link>
 							</DropdownMenuItem>
@@ -114,13 +114,13 @@ export const Profile: React.FC<ProfileProps> = ({ avatarRatio }) => {
 						</DropdownMenuGroup>
 					</DropdownMenuContent>
 				</DropdownMenu>
-			) : !isAuthorized || !user || !userFromStore ? (
+			) : (
 				<Button className="flex gap-2" asChild>
 					<Link href="/auth?callbackUrl=/dashboard">
 						Sign up <Rocket />
 					</Link>
 				</Button>
-			) : null}
+			)}
 		</div>
 	)
 }
