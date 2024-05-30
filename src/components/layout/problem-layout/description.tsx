@@ -1,3 +1,10 @@
+import { useEffect, useState, type FC } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import { CircleHelp, Tag, ThumbsDown, ThumbsUp } from "lucide-react"
+import type { ExtendedProblem } from "@/types/problem.type"
+import { formatNumber } from "@/lib/utils"
+import { useReaction } from "@/hooks/problem/useReaction"
 import {
 	Card,
 	CardContent,
@@ -8,17 +15,16 @@ import {
 import { ScrollArea } from "@/components/shadcn/scroll-area"
 import { Separator } from "@/components/shadcn/separator"
 import { Skeleton } from "@/components/shadcn/skeleton"
-import type { ExtendedProblem } from "@/types/problem.type"
-import Image from "next/image"
-import Link from "next/link"
-import { useEffect, useState, type FC } from "react"
-import Markdown from "react-markdown"
-import { DescriptionLoading } from "./description-loading"
-import { Tag, ThumbsDown, ThumbsUp } from "lucide-react"
 import { Badge } from "@/components/shadcn/badge"
 import { Button } from "@/components/shadcn/button"
-import { formatNumber } from "@/lib/utils"
-import { useReaction } from "@/hooks/problem/useReaction"
+import { DescriptionLoading } from "./description-loading"
+import { MarkdownRenderer } from "./markdown-renderer"
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger
+} from "@/components/shadcn/tooltip"
 
 type DescriptionProps = {
 	problem: ExtendedProblem | undefined
@@ -65,7 +71,7 @@ export const Description: FC<DescriptionProps> = ({ problem, isLoading }) => {
 					<CardTitle>{`${problem.id}. ${problem.title}`}</CardTitle>
 				)}
 			</CardHeader>
-			<CardContent className="bg-editor h-full px-0 pt-2">
+			<CardContent className="h-full bg-editor px-0 pt-2">
 				<ScrollArea
 					className="h-[calc(100vh-12.5rem)] px-6"
 					scrollbarClassName="mr-1"
@@ -75,13 +81,24 @@ export const Description: FC<DescriptionProps> = ({ problem, isLoading }) => {
 							<DescriptionLoading />
 						) : (
 							<>
-								<Markdown className="leading-8">{problem.description}</Markdown>
-								<p>
-									function name ={" "}
-									<span className="font-bold">
-										{problem.functionOptions.name}
-									</span>
-								</p>
+								<MarkdownRenderer markdown={problem.description} />
+								<TooltipProvider>
+									<p className="flex gap-1">
+										function name ={" "}
+										<strong>{problem.functionOptions.name}</strong>
+										<Tooltip>
+											<TooltipTrigger asChild>
+												<CircleHelp size={18} strokeWidth={1.5} />
+											</TooltipTrigger>
+											<TooltipContent className="max-w-60 border-muted bg-editor font-normal">
+												You need to implement a function with name{" "}
+												<strong>{problem.functionOptions.name}</strong>, that
+												will solve given problem, otherwise it will throw a
+												compile error.
+											</TooltipContent>
+										</Tooltip>
+									</p>
+								</TooltipProvider>
 
 								<Separator />
 								<div className="flex items-center gap-4">

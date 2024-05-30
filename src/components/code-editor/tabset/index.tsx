@@ -42,13 +42,13 @@ export const Tabset: FC<TabsetProps> = ({
 		}
 	}
 	return (
-		<Card className="group/wrapper bg-editor relative h-full w-full overflow-hidden rounded-xl">
+		<Card className="group/wrapper relative h-full w-full overflow-hidden rounded-xl bg-editor">
 			<CardHeader className="flex flex-row items-center justify-between bg-muted px-1 py-1">
 				<div className="flex gap-2 text-muted-foreground">
 					<Button
 						size="sm"
 						onClick={() => setTab("tests")}
-						className="hover:bg-editor/50 flex items-center bg-muted pl-2.5 pr-4 text-foreground"
+						className="flex items-center bg-muted pl-2.5 pr-4 text-foreground hover:bg-editor/50"
 					>
 						<TestTube color="green" />
 						Tests
@@ -56,7 +56,7 @@ export const Tabset: FC<TabsetProps> = ({
 					<Button
 						size="sm"
 						onClick={() => setTab("results")}
-						className="hover:bg-editor/50 flex items-center gap-1 bg-muted px-2.5 text-foreground"
+						className="flex items-center gap-1 bg-muted px-2.5 text-foreground hover:bg-editor/50"
 					>
 						<BugPlay color="green" />
 						Results

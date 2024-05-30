@@ -24,6 +24,8 @@ import {
 } from "@/hooks/problem/useAttemptProblem"
 import { useTestsStore } from "@/stores/problem/tests.store"
 import { useEditorValueStore } from "@/stores/problem/editor.store"
+import { toast } from "sonner"
+import { parseValue } from "@/lib/utils"
 
 type HeaderProps = { problemId: number | undefined }
 
@@ -43,20 +45,30 @@ export const Header: FC<HeaderProps> = ({ problemId }) => {
 		if (id) router.push(`/problem/${id}`)
 	}
 	const handleAttempt = async (type: "attempt" | "submit") => {
+		let checker = true
 		const opts: AttemptFunctionProps =
 			type === "attempt"
 				? {
 						type,
 						data: {
 							code: editorValue,
-							tests: tests.map(test => ({
-								// eslint-disable-next-line @typescript-eslint/no-unsafe-return
-								input: test.input.map(arg => JSON.parse(arg.value))
+							tests: tests.map((test, i) => ({
+								input: test.input.map(arg => {
+									if (!arg.value.length) {
+										toast.error(
+											`At test ${i + 1} argument ${arg.name} is not provided.`
+										)
+										checker = false
+										return ""
+									}
+
+									return parseValue(arg.value, arg.type)
+								})
 							}))
 						}
 					}
 				: { type, data: { code: editorValue } }
-		attemptProblem(opts)
+		if (checker) attemptProblem(opts)
 	}
 
 	return (

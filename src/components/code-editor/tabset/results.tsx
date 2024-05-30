@@ -1,8 +1,8 @@
 import { type FC, useEffect } from "react"
 import type { ExtendedProblem } from "@/types/problem.type"
 import { useResultsStore } from "@/stores/problem/results.store"
-import { Skeleton } from "../shadcn/skeleton"
-import { Label } from "../shadcn/label"
+import { Skeleton } from "../../shadcn/skeleton"
+import { Label } from "../../shadcn/label"
 
 type ResultsProps = {
 	problem: ExtendedProblem | undefined

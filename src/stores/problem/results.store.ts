@@ -19,14 +19,16 @@ export const useResultsStore = create<ResultsStore>(set => ({
 	results: undefined,
 	error: undefined,
 	getResults: problemId => {
+		const resultsFromStorage = localStorage.getItem(
+			`problem-results-${problemId}`
+		)
 		const results = JSON.parse(
-			JSON.parse(
-				JSON.stringify(localStorage.getItem(`problem-results-${problemId}`)) ??
-					"undefined"
-			) as string
+			resultsFromStorage === "undefined" || !resultsFromStorage
+				? "null"
+				: resultsFromStorage
 		) as Results | null
+
 		if (!results) return undefined
-		console.log(results)
 		set({ results })
 		return results
 	},
@@ -35,6 +37,7 @@ export const useResultsStore = create<ResultsStore>(set => ({
 			`problem-results-${problemId}`,
 			JSON.stringify(results)
 		)
+
 		set({ results })
 	},
 	setError: message => set({ error: message }),

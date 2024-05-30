@@ -19,7 +19,7 @@ export const useRegister = () => {
 		},
 		onError: (error: Error) => {
 			removeUser()
-			toast.error("An error occured trying to creating a new account.", {
+			toast.error("An error occurred trying to creating a new account.", {
 				description: error.message
 			})
 		}

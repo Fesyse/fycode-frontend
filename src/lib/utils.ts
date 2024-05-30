@@ -27,6 +27,19 @@ export function getDefaultArgumentValue(type: Argument["type"]) {
 	}
 }
 
+export function parseValue(value: string, type: Argument["type"]) {
+	switch (type) {
+		case "number":
+			return Number(value)
+		case "string":
+			return value
+		case "number-array":
+			return JSON.parse(value) as number[]
+		case "string-array":
+			return JSON.parse(value) as string[]
+	}
+}
+
 /*
  * Return the given number as a formatted string.  The default format is a plain
  * integer with thousands-separator commas.  The optional parameters facilitate

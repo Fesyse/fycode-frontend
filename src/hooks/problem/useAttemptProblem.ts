@@ -3,6 +3,7 @@ import { useResultsStore } from "@/stores/problem/results.store"
 import { useTestsStore } from "@/stores/problem/tests.store"
 import type { AttemptProblem, SubmitProblem } from "@/types/problem.type"
 import { useMutation } from "@tanstack/react-query"
+import { type AxiosError } from "axios"
 
 export type AttemptFunctionProps =
 	| {
@@ -24,6 +25,8 @@ export const useAttemptProblem = (problemId: number) => {
 				? problemService.attempt(problemId, data)
 				: problemService.submit(problemId, data),
 		onSuccess: results => setResults(results, problemId),
-		onError: error => setError(error.message)
+		onError: (
+			error: AxiosError<{ error: string; message: string; statusCode: number }>
+		) => setError(error?.response?.data.message ?? "Something went wrong")
 	})
 }

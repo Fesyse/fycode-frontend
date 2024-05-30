@@ -47,7 +47,9 @@ export const Options: FC<OptionsProps> = ({
 
 			setEditorValue(formattedCode, language, problem.id)
 		} catch {
-			toast.error("An error occured, when tryed to format code.")
+			toast.error(
+				"An error occurred, when tried to format code. Check your code for containing errors."
+			)
 		}
 	}
 	const resetToDefaultCode = () => {
@@ -81,7 +83,7 @@ export const Options: FC<OptionsProps> = ({
 								<Highlighter size={18} />
 							</Button>
 						</TooltipTrigger>
-						<TooltipContent className="bg-editor border-muted">
+						<TooltipContent className="border-muted bg-editor">
 							Format code
 						</TooltipContent>
 					</Tooltip>
@@ -95,7 +97,7 @@ export const Options: FC<OptionsProps> = ({
 								<RotateCcw size={18} />
 							</Button>
 						</TooltipTrigger>
-						<TooltipContent className="bg-editor border-muted">
+						<TooltipContent className="border-muted bg-editor">
 							Reset to default code
 						</TooltipContent>
 					</Tooltip>
@@ -109,7 +111,7 @@ export const Options: FC<OptionsProps> = ({
 								<Maximize2 size={18} />
 							</Button>
 						</TooltipTrigger>
-						<TooltipContent className="bg-editor border-muted">
+						<TooltipContent className="border-muted bg-editor">
 							Toggle fullscreen mode
 						</TooltipContent>
 					</Tooltip>
