@@ -1,6 +1,6 @@
 "use client"
 
-import { type PropsWithChildren, type FC } from "react"
+import { type PropsWithChildren, type FC, useEffect } from "react"
 import {
 	ResizablePanelGroup,
 	ResizablePanel,
@@ -9,6 +9,7 @@ import {
 import { useProblem } from "@/hooks/problem/useProblem"
 import { Header } from "./header"
 import { Description } from "./description"
+import { redirect } from "next/navigation"
 
 type ProblemLayoutProps = {
 	problemId: string
@@ -19,6 +20,11 @@ export const ProblemLayout: FC<PropsWithChildren<ProblemLayoutProps>> = ({
 	children
 }) => {
 	const { data: problem, isLoading, isError } = useProblem(problemId)
+
+	useEffect(() => {
+		if (!problem && !isError) return
+		if (isError) return redirect("/dashboard")
+	}, [problem, isError])
 
 	return (
 		<div className="flex h-screen max-h-screen w-full flex-col gap-3 overflow-hidden p-4">

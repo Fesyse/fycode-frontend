@@ -57,8 +57,12 @@ export const Results: FC<ResultsProps> = ({ problem, isLoading }) => {
 					<li key={i} className="flex flex-col gap-2">
 						<div>
 							<Label>Input</Label>
-							<div className="w-full rounded-md bg-muted px-3 py-1.5">
-								{JSON.stringify(test.input)}
+							<div className="flex w-full gap-3 rounded-md bg-muted px-3 py-1.5">
+								{problem?.functionOptions.args.map((arg, j) => (
+									<span key={j}>
+										{arg.name}: {JSON.stringify(test.input[j])}
+									</span>
+								))}
 							</div>
 						</div>
 						<div className="flex w-full gap-2">

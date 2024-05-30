@@ -56,6 +56,11 @@ export const CodeEditor: FC<CodeEditorProps> = () => {
 
 	useEffect(() => {
 		if (!problem) return
+		localStorage.setItem("last-problem-id", problem.id.toString())
+	}, [problem])
+
+	useEffect(() => {
+		if (!problem) return
 		const editorValueFromLocalstorage = getEditorValue(language, problem.id)
 		if (editorValueFromLocalstorage.length) {
 			setEditorValue(editorValueFromLocalstorage, language, problem.id)
@@ -76,7 +81,7 @@ export const CodeEditor: FC<CodeEditorProps> = () => {
 							<Code color="yellow" /> <span>Code</span>
 						</CardTitle>
 					</CardHeader>
-					<CardContent className="bg-editor h-full p-0">
+					<CardContent className="h-full bg-editor p-0">
 						<Options {...optionsProps} />
 						<Separator />
 						<Editor
