@@ -64,7 +64,7 @@ export const MarkdownRenderer: FC<MarkdownRendererProps> = ({ markdown }) => {
 					return (
 						<p
 							{...props}
-							className={cn("leading-7 [&:not(:first-child)]:mt-3", className)}
+							className={cn("leading-7 [&:not(:first-child)]:mt-6", className)}
 						/>
 					)
 				},
@@ -88,32 +88,28 @@ export const MarkdownRenderer: FC<MarkdownRendererProps> = ({ markdown }) => {
 				code({ className, children, ...props }) {
 					const match = /language-(\w+)/.exec(className ?? "")
 
-					return (
-						<div
-							className={match ? "rounded-xl border border-border" : undefined}
-						>
-							{match ? (
-								<SyntaxHighlighter
-									// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-									style={vscDarkPlus}
-									PreTag="div"
-									language={match[1]}
-									{...props}
-								>
-									{String(children).replace(/\n$/, "")}
-								</SyntaxHighlighter>
-							) : (
-								<code
-									className={cn(
-										"relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold",
-										className
-									)}
-									{...props}
-								>
-									{children}
-								</code>
-							)}
+					return match ? (
+						<div className="rounded-xl border border-border">
+							<SyntaxHighlighter
+								// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+								style={vscDarkPlus}
+								PreTag="div"
+								language={match[1]}
+								{...props}
+							>
+								{String(children).replace(/\n$/, "")}
+							</SyntaxHighlighter>
 						</div>
+					) : (
+						<span
+							className={cn(
+								"relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold",
+								className
+							)}
+							{...props}
+						>
+							{children}
+						</span>
 					)
 				}
 			}}

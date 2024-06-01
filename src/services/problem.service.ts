@@ -13,7 +13,7 @@ class ProblemService {
 
 	async getById(id: number | string, userId: string | undefined) {
 		const response = await axiosWithAuth.get<ExtendedProblem>(
-			`${this.BASE_URL}/${id}?userId=${userId}`
+			`${this.BASE_URL}/${id}?${userId ? "userId=" + userId : ""}`
 		)
 		return response.data
 	}

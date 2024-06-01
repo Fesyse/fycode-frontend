@@ -36,6 +36,8 @@ export const CodeEditor: FC<CodeEditorProps> = () => {
 	const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null)
 	const [tabsetHeight, setTabsetHeight] = useState(40)
 
+	console.log(problem)
+
 	const onMount: OnMount = editor => {
 		editorRef.current = editor
 		editor.focus()
