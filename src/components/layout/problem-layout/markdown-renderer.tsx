@@ -68,6 +68,11 @@ export const MarkdownRenderer: FC<MarkdownRendererProps> = ({ markdown }) => {
 						/>
 					)
 				},
+				pre({ className, ...props }) {
+					return (
+						<pre {...props} className={cn("mt-6 border-l-2 pl-6", className)} />
+					)
+				},
 				blockquote({ className, ...props }) {
 					return (
 						<blockquote
@@ -84,7 +89,6 @@ export const MarkdownRenderer: FC<MarkdownRendererProps> = ({ markdown }) => {
 						/>
 					)
 				},
-
 				code({ className, children, ...props }) {
 					const match = /language-(\w+)/.exec(className ?? "")
 

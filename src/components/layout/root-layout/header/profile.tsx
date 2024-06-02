@@ -24,6 +24,7 @@ import { useLogout } from "@/hooks/auth/useLogout"
 import { useUserStore } from "@/stores/user.store"
 import { useUser } from "@/hooks/user/useUser"
 import { cn } from "@/lib/utils"
+import { usePathname } from "next/navigation"
 
 type ProfileProps = {
 	avatarRatio?: number
@@ -41,6 +42,7 @@ export const Profile: React.FC<ProfileProps> = ({ avatarRatio }) => {
 	const lastProblemLink = lastUserProblemId
 		? `/problem/${lastUserProblemId}`
 		: "/dashboard"
+	const lastUserPagePath = usePathname()
 
 	const dropDownItemProps = { className: "flex gap-2", asChild: true }
 
@@ -50,11 +52,16 @@ export const Profile: React.FC<ProfileProps> = ({ avatarRatio }) => {
 
 	return (
 		<div className="flex w-full max-w-32 justify-end">
-			{isLoading ? (
+			{!isAuthorized || !user || !userFromStore ? (
+				<Button className="flex gap-2" asChild>
+					<Link href={`/auth?callbackUrl=${lastUserPagePath}`}>
+						Sign up <Rocket />
+					</Link>
+				</Button>
+			) : isLoading ? (
 				<Skeleton
-					className={cn("block aspect-square h-12 rounded-full", {
-						"h-12": !avatarRatio,
-						[`h-[${avatarRatio}px]`]: !avatarRatio
+					className={cn("block aspect-square h-10 rounded-full", {
+						[`h-[${avatarRatio}px]`]: avatarRatio
 					})}
 				/>
 			) : user && userFromStore && isAuthorized ? (
@@ -62,10 +69,9 @@ export const Profile: React.FC<ProfileProps> = ({ avatarRatio }) => {
 					<DropdownMenuTrigger>
 						<Image
 							className={cn(
-								"aspect-square rounded-full border border-border object-cover p-1",
+								"aspect-square h-10 w-10 rounded-full border border-border object-cover p-1",
 								{
-									"h-12": !avatarRatio,
-									[`h-[${avatarRatio}px]`]: !avatarRatio
+									[`h-[${avatarRatio}px]`]: avatarRatio
 								}
 							)}
 							src={user?.avatar ?? "/user-round.svg"}
@@ -114,13 +120,7 @@ export const Profile: React.FC<ProfileProps> = ({ avatarRatio }) => {
 						</DropdownMenuGroup>
 					</DropdownMenuContent>
 				</DropdownMenu>
-			) : (
-				<Button className="flex gap-2" asChild>
-					<Link href="/auth?callbackUrl=/dashboard">
-						Sign up <Rocket />
-					</Link>
-				</Button>
-			)}
+			) : null}
 		</div>
 	)
 }

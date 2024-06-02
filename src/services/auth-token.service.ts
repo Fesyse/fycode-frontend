@@ -1,4 +1,3 @@
-import { env } from "@/env"
 import type { AuthResponse } from "@/types/auth.type"
 import Cookies from "js-cookie"
 
@@ -13,7 +12,6 @@ export const getNewTokens = async () => {
 		headers: {
 			"Content-Type": "application/json"
 		},
-		mode: "cors",
 		credentials: "include"
 	}
 	const response = await fetch(
