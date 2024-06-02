@@ -1,9 +1,10 @@
 "use client"
 
 import { titleString } from "@/lib/utils"
+import { useUserStore } from "@/stores/user.store"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
-import type { FC, PropsWithChildren } from "react"
+import { redirect, usePathname } from "next/navigation"
+import { useEffect, type FC, type PropsWithChildren } from "react"
 import { z } from "zod"
 
 type UserLayoutProps = {
@@ -15,12 +16,19 @@ export const UserLayout: FC<PropsWithChildren<UserLayoutProps>> = ({
 	children
 }) => {
 	const pathname = usePathname()
+	const user = useUserStore(s => s.user)
 	const lastRoute = pathname.split("/")[pathname.split("/").length - 1]!
 
 	const isGeneralPage = z.string().cuid().safeParse(lastRoute).success
 	const isSettingsPage = lastRoute.startsWith("settings")
 
 	const baseUrl = `/user/${params.userId}`
+
+	useEffect(() => {
+		if (!isSettingsPage) return
+		if (user?.id === params.userId) return
+		redirect(`/dashboard`)
+	}, [isSettingsPage, params.userId, pathname, user])
 	return (
 		<main className="flex flex-1 flex-col gap-4 md:gap-8 md:p-10">
 			<div className="mx-auto grid w-full max-w-[1440px] gap-2">
@@ -39,12 +47,14 @@ export const UserLayout: FC<PropsWithChildren<UserLayoutProps>> = ({
 					>
 						General
 					</Link>
-					<Link
-						href={baseUrl + "/settings"}
-						className={isSettingsPage ? "font-semibold text-primary" : ""}
-					>
-						Settings
-					</Link>
+					{user?.id === params.userId ? (
+						<Link
+							href={baseUrl + "/settings"}
+							className={isSettingsPage ? "font-semibold text-primary" : ""}
+						>
+							Settings
+						</Link>
+					) : null}
 				</nav>
 				<div className="grid gap-6">{children}</div>
 			</div>

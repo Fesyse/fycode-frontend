@@ -14,3 +14,14 @@ export interface Profile extends User {
 	solvedProblems: Omit<Problem, "difficulty">[]
 	problemsCount: number
 }
+
+export interface ProblemsCount {
+	problems: number
+	easyProblems: number
+	mediumProblems: number
+	hardProblems: number
+	userProblems: number
+	userEasyProblems: number
+	userMediumProblems: number
+	userHardProblems: number
+}

@@ -73,45 +73,51 @@ export const CodeEditor: FC<CodeEditorProps> = () => {
 		}
 	}, [getEditorValue, language, problem, setEditorValue])
 	return (
-		<ResizablePanelGroup direction="vertical">
-			<ResizablePanel className="pb-3" minSize={50} defaultSize={75}>
-				<Card className="relative h-full w-full overflow-hidden rounded-xl">
-					<CardHeader className="sticky left-0 top-0 flex w-full flex-row items-center justify-between bg-muted py-3">
-						<CardTitle className="flex items-center gap-2">
-							<Code color="yellow" /> <span>Code</span>
-						</CardTitle>
-					</CardHeader>
-					<CardContent className="h-full bg-editor p-0">
-						<Options {...optionsProps} />
-						<Separator />
-						<Editor
-							theme="vs-dark"
-							language={language}
-							options={{
-								minimap: { enabled: false },
-								cursorBlinking: "expand",
-								cursorStyle: "line-thin",
-								cursorSmoothCaretAnimation: "on",
-								tabSize: 2
-							}}
-							value={editorValue}
-							onMount={onMount}
-							onChange={v =>
-								setEditorValue(v ?? "", language, problem?.id ?? 1)
-							}
-						/>
-					</CardContent>
-				</Card>
-			</ResizablePanel>
-			<ResizableHandle withHandle />
-			<ResizablePanel
-				onResize={size => setTabsetHeight(size)}
-				className="pt-3"
-				minSize={25}
-				defaultSize={40}
-			>
-				<Tabset {...tabsetProps} />
-			</ResizablePanel>
-		</ResizablePanelGroup>
+		<>
+			{/* eslint-disable-next-line @next/next/no-head-element */}
+			<head>
+				<title>{(problem ? problem.title : "Problem") + " | Fycode"}</title>
+			</head>
+			<ResizablePanelGroup direction="vertical">
+				<ResizablePanel className="pb-3" minSize={50} defaultSize={75}>
+					<Card className="relative h-full w-full overflow-hidden rounded-xl">
+						<CardHeader className="sticky left-0 top-0 flex w-full flex-row items-center justify-between bg-muted py-3">
+							<CardTitle className="flex items-center gap-2">
+								<Code color="yellow" /> <span>Code</span>
+							</CardTitle>
+						</CardHeader>
+						<CardContent className="h-full bg-editor p-0">
+							<Options {...optionsProps} />
+							<Separator />
+							<Editor
+								theme="vs-dark"
+								language={language}
+								options={{
+									minimap: { enabled: false },
+									cursorBlinking: "expand",
+									cursorStyle: "line-thin",
+									cursorSmoothCaretAnimation: "on",
+									tabSize: 2
+								}}
+								value={editorValue}
+								onMount={onMount}
+								onChange={v =>
+									setEditorValue(v ?? "", language, problem?.id ?? 1)
+								}
+							/>
+						</CardContent>
+					</Card>
+				</ResizablePanel>
+				<ResizableHandle withHandle />
+				<ResizablePanel
+					onResize={size => setTabsetHeight(size)}
+					className="pt-3"
+					minSize={25}
+					defaultSize={40}
+				>
+					<Tabset {...tabsetProps} />
+				</ResizablePanel>
+			</ResizablePanelGroup>
+		</>
 	)
 }

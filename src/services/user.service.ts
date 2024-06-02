@@ -1,5 +1,5 @@
-import { axiosWithAuth } from "@/api/interceptors"
-import type { Profile, User } from "@/types/user.type"
+import { axios, axiosWithAuth } from "@/api/interceptors"
+import type { ProblemsCount, Profile, User } from "@/types/user.type"
 
 class UserService {
 	private BASE_URL = `/user`
@@ -10,8 +10,15 @@ class UserService {
 	}
 
 	async getProfile(userId: string) {
-		const response = await axiosWithAuth.get<Profile>(
+		const response = await axios.get<Profile>(
 			`${this.BASE_URL}/profile/${userId}`
+		)
+		return response.data
+	}
+
+	async getProblemsCount(userId: string) {
+		const response = await axios.get<ProblemsCount>(
+			`${this.BASE_URL}/problems-count/${userId}`
 		)
 		return response.data
 	}
