@@ -90,7 +90,7 @@ export const Profile: React.FC<ProfileProps> = ({ avatarRatio }) => {
 								</Link>
 							</DropdownMenuItem>
 							<DropdownMenuItem {...dropDownItemProps}>
-								<Link href="/user/${user.id}/settings">
+								<Link href={`/user/${user.id}/settings`}>
 									<Settings /> <span>Settings</span>
 								</Link>
 							</DropdownMenuItem>
