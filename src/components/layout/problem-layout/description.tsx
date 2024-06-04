@@ -120,8 +120,8 @@ export const Description: FC<DescriptionProps> = ({ problem, isLoading }) => {
 									<Image
 										className="h-12 w-12 rounded-full object-cover p-1"
 										src={problem.creator.avatar ?? "/user-round.svg"}
-										width={36}
-										height={36}
+										width={2048}
+										height={2048}
 										alt="username-image"
 									/>
 									<span>{problem.creator.username}</span>

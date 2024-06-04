@@ -29,7 +29,7 @@ export const ProblemsStats: FC<ProblemsStatsProps> = ({ problemsCount }) => {
 		})
 	}, [selectedProblemsCount, controls])
 	return (
-		<div className="flex items-center justify-between">
+		<div className="flex items-center justify-around">
 			<div className="relative aspect-square w-44">
 				<CircularProgressbar
 					maxValue={1}

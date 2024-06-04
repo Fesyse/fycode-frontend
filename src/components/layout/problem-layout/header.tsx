@@ -26,12 +26,14 @@ import { useTestsStore } from "@/stores/problem/tests.store"
 import { useEditorValueStore } from "@/stores/problem/editor.store"
 import { toast } from "sonner"
 import { parseValue } from "@/lib/utils"
+import { useUserStore } from "@/stores/user.store"
 
 type HeaderProps = { problemId: number | undefined }
 
 export const Header: FC<HeaderProps> = ({ problemId }) => {
 	const router = useRouter()
 	const { mutateAsync: getProblemId } = useProblemId()
+	const user = useUserStore(s => s.user)
 	const { tests } = useTestsStore()
 	const { editorValue } = useEditorValueStore()
 	const { mutate: attemptProblem } = useAttemptProblem(problemId ?? 1)
@@ -45,6 +47,10 @@ export const Header: FC<HeaderProps> = ({ problemId }) => {
 		if (id) router.push(`/problem/${id}`)
 	}
 	const handleAttempt = async (type: "attempt" | "submit") => {
+		if (!user) {
+			toast.error(`You must be logged in, to ${type} problem.`)
+			return router.push(`/auth?callbackUrl=/problem/${problemId}`)
+		}
 		let checker = true
 		const opts: AttemptFunctionProps =
 			type === "attempt"

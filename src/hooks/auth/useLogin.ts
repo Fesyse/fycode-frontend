@@ -19,7 +19,7 @@ export const useLogin = () => {
 		},
 		onError: error => {
 			removeUser()
-			toast.error("An error occurred trying to login.", {
+			toast.error("An error occurred, when tried to login.", {
 				description: error.message
 			})
 		}

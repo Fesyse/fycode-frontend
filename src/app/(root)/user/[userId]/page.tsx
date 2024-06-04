@@ -27,21 +27,21 @@ export default async function UserPage({
 			<head>
 				<title>{profile.username + " | Fycode"}</title>
 			</head>
-			<div className="grid grid-cols-2 gap-2">
+			<div className="grid grid-cols-[1.5fr_1.1fr] gap-6">
 				<Card>
 					<CardHeader>
-						<CardTitle>Problems stats</CardTitle>
+						<CardTitle className="text-center">Profile</CardTitle>
 					</CardHeader>
-					<CardContent>
-						<ProblemsStats problemsCount={problemsCount} />
+					<CardContent className="h-[75%]">
+						<Profile profile={profile} />
 					</CardContent>
 				</Card>
 				<Card>
 					<CardHeader>
-						<CardTitle>Profile</CardTitle>
+						<CardTitle className="text-center">Problems stats</CardTitle>
 					</CardHeader>
-					<CardContent>
-						<Profile profile={profile} />
+					<CardContent className="h-[75%]">
+						<ProblemsStats problemsCount={problemsCount} />
 					</CardContent>
 				</Card>
 			</div>

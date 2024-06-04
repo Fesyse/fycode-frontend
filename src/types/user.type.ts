@@ -12,7 +12,6 @@ export interface User {
 export interface Profile extends User {
 	createdProblems: Omit<Problem, "difficulty">[]
 	solvedProblems: Omit<Problem, "difficulty">[]
-	problemsCount: number
 }
 
 export interface ProblemsCount {

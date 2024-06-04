@@ -75,8 +75,8 @@ export const Profile: React.FC<ProfileProps> = ({ avatarRatio }) => {
 								}
 							)}
 							src={user?.avatar ?? "/user-round.svg"}
-							width={36}
-							height={36}
+							width={2048}
+							height={2048}
 							alt="username-image"
 						/>
 					</DropdownMenuTrigger>
