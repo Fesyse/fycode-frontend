@@ -27,7 +27,7 @@ export default async function UserPage({
 			<head>
 				<title>{profile.username + " | Fycode"}</title>
 			</head>
-			<div className="grid grid-cols-[1.5fr_1.1fr] gap-6">
+			<div className="grid grid-cols-[1.35fr_1.1fr] gap-6 max-xl:grid-cols-[1fr]">
 				<Card>
 					<CardHeader>
 						<CardTitle className="text-center">Profile</CardTitle>
