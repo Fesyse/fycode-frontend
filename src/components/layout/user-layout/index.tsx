@@ -25,8 +25,7 @@ export const UserLayout: FC<PropsWithChildren<UserLayoutProps>> = ({
 	const baseUrl = `/user/${params.userId}`
 
 	useEffect(() => {
-		if (!isSettingsPage) return
-		if (user?.id === params.userId) return
+		if (!isSettingsPage || !user || user?.id === params.userId) return
 		redirect(`/dashboard`)
 	}, [isSettingsPage, params.userId, pathname, user])
 	return (

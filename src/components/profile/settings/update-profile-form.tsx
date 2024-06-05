@@ -1,3 +1,5 @@
+"use client"
+
 import { type FC } from "react"
 import { useForm } from "react-hook-form"
 import { type z } from "zod"
@@ -19,14 +21,14 @@ type UpdateProfileFormProps = {
 	profile: Profile
 }
 
-export const UpdateProfileForm: FC<UpdateProfileFormProps> = () => {
+export const UpdateProfileForm: FC<UpdateProfileFormProps> = ({ profile }) => {
 	const form = useForm<z.infer<typeof updateUserFormSchema>>({
 		mode: "onSubmit",
 		resolver: zodResolver(updateUserFormSchema),
 		defaultValues: {
-			email: "",
-			password: "",
-			username: ""
+			username: profile.username,
+			email: profile.email,
+			password: ""
 		}
 	})
 
