@@ -16,6 +16,7 @@ import {
 	FormMessage
 } from "@/components/shadcn/form"
 import { Input } from "@/components/shadcn/input"
+import { UserAvatar } from "./user-avatar"
 
 type UpdateProfileFormProps = {
 	profile: Profile
@@ -42,19 +43,32 @@ export const UpdateProfileForm: FC<UpdateProfileFormProps> = ({ profile }) => {
 				onSubmit={form.handleSubmit(onSubmit)}
 				className="flex flex-col space-y-4"
 			>
-				<FormField
-					control={form.control}
-					name="username"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Username</FormLabel>
-							<FormControl>
-								<Input {...field} type="text" placeholder="Your username..." />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
+				<div className="flex w-full items-center gap-4">
+					<FormField
+						control={form.control}
+						name="username"
+						render={({ field }) => (
+							<FormItem className="w-full">
+								<FormLabel>Username</FormLabel>
+								<FormControl>
+									<Input
+										{...field}
+										type="text"
+										placeholder="Your username..."
+									/>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<UserAvatar
+						src={profile.avatar ?? "/user-round.svg"}
+						alt={profile.username + "avatar"}
+						className="aspect-square w-20 rounded-full object-cover"
+						width={2048}
+						height={2048}
+					/>
+				</div>
 				<FormField
 					control={form.control}
 					name="email"
