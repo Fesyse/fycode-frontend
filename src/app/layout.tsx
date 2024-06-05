@@ -21,8 +21,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: PropsWithChildren) {
 	return (
-		<html suppressHydrationWarning lang="en" className={comfortaa.variable}>
-			<body suppressHydrationWarning>
+		<html lang="en" className={comfortaa.variable}>
+			<body>
 				<Providers>{children}</Providers>
 			</body>
 		</html>

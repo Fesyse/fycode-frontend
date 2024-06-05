@@ -1,5 +1,14 @@
 "use client"
 
+import { useRef, type FC } from "react"
+import { useRouter } from "next/navigation"
+import { useForm } from "react-hook-form"
+import { type z } from "zod"
+import { motion, type MotionProps } from "framer-motion"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { type FormsProps } from "."
+import { useTabResize } from "@/hooks/useTabResize"
+import { useRegister } from "@/hooks/auth/useRegister"
 import {
 	Form,
 	FormControl,
@@ -8,26 +17,9 @@ import {
 	FormLabel,
 	FormMessage
 } from "@/components/shadcn/form"
-import { useForm } from "react-hook-form"
 import { Input } from "@/components/shadcn/input"
 import { Button } from "@/components/shadcn/button"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { motion, type MotionProps } from "framer-motion"
-import { z } from "zod"
-import { useRef, type FC } from "react"
-import { type FormsProps } from "."
-import { useTabResize } from "@/hooks/useTabResize"
-import { useRegister } from "@/hooks/auth/useRegister"
-import { useRouter } from "next/navigation"
-
-const registerFormSchema = z.object({
-	email: z.string().email(),
-	password: z
-		.string()
-		.min(8, "Password must be at least 8 characters long")
-		.regex(/(.*[0-9]){3}.*/, "Password must have at least 3 digits"),
-	username: z.string().min(4, "Username must be at least 4 characters long")
-})
+import { registerFormSchema } from "@/lib/schemas"
 
 export const Register: FC<FormsProps> = ({
 	setCurrentTab,

@@ -13,20 +13,13 @@ import { Button } from "@/components/shadcn/button"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { motion, type MotionProps } from "framer-motion"
-import { z } from "zod"
 import { useRef, type FC } from "react"
 import { type FormsProps } from "."
 import { useTabResize } from "@/hooks/useTabResize"
 import { useLogin } from "@/hooks/auth/useLogin"
 import { useRouter } from "next/navigation"
-
-const loginFormSchema = z.object({
-	email: z.string().email(),
-	password: z
-		.string()
-		.min(8, "Password must be at least 8 characters long")
-		.regex(/(.*[0-9]){3}.*/, "Password must have at least 3 digits")
-})
+import { loginFormSchema } from "@/lib/schemas"
+import { type z } from "zod"
 
 export const Login: FC<FormsProps> = ({
 	setCurrentTab,
