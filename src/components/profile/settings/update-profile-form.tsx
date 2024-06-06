@@ -1,6 +1,6 @@
 "use client"
 
-import { type FC } from "react"
+import { useEffect, type FC } from "react"
 import { useForm } from "react-hook-form"
 import { type z } from "zod"
 import { type Profile } from "@/types/user.type"
@@ -17,12 +17,14 @@ import {
 } from "@/components/shadcn/form"
 import { Input } from "@/components/shadcn/input"
 import { UserAvatar } from "./user-avatar"
+import { useUpdateUser } from "@/hooks/user/useUpdateUser"
 
 type UpdateProfileFormProps = {
 	profile: Profile
 }
 
 export const UpdateProfileForm: FC<UpdateProfileFormProps> = ({ profile }) => {
+	const { mutateAsync: updateAvatar } = useUpdateUser(profile.id)
 	const form = useForm<z.infer<typeof updateUserFormSchema>>({
 		mode: "onSubmit",
 		resolver: zodResolver(updateUserFormSchema),
@@ -33,8 +35,12 @@ export const UpdateProfileForm: FC<UpdateProfileFormProps> = ({ profile }) => {
 		}
 	})
 
-	const onSubmit = () => {
-		return
+	const onSubmit = async (data: z.infer<typeof updateUserFormSchema>) => {
+		const user = await updateAvatar(data)
+		form.reset({
+			email: user.email,
+			username: user.username
+		})
 	}
 
 	return (
@@ -63,7 +69,7 @@ export const UpdateProfileForm: FC<UpdateProfileFormProps> = ({ profile }) => {
 					/>
 					<UserAvatar
 						src={profile.avatar ?? "/user-round.svg"}
-						alt={profile.username + "avatar"}
+						alt={profile.username + "-avatar"}
 						className="aspect-square w-20 rounded-full object-cover"
 						width={2048}
 						height={2048}

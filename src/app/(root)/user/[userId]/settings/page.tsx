@@ -23,6 +23,9 @@ export default async function SettingsPage({
 
 	return (
 		<main className="mx-auto w-full max-w-xl">
+			<head>
+				<title>{"Settings | " + profile.username + " | Fycode"}</title>
+			</head>
 			<Card>
 				<CardHeader>
 					<CardTitle>Update profile</CardTitle>

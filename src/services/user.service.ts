@@ -1,4 +1,6 @@
 import { axios, axiosWithAuth } from "@/api/interceptors"
+import { type z } from "zod"
+import { type updateUserFormSchema } from "@/lib/schemas"
 import type { ProblemsCount, Profile, User } from "@/types/user.type"
 
 class UserService {
@@ -23,15 +25,23 @@ class UserService {
 		return response.data
 	}
 
-	async update() {
-		const response = await axiosWithAuth.put<User>(`${this.BASE_URL}/update`)
+	async update(data: z.infer<typeof updateUserFormSchema>) {
+		const response = await axiosWithAuth.put<User>(
+			`${this.BASE_URL}/update`,
+			data
+		)
 		return response.data
 	}
 
 	async updateAvatar(formData: FormData) {
 		const response = await axiosWithAuth.patch<User>(
 			`${this.BASE_URL}/update-avatar`,
-			formData
+			formData,
+			{
+				headers: {
+					"Content-Type": "multipart/form-data"
+				}
+			}
 		)
 		return response.data
 	}
