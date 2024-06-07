@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, type FC } from "react"
+import { type FC } from "react"
 import { useForm } from "react-hook-form"
 import { type z } from "zod"
 import { type Profile } from "@/types/user.type"

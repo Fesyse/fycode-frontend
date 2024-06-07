@@ -1,4 +1,6 @@
-import type { FC, ChangeEventHandler } from "react"
+"use client"
+
+import { type FC, useEffect } from "react"
 import Image, { type ImageProps } from "next/image"
 import { Pen } from "lucide-react"
 import {
@@ -8,36 +10,59 @@ import {
 	TooltipTrigger
 } from "@/components/shadcn/tooltip"
 import { useUpdateAvatar } from "@/hooks/user/useUpdateAvatar"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
+import { imageSchema } from "@/lib/schemas"
+import { zodResolver } from "@hookform/resolvers/zod"
+// import { useForm } from "react-hook-form"
 
 type UserAvatarProps = ImageProps & { src?: string }
 
+type UpdateAvatarForm = {
+	avatar: FileList
+}
+
 export const UserAvatar: FC<UserAvatarProps> = ({ alt, ...props }) => {
 	const { mutate: updateAvatar } = useUpdateAvatar()
+	const form = useForm<UpdateAvatarForm>({
+		resolver: zodResolver(imageSchema),
+		mode: "onChange"
+	})
 
-	const handleSubmit: ChangeEventHandler<HTMLInputElement> = e => {
+	const onSubmit = (data: UpdateAvatarForm) => {
+		if (!data.avatar[0]) return toast.error("File must be uploaded.")
+
 		const formData = new FormData()
-		formData.append("avatar", e.target.files![0] as Blob)
+		formData.append("avatar", data.avatar[0])
 
 		updateAvatar(formData)
 	}
 
+	console.log(form.getValues())
+
+	useEffect(() => {
+		const subscription = form.watch(() => void form.handleSubmit(onSubmit)())
+		return () => subscription.unsubscribe()
+	}, [form.handleSubmit, form.watch])
+
 	return (
-		<TooltipProvider>
-			<Tooltip delayDuration={0}>
-				<TooltipTrigger asChild>
-					<button className="relative">
-						<Image alt={alt} {...props} />
-						<Pen size={18} className="absolute -right-1 -top-1" />
-						<input
-							name="avatar"
-							type="file"
-							onChange={handleSubmit}
-							className="absolute left-0 top-0 h-full w-full opacity-0"
-						/>
-					</button>
-				</TooltipTrigger>
-				<TooltipContent>Change your avatar</TooltipContent>
-			</Tooltip>
-		</TooltipProvider>
+		<form>
+			<TooltipProvider>
+				<Tooltip delayDuration={0}>
+					<TooltipTrigger asChild>
+						<button className="relative">
+							<Image alt={alt} {...props} />
+							<Pen size={18} className="absolute -right-1 -top-1" />
+							<input
+								{...form.register("avatar")}
+								type="file"
+								className="absolute left-0 top-0 h-full w-full opacity-0"
+							/>
+						</button>
+					</TooltipTrigger>
+					<TooltipContent>Change your avatar</TooltipContent>
+				</Tooltip>
+			</TooltipProvider>
+		</form>
 	)
 }
