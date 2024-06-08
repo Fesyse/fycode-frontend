@@ -18,6 +18,7 @@ import {
 import { Separator } from "@/components/shadcn/separator"
 import { Skeleton } from "@/components/shadcn/skeleton"
 import { Options, type OptionsProps } from "./options"
+import { TabsetLoading } from "./tabset/tabset-loading"
 
 export const CodeEditorLoading = () => {
 	const [language, setLanguage] = useState<Languages>(Languages.JAVASCRIPT)
@@ -70,11 +71,9 @@ export const CodeEditorLoading = () => {
 					</Card>
 				</ResizablePanel>
 				<ResizableHandle withHandle />
-				<ResizablePanel
-					className="pt-3"
-					minSize={25}
-					defaultSize={40}
-				></ResizablePanel>
+				<ResizablePanel className="pt-3" minSize={25} defaultSize={40}>
+					<TabsetLoading />
+				</ResizablePanel>
 			</ResizablePanelGroup>
 		</>
 	)

@@ -11,7 +11,7 @@ export const Results: FC<ResultsProps> = ({ problem }) => {
 	const { error, results, getResults } = useResultsStore(s => s)
 
 	useEffect(() => {
-		if (!problem || results) return
+		if (results) return
 		getResults(problem.id)
 	}, [results, problem, getResults])
 	return error ? (
