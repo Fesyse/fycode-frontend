@@ -51,13 +51,6 @@ export const Description: FC<DescriptionProps> = ({ problem }) => {
 	return (
 		<Card className="h-full overflow-hidden rounded-xl">
 			<CardHeader className="bg-muted py-3">
-				{/* {isProblemLoading || !problem ? (
-					<div className="flex gap-2">
-						<Skeleton className="h-6 w-5 bg-muted-foreground/25" />
-						<Skeleton className="h-6 w-1/3 bg-muted-foreground/25" />
-					</div>
-				) : (
-				)} */}
 				<CardTitle>{`${problem.id}. ${problem.title}`}</CardTitle>
 			</CardHeader>
 			<CardContent className="h-full bg-editor px-0 pt-2">
@@ -83,7 +76,6 @@ export const Description: FC<DescriptionProps> = ({ problem }) => {
 								</Tooltip>
 							</p>
 						</TooltipProvider>
-
 						<Separator />
 						<div className="flex items-center gap-4">
 							<Tag />

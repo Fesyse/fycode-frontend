@@ -5,6 +5,7 @@ import {
 	ResizablePanel,
 	ResizablePanelGroup
 } from "@/components/shadcn/resizable"
+import { sleep } from "@/lib/utils"
 import { problemService } from "@/services/problem.service"
 import { userService } from "@/services/user.service"
 import { redirect } from "next/navigation"
@@ -17,6 +18,7 @@ export default async function Page({ params }: { params: { id: string } }) {
 	} catch {}
 	let problem = undefined
 	try {
+		await sleep(10000)
 		problem = await problemService.getById(params.id, user?.id)
 	} catch {
 		toast.error("Problem with given id was not found")
