@@ -1,24 +1,20 @@
 import { type FC, useEffect } from "react"
 import type { ExtendedProblem } from "@/types/problem.type"
 import { useResultsStore } from "@/stores/problem/results.store"
-import { Skeleton } from "../../shadcn/skeleton"
 import { Label } from "../../shadcn/label"
 
 type ResultsProps = {
-	problem: ExtendedProblem | undefined
-	isLoading: boolean
+	problem: ExtendedProblem
 }
 
-export const Results: FC<ResultsProps> = ({ problem, isLoading }) => {
+export const Results: FC<ResultsProps> = ({ problem }) => {
 	const { error, results, getResults } = useResultsStore(s => s)
 
 	useEffect(() => {
 		if (!problem || results) return
 		getResults(problem.id)
 	}, [results, problem, getResults])
-	return isLoading ? (
-		<Skeleton className="h-[10rem] w-full bg-muted-foreground/25" />
-	) : error ? (
+	return error ? (
 		<div className="flex flex-col gap-2 text-xl">
 			<span className="text-red-600">Compile error</span>
 			<div className="rounded-md bg-red-600/25 px-3 py-1.5 text-red-200">

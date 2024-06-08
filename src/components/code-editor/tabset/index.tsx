@@ -9,15 +9,13 @@ import { Results } from "./results"
 import { Tests } from "./tests"
 
 export type TabsetProps = {
-	problem: ExtendedProblem | undefined
+	problem: ExtendedProblem
 	height: number
-	isProblemLoading: boolean
 }
 
 export const Tabset: FC<TabsetProps> = memo(function Tabset({
 	problem,
-	height,
-	isProblemLoading
+	height
 }) {
 	const [tab, setTab] = useState<"tests" | "results">("tests")
 
@@ -78,7 +76,7 @@ export const Tabset: FC<TabsetProps> = memo(function Tabset({
 								className="h-full"
 								{...motionSectionProps}
 							>
-								<Tests isLoading={isProblemLoading} problem={problem} />
+								<Tests problem={problem} />
 							</motion.section>
 						) : (
 							<motion.section
@@ -86,7 +84,7 @@ export const Tabset: FC<TabsetProps> = memo(function Tabset({
 								className="h-full"
 								{...motionSectionProps}
 							>
-								<Results isLoading={isProblemLoading} problem={problem} />
+								<Results problem={problem} />
 							</motion.section>
 						)}
 					</AnimatePresence>

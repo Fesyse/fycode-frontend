@@ -4,9 +4,7 @@ import { useEffect, useRef, useState, type FC } from "react"
 import { Code } from "lucide-react"
 import { Editor, type OnMount } from "@monaco-editor/react"
 import { type editor } from "monaco-editor"
-import { useParams } from "next/navigation"
 import { Languages } from "@/types/languages.type"
-import { useProblem } from "@/hooks/problem/useProblem"
 import {
 	Card,
 	CardContent,
@@ -22,15 +20,14 @@ import { Separator } from "../shadcn/separator"
 import { Options, type OptionsProps } from "./options"
 import { Tabset, type TabsetProps } from "./tabset"
 import { useEditorValueStore } from "@/stores/problem/editor.store"
+import { type ExtendedProblem } from "@/types/problem.type"
 
 type CodeEditorProps = {
+	problem: ExtendedProblem
 	defaultValue?: string
 }
 
-export const CodeEditor: FC<CodeEditorProps> = () => {
-	const { id } = useParams<{ id: string }>()
-	const { data: problem, isLoading: isProblemLoading } = useProblem(id)
-
+export const CodeEditor: FC<CodeEditorProps> = ({ problem }) => {
 	const [language, setLanguage] = useState<Languages>(Languages.JAVASCRIPT)
 	const { editorValue, getEditorValue, setEditorValue } = useEditorValueStore()
 	const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null)
@@ -43,7 +40,6 @@ export const CodeEditor: FC<CodeEditorProps> = () => {
 
 	const tabsetProps: TabsetProps = {
 		height: tabsetHeight,
-		isProblemLoading,
 		problem
 	}
 	const optionsProps: OptionsProps = {
@@ -60,7 +56,6 @@ export const CodeEditor: FC<CodeEditorProps> = () => {
 	}, [problem])
 
 	useEffect(() => {
-		if (!problem) return
 		const editorValueFromLocalstorage = getEditorValue(language, problem.id)
 		if (editorValueFromLocalstorage.length) {
 			setEditorValue(editorValueFromLocalstorage, language, problem.id)

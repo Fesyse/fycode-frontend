@@ -1,4 +1,6 @@
-import { useEffect, useState, type FC } from "react"
+"use client"
+
+import { useState, type FC } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { CircleHelp, Tag, ThumbsDown, ThumbsUp } from "lucide-react"
@@ -14,11 +16,9 @@ import {
 } from "@/components/shadcn/card"
 import { ScrollArea } from "@/components/shadcn/scroll-area"
 import { Separator } from "@/components/shadcn/separator"
-import { Skeleton } from "@/components/shadcn/skeleton"
 import { Badge } from "@/components/shadcn/badge"
 import { Button } from "@/components/shadcn/button"
-import { DescriptionLoading } from "./description-loading"
-import { MarkdownRenderer } from "./markdown-renderer"
+import { MarkdownRenderer } from "@/components/ui/markdown-renderer"
 import {
 	Tooltip,
 	TooltipContent,
@@ -27,12 +27,10 @@ import {
 } from "@/components/shadcn/tooltip"
 
 type DescriptionProps = {
-	problem: ExtendedProblem | undefined
-	isLoading: boolean
-	isError: boolean
+	problem: ExtendedProblem
 }
 
-export const Description: FC<DescriptionProps> = ({ problem, isLoading }) => {
+export const Description: FC<DescriptionProps> = ({ problem }) => {
 	const [likes, setLikes] = useState<number>(problem?.likes ?? 0)
 	const { mutateAsync: react } = useReaction(problem?.id ?? 1)
 	const [reactionState, setReactionState] = useState({
@@ -41,7 +39,7 @@ export const Description: FC<DescriptionProps> = ({ problem, isLoading }) => {
 	})
 
 	const handleReaction = async (type: "like" | "dislike") => {
-		const undo = reactionState[type]!
+		const undo = reactionState[type]
 		const likes = await react({ type, undo })
 		setLikes(likes)
 		setReactionState({
@@ -50,26 +48,17 @@ export const Description: FC<DescriptionProps> = ({ problem, isLoading }) => {
 		})
 	}
 
-	useEffect(() => {
-		if (!problem) return
-		setLikes(problem.likes)
-		setReactionState({
-			like: false,
-			dislike: false
-		})
-	}, [problem])
-
 	return (
 		<Card className="h-full overflow-hidden rounded-xl">
 			<CardHeader className="bg-muted py-3">
-				{isLoading || !problem ? (
+				{/* {isProblemLoading || !problem ? (
 					<div className="flex gap-2">
 						<Skeleton className="h-6 w-5 bg-muted-foreground/25" />
 						<Skeleton className="h-6 w-1/3 bg-muted-foreground/25" />
 					</div>
 				) : (
-					<CardTitle>{`${problem.id}. ${problem.title}`}</CardTitle>
-				)}
+				)} */}
+				<CardTitle>{`${problem.id}. ${problem.title}`}</CardTitle>
 			</CardHeader>
 			<CardContent className="h-full bg-editor px-0 pt-2">
 				<ScrollArea
@@ -77,57 +66,50 @@ export const Description: FC<DescriptionProps> = ({ problem, isLoading }) => {
 					scrollbarClassName="mr-1"
 				>
 					<div className="flex flex-col gap-4">
-						{isLoading || !problem ? (
-							<DescriptionLoading />
-						) : (
-							<>
-								<MarkdownRenderer markdown={problem.description} />
-								<TooltipProvider>
-									<p className="flex gap-1">
-										function name ={" "}
-										<strong>{problem.functionOptions.name}</strong>
-										<Tooltip>
-											<TooltipTrigger asChild>
-												<CircleHelp size={18} strokeWidth={1.5} />
-											</TooltipTrigger>
-											<TooltipContent className="max-w-60 border-muted bg-editor font-normal">
-												You need to implement a function with name{" "}
-												<strong>{problem.functionOptions.name}</strong>, that
-												will solve given problem, otherwise it will throw a
-												compile error.
-											</TooltipContent>
-										</Tooltip>
-									</p>
-								</TooltipProvider>
+						<MarkdownRenderer markdown={problem.description} />
+						<TooltipProvider>
+							<p className="flex gap-1">
+								function name = <strong>{problem.functionOptions.name}</strong>
+								<Tooltip>
+									<TooltipTrigger asChild>
+										<CircleHelp size={18} strokeWidth={1.5} />
+									</TooltipTrigger>
+									<TooltipContent className="max-w-60 border-muted bg-editor font-normal">
+										You need to implement a function with name{" "}
+										<strong>{problem.functionOptions.name}</strong>, that will
+										solve given problem, otherwise it will throw a compile
+										error.
+									</TooltipContent>
+								</Tooltip>
+							</p>
+						</TooltipProvider>
 
-								<Separator />
-								<div className="flex items-center gap-4">
-									<Tag />
-									{problem.tags?.length ? (
-										<div className="-mb-1 flex items-center gap-3">
-											{problem.tags.map((tag, i) => (
-												<Badge key={i}>{tag}</Badge>
-											))}
-										</div>
-									) : (
-										<span>No tags are pinned by creator.</span>
-									)}
+						<Separator />
+						<div className="flex items-center gap-4">
+							<Tag />
+							{problem.tags?.length ? (
+								<div className="-mb-1 flex items-center gap-3">
+									{problem.tags.map((tag, i) => (
+										<Badge key={i}>{tag}</Badge>
+									))}
 								</div>
-								<Link
-									href={`/user/${problem.creator.id}`}
-									className="mt-auto flex items-center gap-2"
-								>
-									<Image
-										className="h-12 w-12 rounded-full object-cover p-1"
-										src={problem.creator.avatar ?? "/user-round.svg"}
-										width={2048}
-										height={2048}
-										alt="username-image"
-									/>
-									<span>{problem.creator.username}</span>
-								</Link>
-							</>
-						)}
+							) : (
+								<span>No tags are pinned by creator.</span>
+							)}
+						</div>
+						<Link
+							href={`/user/${problem.creator.id}`}
+							className="mt-auto flex items-center gap-2"
+						>
+							<Image
+								className="h-12 w-12 rounded-full object-cover p-1"
+								src={problem.creator.avatar ?? "/user-round.svg"}
+								width={2048}
+								height={2048}
+								alt="username-image"
+							/>
+							<span>{problem.creator.username}</span>
+						</Link>
 					</div>
 				</ScrollArea>
 				<CardFooter className="pl-4">
@@ -143,13 +125,13 @@ export const Description: FC<DescriptionProps> = ({ problem, isLoading }) => {
 								size={24}
 								strokeWidth={1}
 							/>
-							{isLoading || !problem ? (
+							{/* {isProblemLoading || !problem ? (
 								<Skeleton className="h-5 w-5 bg-muted-foreground/25" />
 							) : (
-								<span className="-mb-1 text-lg font-thin">
-									{formatNumber(likes, { useOrderSuffix: true })}
-								</span>
-							)}
+							)} */}
+							<span className="-mb-1 text-lg font-thin">
+								{formatNumber(likes, { useOrderSuffix: true })}
+							</span>
 						</Button>
 						<Button
 							size="icon"
