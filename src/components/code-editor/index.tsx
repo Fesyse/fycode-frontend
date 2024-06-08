@@ -71,7 +71,7 @@ export const CodeEditor: FC<CodeEditorProps> = ({ problem }) => {
 		<>
 			{/* eslint-disable-next-line @next/next/no-head-element */}
 			<head>
-				<title>{(problem ? problem.title : "Problem") + " | Fycode"}</title>
+				<title>{`${problem.title} | Fycode`}</title>
 			</head>
 			<ResizablePanelGroup direction="vertical">
 				<ResizablePanel className="pb-3" minSize={50} defaultSize={75}>

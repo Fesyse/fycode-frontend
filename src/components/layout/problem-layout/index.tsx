@@ -17,7 +17,7 @@ export const ProblemLayout: FC<PropsWithChildren<ProblemLayoutProps>> = ({
 	return (
 		<main className="flex h-screen max-h-screen w-full flex-col gap-3 overflow-hidden p-4">
 			<Header problemId={problem?.id} />
-			<section className="flex h-full items-center justify-center">
+			<section className="flex h-[calc(100vh-5rem)] items-center justify-center">
 				{children}
 			</section>
 		</main>
