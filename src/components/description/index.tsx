@@ -32,11 +32,11 @@ type DescriptionProps = {
 }
 
 export const Description: FC<DescriptionProps> = ({ problem }) => {
-	const [likes, setLikes] = useState<number>(problem?.likes ?? 0)
-	const { mutateAsync: react } = useReaction(problem?.id ?? 1)
+	const [likes, setLikes] = useState<number>(problem.likes)
+	const { mutateAsync: react } = useReaction(problem.id)
 	const [reactionState, setReactionState] = useState({
-		like: problem?.isLikedProblem,
-		dislike: problem?.isDislikedProblem
+		like: problem.isLikedProblem,
+		dislike: problem.isDislikedProblem
 	})
 
 	const handleReaction = async (type: "like" | "dislike") => {
