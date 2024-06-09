@@ -9,7 +9,7 @@ type LinksProps = {
 
 export const Links: FC<LinksProps> = ({ orientation = "horizontal" }) => {
 	return (
-		<div
+		<nav
 			className={cn("flex max-lg:text-sm", {
 				"flex-col items-start gap-3": orientation === "vertical",
 				"flex-row items-center gap-10 max-xl:gap-6":
@@ -22,20 +22,24 @@ export const Links: FC<LinksProps> = ({ orientation = "horizontal" }) => {
 			>
 				Popular problem
 			</Link>
-			<Separator className="h-5" orientation="vertical" />
+			{orientation === "horizontal" ? (
+				<Separator className="h-5" orientation="horizontal" />
+			) : null}
 			<Link
 				href="/dashboard"
 				className="before:h-px before:w-full before:scale-x-0 before:bg-white before:content-['']"
 			>
 				Dashboard
 			</Link>
-			<Separator className="h-5" orientation="vertical" />
+			{orientation === "horizontal" ? (
+				<Separator className="h-5" orientation="horizontal" />
+			) : null}
 			<Link
 				href="/create-problem"
 				className="before:h-px before:w-full before:scale-x-0 before:bg-white before:content-['']"
 			>
 				Create problem
 			</Link>
-		</div>
+		</nav>
 	)
 }
