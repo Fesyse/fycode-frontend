@@ -22,13 +22,14 @@ export const HOME_PAGE_CARD_ROUTES: HomePageCardRoute[] = [
 	{
 		title: (
 			<Fragment>
-				<LayoutDashboard /> Dashboard
+				<LayoutDashboard className="max-[1120px]:h-5 max-[1120px]:w-5" />
+				Dashboard
 			</Fragment>
 		),
 		description: (
 			<Fragment>
 				Find your favorite problems, depending on your programming skills.
-				<Rocket className="ml-1 inline" />
+				<Rocket className="ml-1 inline max-[1120px]:h-5 max-[1120px]:w-5" />
 			</Fragment>
 		),
 		link: "/dashboard"
@@ -36,13 +37,13 @@ export const HOME_PAGE_CARD_ROUTES: HomePageCardRoute[] = [
 	{
 		title: (
 			<Fragment>
-				<User2 /> Your profile
+				<User2 className="max-[1120px]:h-5 max-[1120px]:w-5" /> Your profile
 			</Fragment>
 		),
 		description: (
 			<Fragment>
 				See your total solved problems, and also created one's!
-				<PackageCheck className="ml-1 inline" />
+				<PackageCheck className="ml-1 inline max-[1120px]:h-5 max-[1120px]:w-5" />
 			</Fragment>
 		),
 		link: "/profile"
@@ -50,13 +51,14 @@ export const HOME_PAGE_CARD_ROUTES: HomePageCardRoute[] = [
 	{
 		title: (
 			<Fragment>
-				<Package /> Your last problem
+				<Package className="max-[1120px]:h-5 max-[1120px]:w-5" /> Your last
+				problem
 			</Fragment>
 		),
 		description: (
 			<Fragment>
 				Go back to your last problem, that you was trying to solve.
-				<ArchiveRestore className="ml-1 inline" />
+				<ArchiveRestore className="ml-1 inline max-[1120px]:h-5 max-[1120px]:w-5" />
 			</Fragment>
 		),
 		link: lastUserProblemId ? `/problem/${lastUserProblemId}` : "/dashboard"
