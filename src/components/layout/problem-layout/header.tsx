@@ -1,80 +1,61 @@
-import {
-	ChevronRight,
-	ChevronLeft,
-	Shuffle,
-	LayoutDashboard,
-	Rocket
-} from "lucide-react"
+import { Rocket } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { type FC } from "react"
-import {
-	Tooltip,
-	TooltipContent,
-	TooltipProvider,
-	TooltipTrigger
-} from "@/components/shadcn/tooltip"
+import { toast } from "sonner"
+
+import { Profile } from "@/components/layout/root-layout/header/profile"
 import { Button } from "@/components/shadcn/button"
 import { Logo } from "@/components/ui/logo"
-import { useProblemId } from "@/hooks/problem/useProblemId"
-import { Profile } from "@/components/layout/root-layout/header/profile"
+
 import {
 	type AttemptFunctionProps,
 	useAttemptProblem
 } from "@/hooks/problem/useAttemptProblem"
-import { useTestsStore } from "@/stores/problem/tests.store"
-import { useEditorValueStore } from "@/stores/problem/editor.store"
-import { toast } from "sonner"
+
+import { ProblemNavigation } from "./problem-navigation"
 import { parseValue } from "@/lib/utils"
+import { useEditorValueStore } from "@/stores/problem/editor.store"
+import { useTestsStore } from "@/stores/problem/tests.store"
 import { useUserStore } from "@/stores/user.store"
 
 type HeaderProps = { problemId: number | undefined }
 
 export const Header: FC<HeaderProps> = ({ problemId }) => {
 	const router = useRouter()
-	const { mutateAsync: getProblemId } = useProblemId()
 	const user = useUserStore(s => s.user)
 	const { tests } = useTestsStore()
 	const { editorValue } = useEditorValueStore()
 	const { mutate: attemptProblem } = useAttemptProblem(problemId ?? 1)
-
-	const handleButtonSubmit = async (type: "next" | "prev" | "random") => {
-		if (!problemId) return
-		const { id } = await getProblemId({
-			currentProblemId: isNaN(+problemId) ? 1 : problemId,
-			type
-		})
-		if (id) router.push(`/problem/${id}`)
-	}
 	const handleAttempt = async (type: "attempt" | "submit") => {
 		if (!user) {
 			toast.error(`You must be logged in, to ${type} problem.`)
 			return router.push(`/auth?callbackUrl=/problem/${problemId}`)
 		}
-		let checker = true
-		const opts: AttemptFunctionProps =
-			type === "attempt"
-				? {
-						type,
-						data: {
-							code: editorValue,
-							tests: tests.map((test, i) => ({
-								input: test.input.map(arg => {
-									if (!arg.value.length) {
-										toast.error(
-											`At test ${i + 1} argument ${arg.name} is not provided.`
-										)
-										checker = false
-										return ""
-									}
+		try {
+			const opts: AttemptFunctionProps =
+				type === "attempt"
+					? {
+							type,
+							data: {
+								code: editorValue,
+								tests: tests.map((test, i) => ({
+									input: test.input.map(arg => {
+										if (!arg.value.length) {
+											toast.error(
+												`At test ${i + 1} argument ${arg.name} is not provided.`
+											)
+											throw new Error()
+										}
 
-									return parseValue(arg.value, arg.type)
-								})
-							}))
+										return parseValue(arg.value, arg.type)
+									})
+								}))
+							}
 						}
-					}
-				: { type, data: { code: editorValue } }
-		if (checker) attemptProblem(opts)
+					: { type, data: { code: editorValue } }
+			attemptProblem(opts)
+		} catch {}
 	}
 
 	return (
@@ -83,71 +64,7 @@ export const Header: FC<HeaderProps> = ({ problemId }) => {
 				<Link href="/dashboard">
 					<Logo className="text-lg" />
 				</Link>
-				<div className="group flex gap-[0.125rem] overflow-hidden rounded-lg">
-					<TooltipProvider>
-						<Tooltip>
-							<TooltipTrigger>
-								<Link href="/dashboard">
-									<Button
-										size="smallIcon"
-										variant="ghost"
-										className="h-8 w-8 rounded-sm p-[0.3rem] group-hover:bg-muted"
-									>
-										<LayoutDashboard />
-									</Button>
-								</Link>
-							</TooltipTrigger>
-							<TooltipContent>
-								<p>Dashboard</p>
-							</TooltipContent>
-						</Tooltip>
-						<Tooltip>
-							<TooltipTrigger>
-								<Button
-									size="smallIcon"
-									onClick={() => handleButtonSubmit("prev")}
-									variant="ghost"
-									className="h-8 w-8 rounded-sm p-[0.3rem] group-hover:bg-muted"
-								>
-									<ChevronLeft />
-								</Button>
-							</TooltipTrigger>
-							<TooltipContent>
-								<p>Next problem</p>
-							</TooltipContent>
-						</Tooltip>
-						<Tooltip>
-							<TooltipTrigger>
-								<Button
-									size="smallIcon"
-									onClick={() => handleButtonSubmit("next")}
-									variant="ghost"
-									className="h-8 w-8 rounded-sm p-[0.3rem] group-hover:bg-muted"
-								>
-									<ChevronRight />
-								</Button>
-							</TooltipTrigger>
-							<TooltipContent>
-								<p>Previous problem</p>
-							</TooltipContent>
-						</Tooltip>
-						<Tooltip>
-							<TooltipTrigger>
-								<Button
-									size="smallIcon"
-									onClick={() => handleButtonSubmit("random")}
-									variant="ghost"
-									className="h-8 w-8 rounded-sm p-[0.3rem] group-hover:bg-muted"
-								>
-									<Shuffle />
-								</Button>
-							</TooltipTrigger>
-							<TooltipContent>
-								<p>Random problem</p>
-							</TooltipContent>
-						</Tooltip>
-					</TooltipProvider>
-				</div>
+				<ProblemNavigation problemId={problemId} />
 			</div>
 			<div className="flex gap-2">
 				<Button
