@@ -58,13 +58,13 @@ export const CodeEditorLoading = () => {
 									<span className="opacity-50">5</span>
 									<span className="opacity-50">6</span>
 								</div>
-								<div className="flex flex-col gap-1">
-									<Skeleton className="h-5 w-96 bg-muted-foreground/25" />
-									<Skeleton className="h-5 w-28 bg-muted-foreground/25" />
-									<Skeleton className="h-5 w-72 bg-muted-foreground/25" />
-									<Skeleton className="h-5 w-64 bg-muted-foreground/25" />
-									<Skeleton className="h-5 w-60 bg-muted-foreground/25" />
-									<Skeleton className="h-5 w-36 bg-muted-foreground/25" />
+								<div className="flex flex-col gap-1 pr-2">
+									<Skeleton className="h-5 w-full max-w-96 bg-muted-foreground/25" />
+									<Skeleton className="h-5 w-full max-w-28 bg-muted-foreground/25" />
+									<Skeleton className="h-5 w-full max-w-72 bg-muted-foreground/25" />
+									<Skeleton className="h-5 w-full max-w-64 bg-muted-foreground/25" />
+									<Skeleton className="h-5 w-full max-w-60 bg-muted-foreground/25" />
+									<Skeleton className="h-5 w-full max-w-36 bg-muted-foreground/25" />
 								</div>
 							</div>
 						</CardContent>

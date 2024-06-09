@@ -7,6 +7,7 @@ import { Card, CardHeader, CardContent } from "@/components/shadcn/card"
 import { ScrollArea } from "@/components/shadcn/scroll-area"
 import { Results } from "./results"
 import { Tests } from "./tests"
+import { useMediaQuery } from "@/hooks/useMediaQuery"
 
 export type TabsetProps = {
 	problem: ExtendedProblem
@@ -18,6 +19,7 @@ export const Tabset: FC<TabsetProps> = memo(function Tabset({
 	height
 }) {
 	const [tab, setTab] = useState<"tests" | "results">("tests")
+	const isMobile = useMediaQuery("(max-width: 760px)")
 
 	const motionSectionProps: MotionProps = {
 		transition: {
@@ -64,7 +66,7 @@ export const Tabset: FC<TabsetProps> = memo(function Tabset({
 			<CardContent className="bg-editor px-0 py-3">
 				<ScrollArea
 					style={{
-						height: `calc(${height}vh - 7.25rem)`
+						height: `calc(${height}vh - ${isMobile ? "9rem" : "7.25rem"})`
 					}}
 					scrollbarClassName="mr-1"
 					className="flex items-center gap-4 px-6"
