@@ -23,7 +23,7 @@ export const Links: FC<LinksProps> = ({ orientation = "horizontal" }) => {
 				Popular problem
 			</Link>
 			{orientation === "horizontal" ? (
-				<Separator className="h-5" orientation="horizontal" />
+				<Separator className="h-5" orientation="vertical" />
 			) : null}
 			<Link
 				href="/dashboard"
@@ -32,7 +32,7 @@ export const Links: FC<LinksProps> = ({ orientation = "horizontal" }) => {
 				Dashboard
 			</Link>
 			{orientation === "horizontal" ? (
-				<Separator className="h-5" orientation="horizontal" />
+				<Separator className="h-5" orientation="vertical" />
 			) : null}
 			<Link
 				href="/create-problem"
