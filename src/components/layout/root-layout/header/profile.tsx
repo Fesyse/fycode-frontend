@@ -1,3 +1,5 @@
+"use client"
+
 import {
 	LogOut,
 	Package,
@@ -27,10 +29,10 @@ import { cn } from "@/lib/utils"
 import { usePathname } from "next/navigation"
 
 type ProfileProps = {
-	avatarRatio?: number
+	size?: number
 }
 
-export const Profile: React.FC<ProfileProps> = ({ avatarRatio }) => {
+export const Profile: React.FC<ProfileProps> = ({ size }) => {
 	const { user, isAuthorized, refetchUser, isLoading } = useUser()
 	const userFromStore = useUserStore(s => s.user)
 	const { logout } = useLogout()
@@ -61,7 +63,7 @@ export const Profile: React.FC<ProfileProps> = ({ avatarRatio }) => {
 			) : isLoading ? (
 				<Skeleton
 					className={cn("block aspect-square h-10 rounded-full", {
-						[`h-[${avatarRatio}px]`]: avatarRatio
+						[`h-[${size}px]`]: size
 					})}
 				/>
 			) : user && userFromStore && isAuthorized ? (
@@ -69,12 +71,16 @@ export const Profile: React.FC<ProfileProps> = ({ avatarRatio }) => {
 					<DropdownMenuTrigger>
 						<Image
 							className={cn(
-								"aspect-square h-10 w-10 rounded-full border border-border object-cover p-1",
+								"aspect-square rounded-full border border-border object-cover p-1",
 								{
-									[`h-[${avatarRatio}px]`]: avatarRatio
+									"h-10 w-10": !size
 								}
 							)}
 							src={user?.avatar ?? "/user-round.svg"}
+							style={{
+								height: size ? `${size}px` : undefined,
+								width: size ? `${size}px` : undefined
+							}}
 							width={2048}
 							height={2048}
 							alt="username-image"
