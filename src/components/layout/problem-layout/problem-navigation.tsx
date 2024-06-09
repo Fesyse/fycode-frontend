@@ -33,7 +33,7 @@ export const ProblemNavigation: FC<ProblemNavigation> = ({ problemId }) => {
 	}
 
 	return (
-		<div className="group flex gap-[0.125rem] overflow-hidden rounded-lg">
+		<nav className="group flex gap-[0.125rem] overflow-hidden rounded-lg">
 			<TooltipProvider>
 				<Tooltip>
 					<TooltipTrigger>
@@ -97,6 +97,6 @@ export const ProblemNavigation: FC<ProblemNavigation> = ({ problemId }) => {
 					</TooltipContent>
 				</Tooltip>
 			</TooltipProvider>
-		</div>
+		</nav>
 	)
 }

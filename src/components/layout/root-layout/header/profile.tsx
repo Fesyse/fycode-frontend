@@ -53,7 +53,7 @@ export const Profile: React.FC<ProfileProps> = ({ size }) => {
 	}, [refetchUser, userFromStore])
 
 	return (
-		<div className="flex w-full max-w-32 justify-end">
+		<div className="flex justify-end">
 			{!isAuthorized || !user || !userFromStore ? (
 				<Button className="flex gap-2" asChild>
 					<Link href={`/auth?callbackUrl=${lastUserPagePath}`}>
@@ -62,8 +62,12 @@ export const Profile: React.FC<ProfileProps> = ({ size }) => {
 				</Button>
 			) : isLoading ? (
 				<Skeleton
-					className={cn("block aspect-square h-10 rounded-full", {
-						[`h-[${size}px]`]: size
+					style={{
+						height: size,
+						width: size
+					}}
+					className={cn("block aspect-square rounded-full", {
+						"h-10": !size
 					})}
 				/>
 			) : user && userFromStore && isAuthorized ? (

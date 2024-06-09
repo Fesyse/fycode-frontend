@@ -1,12 +1,13 @@
 import { Rocket } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { type FC } from "react"
+import { type FC, useEffect, useRef, useState } from "react"
 import { toast } from "sonner"
 import {
 	type AttemptFunctionProps,
 	useAttemptProblem
 } from "@/hooks/problem/useAttemptProblem"
+import { useMediaQuery } from "@/hooks/useMediaQuery"
 import { Profile } from "@/components/layout/root-layout/header/profile"
 import { Button } from "@/components/shadcn/button"
 import { Logo } from "@/components/ui/logo"
@@ -24,6 +25,11 @@ export const Header: FC<HeaderProps> = ({ problemId }) => {
 	const { tests } = useTestsStore()
 	const { editorValue } = useEditorValueStore()
 	const { mutate: attemptProblem } = useAttemptProblem(problemId ?? 1)
+
+	const [profileWidth, setProfileWidth] = useState<number>(217)
+	const isMobile = useMediaQuery("(max-width: 720px)")
+	const logoWrapperRef = useRef<HTMLDivElement | null>(null)
+
 	const handleAttempt = async (type: "attempt" | "submit") => {
 		if (!user) {
 			toast.error(`You must be logged in, to ${type} problem.`)
@@ -55,15 +61,21 @@ export const Header: FC<HeaderProps> = ({ problemId }) => {
 		} catch {}
 	}
 
+	useEffect(() => {
+		if (!logoWrapperRef.current) return
+		console.log(logoWrapperRef.current.offsetWidth)
+		setProfileWidth(logoWrapperRef.current.offsetWidth)
+	}, [logoWrapperRef.current?.offsetWidth])
+
 	return (
-		<header className="flex justify-between gap-10">
-			<div className="flex w-64 items-center gap-4">
+		<header className="flex justify-between gap-10 max-lg:gap-4">
+			<div ref={logoWrapperRef} className="flex items-center gap-4">
 				<Link href="/dashboard">
 					<Logo className="text-lg" />
 				</Link>
-				<ProblemNavigation problemId={problemId} />
+				{!isMobile ? <ProblemNavigation problemId={problemId} /> : null}
 			</div>
-			<div className="flex gap-2">
+			<div className="flex gap-2 max-lg:gap-1">
 				<Button
 					onClick={() => handleAttempt("attempt")}
 					size="sm"
@@ -79,7 +91,7 @@ export const Header: FC<HeaderProps> = ({ problemId }) => {
 					Submit <Rocket />
 				</Button>
 			</div>
-			<div className="flex w-full max-w-64 justify-end">
+			<div className="flex justify-end">
 				<Profile />
 			</div>
 		</header>
