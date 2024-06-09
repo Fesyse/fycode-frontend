@@ -1,9 +1,9 @@
 import { type FC } from "react"
 import Markdown from "react-markdown"
-import remarkGfm from "remark-gfm"
-import rehypeRaw from "rehype-raw"
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism"
+import rehypeRaw from "rehype-raw"
+import remarkGfm from "remark-gfm"
 import { cn } from "@/lib/utils"
 
 type MarkdownRendererProps = {

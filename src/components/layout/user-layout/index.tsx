@@ -1,11 +1,11 @@
 "use client"
 
-import { titleString } from "@/lib/utils"
-import { useUserStore } from "@/stores/user.store"
 import Link from "next/link"
 import { redirect, usePathname } from "next/navigation"
-import { useEffect, type FC, type PropsWithChildren } from "react"
+import { type FC, type PropsWithChildren, useEffect } from "react"
 import { z } from "zod"
+import { titleString } from "@/lib/utils"
+import { useUserStore } from "@/stores/user.store"
 
 type UserLayoutProps = {
 	params: { userId: string }

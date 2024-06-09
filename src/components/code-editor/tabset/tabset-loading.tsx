@@ -1,6 +1,6 @@
-import { TestTube, BugPlay } from "lucide-react"
+import { BugPlay, TestTube } from "lucide-react"
 import { Button } from "@/components/shadcn/button"
-import { Card, CardHeader, CardContent } from "@/components/shadcn/card"
+import { Card, CardContent, CardHeader } from "@/components/shadcn/card"
 import { Skeleton } from "@/components/shadcn/skeleton"
 
 export const TabsetLoading = () => {

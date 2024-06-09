@@ -1,12 +1,12 @@
 "use client"
 
-import { useEffect, useState, type FC } from "react"
-import { buildStyles, CircularProgressbar } from "react-circular-progressbar"
+import { motion, useAnimation } from "framer-motion"
+import { Check } from "lucide-react"
+import { type FC, useEffect, useState } from "react"
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar"
 import "react-circular-progressbar/dist/styles.css"
 import { type ProblemsCount } from "@/types/user.type"
-import { Check } from "lucide-react"
 import { Button } from "../shadcn/button"
-import { motion, useAnimation } from "framer-motion"
 
 type ProblemsStatsProps = {
 	problemsCount: ProblemsCount

@@ -1,12 +1,12 @@
 import { type FC } from "react"
 import {
-	Pagination as _Pagination,
 	PaginationContent,
-	PaginationItem,
-	PaginationPrevious,
-	PaginationLink,
 	PaginationEllipsis,
-	PaginationNext
+	PaginationItem,
+	PaginationLink,
+	PaginationNext,
+	PaginationPrevious,
+	Pagination as _Pagination
 } from "../shadcn/pagination"
 import { cn } from "@/lib/utils"
 

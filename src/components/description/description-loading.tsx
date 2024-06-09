@@ -1,14 +1,14 @@
-import { ThumbsUp, ThumbsDown } from "lucide-react"
-import { Separator } from "@/components/shadcn/separator"
-import { Skeleton } from "@/components/shadcn/skeleton"
-import { ScrollArea } from "@/components/shadcn/scroll-area"
+import { ThumbsDown, ThumbsUp } from "lucide-react"
 import { Button } from "@/components/shadcn/button"
 import {
 	Card,
-	CardHeader,
 	CardContent,
-	CardFooter
+	CardFooter,
+	CardHeader
 } from "@/components/shadcn/card"
+import { ScrollArea } from "@/components/shadcn/scroll-area"
+import { Separator } from "@/components/shadcn/separator"
+import { Skeleton } from "@/components/shadcn/skeleton"
 
 export const DescriptionLoading = () => {
 	return (

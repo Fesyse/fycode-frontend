@@ -1,16 +1,16 @@
+import { ChevronDown } from "lucide-react"
+import { type FC } from "react"
 import { Languages } from "@/types/languages.type"
+import { Button } from "@/components/shadcn/button"
 import {
 	DropdownMenu,
-	DropdownMenuTrigger,
+	DropdownMenuCheckboxItem,
 	DropdownMenuContent,
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
-	DropdownMenuCheckboxItem
+	DropdownMenuTrigger
 } from "@/components/shadcn/dropdown-menu"
-import { type FC } from "react"
-import { Button } from "@/components/shadcn/button"
 import { titleString } from "@/lib/utils"
-import { ChevronDown } from "lucide-react"
 
 type SelectLanguageProps = {
 	setLanguage: React.Dispatch<React.SetStateAction<Languages>>

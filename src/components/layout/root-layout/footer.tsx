@@ -1,6 +1,6 @@
+import { GitHubLogoIcon as Github } from "@radix-ui/react-icons"
 import Image from "next/image"
 import Link from "next/link"
-import { GitHubLogoIcon as Github } from "@radix-ui/react-icons"
 import { Separator } from "@/components/shadcn/separator"
 
 export const Footer = () => {

@@ -1,12 +1,15 @@
 "use client"
 
-import { useCallback, useEffect, useMemo, useState } from "react"
 import {
 	flexRender,
 	getCoreRowModel,
 	useReactTable
 } from "@tanstack/react-table"
-
+import debounce from "lodash.debounce"
+import { useRouter, useSearchParams } from "next/navigation"
+import { useCallback, useEffect, useMemo, useState } from "react"
+import type { GetSomeProblems } from "@/types/problem.type"
+import { useProblems } from "@/hooks/problem/useProblems"
 import { Input } from "@/components/shadcn/input"
 import {
 	Table,
@@ -16,14 +19,10 @@ import {
 	TableHeader,
 	TableRow
 } from "@/components/shadcn/table"
-import type { GetSomeProblems } from "@/types/problem.type"
-import { useProblems } from "@/hooks/problem/useProblems"
-import { getColumns } from "@/lib/react-utils"
-import debounce from "lodash.debounce"
-import { SkeletonTable } from "./skeleton-table"
 import { Pagination } from "./pagination"
-import { useRouter, useSearchParams } from "next/navigation"
 import { SelectPageSize } from "./select-page-size"
+import { SkeletonTable } from "./skeleton-table"
+import { getColumns } from "@/lib/react-utils"
 
 export const Dashboard = () => {
 	const searchParams = useSearchParams()

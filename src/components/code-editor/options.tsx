@@ -1,9 +1,10 @@
-import { type FC } from "react"
-import { toast } from "sonner"
 import { Highlighter, Maximize2, RotateCcw } from "lucide-react"
 import babelPlugin from "prettier/plugins/babel"
 import estreePlugin from "prettier/plugins/estree"
+import { type FC } from "react"
+import { toast } from "sonner"
 import type { Languages } from "@/types/languages.type"
+import type { ExtendedProblem } from "@/types/problem.type"
 import { Button } from "@/components/shadcn/button"
 import {
 	Tooltip,
@@ -12,7 +13,6 @@ import {
 	TooltipTrigger
 } from "@/components/shadcn/tooltip"
 import { SelectLanguage } from "./select-language"
-import type { ExtendedProblem } from "@/types/problem.type"
 import { type EditorValueActions } from "@/stores/problem/editor.store"
 
 export type OptionsProps = {

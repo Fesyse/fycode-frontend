@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { type FC } from "react"
 import {
 	Sheet,
@@ -5,10 +6,9 @@ import {
 	SheetHeader,
 	SheetTrigger
 } from "@/components/shadcn/sheet"
+import { Logo } from "@/components/ui/logo"
 import { Menu } from "@/components/ui/menu"
 import { Links } from "./links"
-import { Logo } from "@/components/ui/logo"
-import Link from "next/link"
 
 export const Burger: FC = () => {
 	return (

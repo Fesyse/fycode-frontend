@@ -1,12 +1,12 @@
+import { type FC } from "react"
+import type { GetSomeProblems } from "@/types/problem.type"
+import { Button } from "@/components/shadcn/button"
 import {
 	DropdownMenu,
 	DropdownMenuCheckboxItem,
 	DropdownMenuContent,
 	DropdownMenuTrigger
 } from "@/components/shadcn/dropdown-menu"
-import { Button } from "@/components/shadcn/button"
-import { type FC } from "react"
-import type { GetSomeProblems } from "@/types/problem.type"
 
 type SelectPageSizeProps = {
 	problemsOptions: GetSomeProblems

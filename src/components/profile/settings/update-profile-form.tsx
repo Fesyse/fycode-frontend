@@ -1,23 +1,23 @@
 "use client"
 
+import { zodResolver } from "@hookform/resolvers/zod"
 import { type FC } from "react"
 import { useForm } from "react-hook-form"
 import { type z } from "zod"
 import { type Profile } from "@/types/user.type"
-import { updateUserFormSchema } from "@/lib/schemas"
-import { zodResolver } from "@hookform/resolvers/zod"
+import { useUpdateUser } from "@/hooks/user/useUpdateUser"
 import { Button } from "@/components/shadcn/button"
 import {
 	Form,
+	FormControl,
 	FormField,
 	FormItem,
 	FormLabel,
-	FormControl,
 	FormMessage
 } from "@/components/shadcn/form"
 import { Input } from "@/components/shadcn/input"
 import { UserAvatar } from "./user-avatar"
-import { useUpdateUser } from "@/hooks/user/useUpdateUser"
+import { updateUserFormSchema } from "@/lib/schemas"
 
 type UpdateProfileFormProps = {
 	profile: Profile

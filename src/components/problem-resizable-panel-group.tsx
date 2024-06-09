@@ -2,8 +2,8 @@
 
 import type { FC, PropsWithChildren } from "react"
 import { type PanelGroup } from "react-resizable-panels"
-import { ResizablePanelGroup } from "./shadcn/resizable"
 import { useMediaQuery } from "@/hooks/useMediaQuery"
+import { ResizablePanelGroup } from "./shadcn/resizable"
 
 type ProblemResizablePanelGroupProps = React.ComponentProps<typeof PanelGroup>
 

@@ -8,9 +8,6 @@ const config = {
 	arrowParens: "avoid",
 	importOrder: [
 		"<THIRD_PARTY_MODULES>",
-		"^@/components/(.*)$",
-		"^@/layout/(.*)$",
-		"^@/ui/(.*)$",
 		"^@/providers/(.*)$",
 		"^@/constants/(.*)$",
 		"^@/types/(.*)$",
@@ -20,11 +17,13 @@ const config = {
 		"^@/hooks/(.*)$",
 		"^@/utils/(.*)$",
 		"^@/api/(.*)$",
+		"(.scss)$",
+		"^@/components/(.*)$",
+		"^@/layout/(.*)$",
+		"^@/ui/(.*)$",
 		"^../(.*)",
-		"^./(.*)",
-		"(.scss)$"
+		"^./(.*)"
 	],
-	importOrderSeparation: true,
 	importOrderSortSpecifiers: true,
 	plugins: [
 		"prettier-plugin-tailwindcss",

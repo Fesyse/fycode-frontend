@@ -1,14 +1,15 @@
 "use client"
 
-import { useRef, type FC } from "react"
+import { type FormsProps } from "."
+import { zodResolver } from "@hookform/resolvers/zod"
+import { type MotionProps, motion } from "framer-motion"
 import { useRouter } from "next/navigation"
+import { type FC, useRef } from "react"
 import { useForm } from "react-hook-form"
 import { type z } from "zod"
-import { motion, type MotionProps } from "framer-motion"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { type FormsProps } from "."
-import { useTabResize } from "@/hooks/useTabResize"
 import { useRegister } from "@/hooks/auth/useRegister"
+import { useTabResize } from "@/hooks/useTabResize"
+import { Button } from "@/components/shadcn/button"
 import {
 	Form,
 	FormControl,
@@ -18,7 +19,6 @@ import {
 	FormMessage
 } from "@/components/shadcn/form"
 import { Input } from "@/components/shadcn/input"
-import { Button } from "@/components/shadcn/button"
 import { registerFormSchema } from "@/lib/schemas"
 
 export const Register: FC<FormsProps> = ({

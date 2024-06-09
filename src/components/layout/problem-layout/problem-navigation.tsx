@@ -7,7 +7,7 @@ import {
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { type FC } from "react"
-
+import { useProblemId } from "@/hooks/problem/useProblemId"
 import { Button } from "@/components/shadcn/button"
 import {
 	Tooltip,
@@ -15,8 +15,6 @@ import {
 	TooltipProvider,
 	TooltipTrigger
 } from "@/components/shadcn/tooltip"
-
-import { useProblemId } from "@/hooks/problem/useProblemId"
 
 type ProblemNavigation = {
 	problemId: number | undefined

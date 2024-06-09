@@ -1,13 +1,13 @@
-import { useState, memo, type FC } from "react"
-import { TestTube, BugPlay } from "lucide-react"
-import { AnimatePresence, motion, type MotionProps } from "framer-motion"
+import { AnimatePresence, type MotionProps, motion } from "framer-motion"
+import { BugPlay, TestTube } from "lucide-react"
+import { type FC, memo, useState } from "react"
 import type { ExtendedProblem } from "@/types/problem.type"
+import { useMediaQuery } from "@/hooks/useMediaQuery"
 import { Button } from "@/components/shadcn/button"
-import { Card, CardHeader, CardContent } from "@/components/shadcn/card"
+import { Card, CardContent, CardHeader } from "@/components/shadcn/card"
 import { ScrollArea } from "@/components/shadcn/scroll-area"
 import { Results } from "./results"
 import { Tests } from "./tests"
-import { useMediaQuery } from "@/hooks/useMediaQuery"
 
 export type TabsetProps = {
 	problem: ExtendedProblem

@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { HOME_PAGE_CARD_ROUTES } from "@/constants/home-page.constant"
-import { Card, CardHeader, CardTitle, CardDescription } from "../shadcn/card"
+import { Card, CardDescription, CardHeader, CardTitle } from "../shadcn/card"
 import { cn } from "@/lib/utils"
 
 export const Cards = () => {

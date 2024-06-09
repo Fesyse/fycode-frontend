@@ -1,11 +1,11 @@
 "use client"
 
 import Link from "next/link"
-import { Logo } from "@/components/ui/logo"
-import { Profile } from "./profile"
-import { Links } from "./links"
 import { useMediaQuery } from "@/hooks/useMediaQuery"
+import { Logo } from "@/components/ui/logo"
 import { Burger } from "./burger"
+import { Links } from "./links"
+import { Profile } from "./profile"
 
 export const Header = () => {
 	const isMobile = useMediaQuery("(max-width: 760px)")

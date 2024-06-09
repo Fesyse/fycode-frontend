@@ -1,8 +1,8 @@
 "use client"
 
-import type { PropsWithChildren, FC } from "react"
-import { Header } from "./header"
+import type { FC, PropsWithChildren } from "react"
 import { useProblem } from "@/hooks/problem/useProblem"
+import { Header } from "./header"
 
 type ProblemLayoutProps = {
 	problemId: string

@@ -1,10 +1,11 @@
 "use client"
 
-import { useEffect, useRef, useState, type FC } from "react"
-import { Code } from "lucide-react"
 import { Editor, type OnMount } from "@monaco-editor/react"
+import { Code } from "lucide-react"
 import { type editor } from "monaco-editor"
+import { type FC, useEffect, useRef, useState } from "react"
 import { Languages } from "@/types/languages.type"
+import { type ExtendedProblem } from "@/types/problem.type"
 import {
 	Card,
 	CardContent,
@@ -20,7 +21,6 @@ import { Separator } from "../shadcn/separator"
 import { Options, type OptionsProps } from "./options"
 import { Tabset, type TabsetProps } from "./tabset"
 import { useEditorValueStore } from "@/stores/problem/editor.store"
-import { type ExtendedProblem } from "@/types/problem.type"
 
 type CodeEditorProps = {
 	problem: ExtendedProblem

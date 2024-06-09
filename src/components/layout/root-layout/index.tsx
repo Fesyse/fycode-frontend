@@ -1,6 +1,6 @@
 import type { FC, PropsWithChildren } from "react"
-import { Header } from "@/components/layout/root-layout/header"
 import { Footer } from "@/components/layout/root-layout/footer"
+import { Header } from "@/components/layout/root-layout/header"
 
 export const RootLayout: FC<PropsWithChildren> = ({ children }) => {
 	return (

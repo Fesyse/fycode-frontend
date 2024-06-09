@@ -10,23 +10,23 @@ import {
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { useEffect } from "react"
+import { useLogout } from "@/hooks/auth/useLogout"
+import { useUser } from "@/hooks/user/useUser"
 import { Button } from "@/components/shadcn/button"
 import {
 	DropdownMenu,
 	DropdownMenuContent,
+	DropdownMenuGroup,
+	DropdownMenuItem,
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
-	DropdownMenuTrigger,
-	DropdownMenuGroup,
-	DropdownMenuItem
+	DropdownMenuTrigger
 } from "@/components/shadcn/dropdown-menu"
 import { Skeleton } from "@/components/shadcn/skeleton"
-import { useLogout } from "@/hooks/auth/useLogout"
-import { useUserStore } from "@/stores/user.store"
-import { useUser } from "@/hooks/user/useUser"
 import { cn } from "@/lib/utils"
-import { usePathname } from "next/navigation"
+import { useUserStore } from "@/stores/user.store"
 
 type ProfileProps = {
 	size?: number

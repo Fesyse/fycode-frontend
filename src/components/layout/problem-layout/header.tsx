@@ -3,16 +3,13 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { type FC } from "react"
 import { toast } from "sonner"
-
-import { Profile } from "@/components/layout/root-layout/header/profile"
-import { Button } from "@/components/shadcn/button"
-import { Logo } from "@/components/ui/logo"
-
 import {
 	type AttemptFunctionProps,
 	useAttemptProblem
 } from "@/hooks/problem/useAttemptProblem"
-
+import { Profile } from "@/components/layout/root-layout/header/profile"
+import { Button } from "@/components/shadcn/button"
+import { Logo } from "@/components/ui/logo"
 import { ProblemNavigation } from "./problem-navigation"
 import { parseValue } from "@/lib/utils"
 import { useEditorValueStore } from "@/stores/problem/editor.store"

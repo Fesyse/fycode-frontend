@@ -1,12 +1,13 @@
 "use client"
 
-import { useState, type FC } from "react"
+import { CircleHelp, Tag, ThumbsDown, ThumbsUp } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { CircleHelp, Tag, ThumbsDown, ThumbsUp } from "lucide-react"
+import { type FC, useState } from "react"
 import type { ExtendedProblem } from "@/types/problem.type"
-import { formatNumber } from "@/lib/utils"
 import { useReaction } from "@/hooks/problem/useReaction"
+import { Badge } from "@/components/shadcn/badge"
+import { Button } from "@/components/shadcn/button"
 import {
 	Card,
 	CardContent,
@@ -16,16 +17,15 @@ import {
 } from "@/components/shadcn/card"
 import { ScrollArea } from "@/components/shadcn/scroll-area"
 import { Separator } from "@/components/shadcn/separator"
-import { Badge } from "@/components/shadcn/badge"
-import { Button } from "@/components/shadcn/button"
-import { MarkdownRenderer } from "@/components/ui/markdown-renderer"
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger
 } from "@/components/shadcn/tooltip"
+import { MarkdownRenderer } from "@/components/ui/markdown-renderer"
 import { ResizablePanel } from "../shadcn/resizable"
+import { formatNumber } from "@/lib/utils"
 
 type DescriptionProps = {
 	problem: ExtendedProblem

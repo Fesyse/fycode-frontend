@@ -1,15 +1,16 @@
 "use client"
-import { type FC, useState } from "react"
+
 import { AnimatePresence } from "framer-motion"
-import { Login } from "./login"
-import { Register } from "./register"
+import { type FC, useState } from "react"
 import {
 	Card,
-	CardHeader,
-	CardTitle,
+	CardContent,
 	CardDescription,
-	CardContent
+	CardHeader,
+	CardTitle
 } from "@/components/shadcn/card"
+import { Login } from "./login"
+import { Register } from "./register"
 
 export type FormsProps = {
 	callbackUrl: string

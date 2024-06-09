@@ -1,5 +1,5 @@
-import { TableCell, TableRow } from "@/components/shadcn/table"
 import { Skeleton } from "@/components/shadcn/skeleton"
+import { TableCell, TableRow } from "@/components/shadcn/table"
 import { randomInt } from "@/lib/utils"
 
 export const SkeletonTable = () => {

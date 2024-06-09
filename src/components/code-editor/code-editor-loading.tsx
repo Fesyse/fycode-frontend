@@ -1,8 +1,7 @@
 "use client"
 
-import { useState } from "react"
 import { Code } from "lucide-react"
-import { useEditorValueStore } from "@/stores/problem/editor.store"
+import { useState } from "react"
 import { Languages } from "@/types/languages.type"
 import {
 	Card,
@@ -19,6 +18,7 @@ import { Separator } from "@/components/shadcn/separator"
 import { Skeleton } from "@/components/shadcn/skeleton"
 import { Options, type OptionsProps } from "./options"
 import { TabsetLoading } from "./tabset/tabset-loading"
+import { useEditorValueStore } from "@/stores/problem/editor.store"
 
 export const CodeEditorLoading = () => {
 	const [language, setLanguage] = useState<Languages>(Languages.JAVASCRIPT)
