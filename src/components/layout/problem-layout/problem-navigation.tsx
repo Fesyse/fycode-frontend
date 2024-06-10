@@ -15,12 +15,17 @@ import {
 	TooltipProvider,
 	TooltipTrigger
 } from "@/components/shadcn/tooltip"
+import { cn } from "@/lib/utils"
 
 type ProblemNavigation = {
+	expanded?: boolean
 	problemId: number | undefined
 }
 
-export const ProblemNavigation: FC<ProblemNavigation> = ({ problemId }) => {
+export const ProblemNavigation: FC<ProblemNavigation> = ({
+	problemId,
+	expanded = false
+}) => {
 	const router = useRouter()
 	const { mutateAsync: getProblemId } = useProblemId()
 	const handleButtonSubmit = async (type: "next" | "prev" | "random") => {
@@ -33,70 +38,127 @@ export const ProblemNavigation: FC<ProblemNavigation> = ({ problemId }) => {
 	}
 
 	return (
-		<nav className="group flex gap-[0.125rem] overflow-hidden rounded-lg">
-			<TooltipProvider>
-				<Tooltip>
-					<TooltipTrigger>
+		<nav
+			className={cn("group flex gap-[0.125rem] overflow-hidden rounded-lg", {
+				"flex-col justify-start": expanded
+			})}
+		>
+			{expanded ? (
+				<>
+					<Button className="gap-2" variant="link" asChild>
 						<Link href="/dashboard">
+							<LayoutDashboard /> Dashboard
+						</Link>
+					</Button>
+					<div className="flex gap-1 justify-between">
+						<TooltipProvider>
+							<Tooltip>
+								<TooltipTrigger>
+									<Button
+										onClick={() => handleButtonSubmit("prev")}
+										variant="ghost"
+										size="icon"
+									>
+										<ChevronLeft />
+									</Button>
+								</TooltipTrigger>
+								<TooltipContent>Previous problem</TooltipContent>
+							</Tooltip>
+							<Tooltip>
+								<TooltipTrigger>
+									<Button
+										onClick={() => handleButtonSubmit("random")}
+										variant="ghost"
+										size="icon"
+									>
+										<Shuffle />
+									</Button>
+								</TooltipTrigger>
+								<TooltipContent>
+									<p>Random problem</p>
+								</TooltipContent>
+							</Tooltip>
+							<Tooltip>
+								<TooltipTrigger>
+									<Button
+										onClick={() => handleButtonSubmit("next")}
+										variant="ghost"
+										size="icon"
+									>
+										<ChevronRight />
+									</Button>
+								</TooltipTrigger>
+								<TooltipContent>Next problem</TooltipContent>
+							</Tooltip>
+						</TooltipProvider>
+					</div>
+				</>
+			) : (
+				<TooltipProvider>
+					<Tooltip>
+						<TooltipTrigger>
 							<Button
+								asChild
 								size="smallIcon"
 								variant="ghost"
 								className="h-8 w-8 rounded-sm p-[0.3rem] group-hover:bg-muted"
 							>
-								<LayoutDashboard />
+								<Link href="/dashboard">
+									<LayoutDashboard />
+								</Link>
 							</Button>
-						</Link>
-					</TooltipTrigger>
-					<TooltipContent>
-						<p>Dashboard</p>
-					</TooltipContent>
-				</Tooltip>
-				<Tooltip>
-					<TooltipTrigger>
-						<Button
-							size="smallIcon"
-							onClick={() => handleButtonSubmit("prev")}
-							variant="ghost"
-							className="h-8 w-8 rounded-sm p-[0.3rem] group-hover:bg-muted"
-						>
-							<ChevronLeft />
-						</Button>
-					</TooltipTrigger>
-					<TooltipContent>
-						<p>Next problem</p>
-					</TooltipContent>
-				</Tooltip>
-				<Tooltip>
-					<TooltipTrigger>
-						<Button
-							size="smallIcon"
-							onClick={() => handleButtonSubmit("next")}
-							variant="ghost"
-							className="h-8 w-8 rounded-sm p-[0.3rem] group-hover:bg-muted"
-						>
-							<ChevronRight />
-						</Button>
-					</TooltipTrigger>
-					<TooltipContent>
-						<p>Previous problem</p>
-					</TooltipContent>
-				</Tooltip>
-				<Tooltip>
-					<TooltipTrigger>
-						<Button
-							size="smallIcon"
-							onClick={() => handleButtonSubmit("random")}
-							variant="ghost"
-							className="h-8 w-8 rounded-sm p-[0.3rem] group-hover:bg-muted"
-						>
-							<Shuffle />
-						</Button>
-					</TooltipTrigger>
-					<TooltipContent>
-						<p>Random problem</p>
-					</TooltipContent>
-				</Tooltip>
-			</TooltipProvider>
+						</TooltipTrigger>
+						<TooltipContent>
+							<p>Dashboard</p>
+						</TooltipContent>
+					</Tooltip>
+					<Tooltip>
+						<TooltipTrigger>
+							<Button
+								size="smallIcon"
+								onClick={() => handleButtonSubmit("prev")}
+								variant="ghost"
+								className="h-8 w-8 rounded-sm p-[0.3rem] group-hover:bg-muted"
+							>
+								<ChevronLeft />
+							</Button>
+						</TooltipTrigger>
+						<TooltipContent>
+							<p>Previous problem</p>
+						</TooltipContent>
+					</Tooltip>
+					<Tooltip>
+						<TooltipTrigger>
+							<Button
+								size="smallIcon"
+								onClick={() => handleButtonSubmit("next")}
+								variant="ghost"
+								className="h-8 w-8 rounded-sm p-[0.3rem] group-hover:bg-muted"
+							>
+								<ChevronRight />
+							</Button>
+						</TooltipTrigger>
+						<TooltipContent>
+							<p>Previous problem</p>
+						</TooltipContent>
+					</Tooltip>
+					<Tooltip>
+						<TooltipTrigger>
+							<Button
+								size="smallIcon"
+								onClick={() => handleButtonSubmit("random")}
+								variant="ghost"
+								className="h-8 w-8 rounded-sm p-[0.3rem] group-hover:bg-muted"
+							>
+								<Shuffle />
+							</Button>
+						</TooltipTrigger>
+						<TooltipContent>
+							<p>Random problem</p>
+						</TooltipContent>
+					</Tooltip>
+				</TooltipProvider>
+			)}
 		</nav>
 	)
 }

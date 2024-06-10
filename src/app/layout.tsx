@@ -1,9 +1,8 @@
-import "@/styles/globals.css"
 import { type Metadata } from "next"
-
 import { Comfortaa } from "next/font/google"
-import { Providers } from "@/components/providers"
 import { type PropsWithChildren } from "react"
+import { Providers } from "@/components/providers"
+import "@/styles/globals.css"
 
 const comfortaa = Comfortaa({
 	subsets: ["latin"],
@@ -15,8 +14,7 @@ export const metadata: Metadata = {
 		default: "Fycode",
 		template: "%s | Fycode"
 	},
-	description: "A place to test your programming skills on real problems.",
-	icons: [{ rel: "icon", url: "/favicon.ico" }]
+	description: "A place to test your programming skills on real problems."
 }
 
 export default function RootLayout({ children }: PropsWithChildren) {

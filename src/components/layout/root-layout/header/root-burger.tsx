@@ -10,16 +10,16 @@ import { Logo } from "@/components/ui/logo"
 import { Menu } from "@/components/ui/menu"
 import { Links } from "./links"
 
-export const Burger: FC = () => {
+export const RootBurger: FC = () => {
 	return (
 		<Sheet>
 			<SheetTrigger>
 				<Menu size={30} />
 			</SheetTrigger>
 			<SheetContent className="w-[300px]" side="left">
-				<SheetHeader>
+				<SheetHeader className="text-left">
 					<Link href="/">
-						<Logo className="text-2xl" />
+						<Logo className="text-3xl" />
 					</Link>
 				</SheetHeader>
 				<div className="mt-4 [&_a]:text-lg">

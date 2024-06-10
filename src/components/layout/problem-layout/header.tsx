@@ -1,7 +1,7 @@
 import { Rocket } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { type FC, useEffect, useRef, useState } from "react"
+import { type FC } from "react"
 import { toast } from "sonner"
 import {
 	type AttemptFunctionProps,
@@ -11,6 +11,7 @@ import { useMediaQuery } from "@/hooks/useMediaQuery"
 import { Profile } from "@/components/layout/root-layout/header/profile"
 import { Button } from "@/components/shadcn/button"
 import { Logo } from "@/components/ui/logo"
+import { ProblemBurger } from "./problem-burger"
 import { ProblemNavigation } from "./problem-navigation"
 import { parseValue } from "@/lib/utils"
 import { useEditorValueStore } from "@/stores/problem/editor.store"
@@ -26,9 +27,7 @@ export const Header: FC<HeaderProps> = ({ problemId }) => {
 	const { editorValue } = useEditorValueStore()
 	const { mutate: attemptProblem } = useAttemptProblem(problemId ?? 1)
 
-	const [profileWidth, setProfileWidth] = useState<number>(217)
 	const isMobile = useMediaQuery("(max-width: 720px)")
-	const logoWrapperRef = useRef<HTMLDivElement | null>(null)
 
 	const handleAttempt = async (type: "attempt" | "submit") => {
 		if (!user) {
@@ -61,19 +60,19 @@ export const Header: FC<HeaderProps> = ({ problemId }) => {
 		} catch {}
 	}
 
-	useEffect(() => {
-		if (!logoWrapperRef.current) return
-		console.log(logoWrapperRef.current.offsetWidth)
-		setProfileWidth(logoWrapperRef.current.offsetWidth)
-	}, [logoWrapperRef.current?.offsetWidth])
-
 	return (
 		<header className="flex justify-between gap-10 max-lg:gap-4">
-			<div ref={logoWrapperRef} className="flex items-center gap-4">
-				<Link href="/dashboard">
-					<Logo className="text-lg" />
-				</Link>
-				{!isMobile ? <ProblemNavigation problemId={problemId} /> : null}
+			<div className="flex items-center gap-4">
+				{!isMobile ? (
+					<>
+						<Link href="/dashboard">
+							<Logo className="text-lg" />
+						</Link>
+						<ProblemNavigation problemId={problemId} />
+					</>
+				) : (
+					<ProblemBurger problemId={problemId} />
+				)}
 			</div>
 			<div className="flex gap-2 max-lg:gap-1">
 				<Button
@@ -91,7 +90,13 @@ export const Header: FC<HeaderProps> = ({ problemId }) => {
 					Submit <Rocket />
 				</Button>
 			</div>
-			<div className="flex justify-end">
+			<div
+				style={{
+					// change if problem navigation or burger sizes are different
+					width: isMobile ? 40 : 217
+				}}
+				className="flex justify-end"
+			>
 				<Profile />
 			</div>
 		</header>
