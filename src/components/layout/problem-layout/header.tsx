@@ -77,17 +77,18 @@ export const Header: FC<HeaderProps> = ({ problemId }) => {
 			<div className="flex gap-2 max-lg:gap-1">
 				<Button
 					onClick={() => handleAttempt("attempt")}
-					size="sm"
+					size={isMobile ? "xs" : "sm"}
 					variant="secondary"
+					className="max-[720px]:text-xs"
 				>
 					Attempt
 				</Button>
 				<Button
 					onClick={() => handleAttempt("submit")}
-					size="sm"
-					className="flex gap-2"
+					size={isMobile ? "xs" : "sm"}
+					className="flex gap-2 max-[720px]:gap-1 max-[720px]:text-xs"
 				>
-					Submit <Rocket />
+					Submit <Rocket strokeWidth={isMobile ? 1.5 : 2} />
 				</Button>
 			</div>
 			<div
