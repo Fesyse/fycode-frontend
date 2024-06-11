@@ -39,8 +39,6 @@ export const UserAvatar: FC<UserAvatarProps> = ({ alt, ...props }) => {
 		updateAvatar(formData)
 	}
 
-	console.log(form.getValues())
-
 	useEffect(() => {
 		const subscription = form.watch(() => void form.handleSubmit(onSubmit)())
 		return () => subscription.unsubscribe()

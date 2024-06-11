@@ -39,7 +39,9 @@ export const Auth: FC<AuthProps> = ({ callbackUrl }) => {
 	})
 
 	const formsProps: FormsProps = {
-		callbackUrl: callbackUrl ?? "/dashboard",
+		callbackUrl:
+			(callbackUrl?.startsWith("/") ? callbackUrl : `/${callbackUrl}`) ??
+			"/dashboard",
 		setCurrentTab,
 		tabSizes,
 		setTabSizes

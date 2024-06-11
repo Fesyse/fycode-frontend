@@ -51,8 +51,45 @@ export enum Order {
 export interface SubmitProblem {
 	code: string
 }
-
 export interface AttemptProblem extends SubmitProblem {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	tests: { input: any[] }[]
+}
+
+export interface CreateProblem {
+	title: string
+	description: string
+	difficulty: Difficulty
+	tags: string[]
+	testsOptions: TestsOptions
+	functionOptions: FunctionOptions
+	solution: string
+}
+
+export interface CustomTest {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	input: any[]
+}
+
+export interface TestsOptions {
+	useCustomTests: boolean
+	tests?: CustomTest[]
+	totalChecks?: number
+}
+
+export interface FunctionOptions {
+	name: string
+	args: FunctionArg[]
+}
+
+export interface FunctionArg {
+	name: string
+	type: TestInputTypes
+}
+
+export enum TestInputTypes {
+	string = "string",
+	number = "number",
+	stringArray = "string-array",
+	numberArray = "number-array"
 }

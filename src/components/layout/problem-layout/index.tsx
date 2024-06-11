@@ -23,21 +23,3 @@ export const ProblemLayout: FC<PropsWithChildren<ProblemLayoutProps>> = ({
 		</main>
 	)
 }
-
-/*
-<ResizablePanelGroup direction="horizontal">
-	<ResizablePanel className="pr-3" minSize={15} defaultSize={40}>
-		<Description
-			problem={problem}
-			isError={isError}
-			isLoading={isLoading}
-		/>
-	</ResizablePanel>
-	<ResizableHandle withHandle />
-	<ResizablePanel className="pl-3" minSize={30} defaultSize={60}>
-		<section className="flex h-full items-center justify-center">
-			{children}
-		</section>
-	</ResizablePanel>
-</ResizablePanelGroup>
-*/

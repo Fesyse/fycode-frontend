@@ -1,6 +1,6 @@
 import { Rocket } from "lucide-react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { type FC } from "react"
 import { toast } from "sonner"
 import {
@@ -26,6 +26,8 @@ export const Header: FC<HeaderProps> = ({ problemId }) => {
 	const { tests } = useTestsStore()
 	const { editorValue } = useEditorValueStore()
 	const { mutate: attemptProblem } = useAttemptProblem(problemId ?? 1)
+	const pathname = usePathname()
+	const isCreateProblemPage = pathname.startsWith("/create-problem")
 
 	const isMobile = useMediaQuery("(max-width: 720px)")
 
@@ -63,7 +65,11 @@ export const Header: FC<HeaderProps> = ({ problemId }) => {
 	return (
 		<header className="flex justify-between gap-10 max-lg:gap-4">
 			<div className="flex items-center gap-4">
-				{!isMobile ? (
+				{isCreateProblemPage ? (
+					<Link href="/dashboard">
+						<Logo className="text-lg" />
+					</Link>
+				) : !isMobile ? (
 					<>
 						<Link href="/dashboard">
 							<Logo className="text-lg" />
@@ -74,23 +80,25 @@ export const Header: FC<HeaderProps> = ({ problemId }) => {
 					<ProblemBurger problemId={problemId} />
 				)}
 			</div>
-			<div className="flex gap-2 max-lg:gap-1">
-				<Button
-					onClick={() => handleAttempt("attempt")}
-					size={isMobile ? "xs" : "sm"}
-					variant="secondary"
-					className="max-[720px]:text-xs"
-				>
-					Attempt
-				</Button>
-				<Button
-					onClick={() => handleAttempt("submit")}
-					size={isMobile ? "xs" : "sm"}
-					className="flex gap-2 max-[720px]:gap-1 max-[720px]:text-xs"
-				>
-					Submit <Rocket strokeWidth={isMobile ? 1.5 : 2} />
-				</Button>
-			</div>
+			{isCreateProblemPage ? null : (
+				<div className="flex gap-2 max-lg:gap-1">
+					<Button
+						onClick={() => handleAttempt("attempt")}
+						size={isMobile ? "xs" : "sm"}
+						variant="secondary"
+						className="max-[720px]:text-xs"
+					>
+						Attempt
+					</Button>
+					<Button
+						onClick={() => handleAttempt("submit")}
+						size={isMobile ? "xs" : "sm"}
+						className="flex gap-2 max-[720px]:gap-1 max-[720px]:text-xs"
+					>
+						Submit <Rocket strokeWidth={isMobile ? 1.5 : 2} />
+					</Button>
+				</div>
+			)}
 			<div
 				style={{
 					// change if problem navigation or burger sizes are different

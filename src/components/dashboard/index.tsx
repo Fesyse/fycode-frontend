@@ -75,7 +75,7 @@ export const Dashboard = () => {
 	useEffect(() => void refetch(), [problemsOptions, refetch])
 
 	return (
-		<div className="flex w-full max-w-[1000px] flex-col gap-2">
+		<main className="flex w-full max-w-[1000px] flex-col gap-2">
 			<div className="flex gap-2">
 				<Input
 					// @ts-expect-error react types is so damn good, that input element dont have value property
@@ -113,7 +113,7 @@ export const Dashboard = () => {
 							</TableRow>
 						))}
 					</TableHeader>
-					<TableBody>
+					<TableBody suppressHydrationWarning>
 						{table.getRowModel().rows?.length ? (
 							table.getRowModel().rows.map(row => (
 								<TableRow
@@ -151,6 +151,6 @@ export const Dashboard = () => {
 				maxPage={data?.maxPage}
 				page={problemsOptions.pagination.page}
 			/>
-		</div>
+		</main>
 	)
 }
