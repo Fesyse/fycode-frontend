@@ -11,6 +11,7 @@ import { useMediaQuery } from "@/hooks/useMediaQuery"
 import { Profile } from "@/components/layout/root-layout/header/profile"
 import { Button } from "@/components/shadcn/button"
 import { Logo } from "@/components/ui/logo"
+import { CreateProblemButton } from "./create-problem-button"
 import { ProblemBurger } from "./problem-burger"
 import { ProblemNavigation } from "./problem-navigation"
 import { parseValue } from "@/lib/utils"
@@ -80,7 +81,9 @@ export const Header: FC<HeaderProps> = ({ problemId }) => {
 					<ProblemBurger problemId={problemId} />
 				)}
 			</div>
-			{isCreateProblemPage ? null : (
+			{isCreateProblemPage ? (
+				<CreateProblemButton />
+			) : (
 				<div className="flex gap-2 max-lg:gap-1">
 					<Button
 						onClick={() => handleAttempt("attempt")}

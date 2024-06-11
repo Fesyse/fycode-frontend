@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { z } from "zod"
 
@@ -62,9 +63,12 @@ const imageSchema = z.object({
 		)
 })
 
+const createProblemSchema = z.object({})
+
 export {
 	updateUserFormSchema,
 	loginFormSchema,
 	registerFormSchema,
-	imageSchema
+	imageSchema,
+	createProblemSchema
 }
