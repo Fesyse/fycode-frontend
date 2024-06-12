@@ -20,7 +20,9 @@ export const CustomTestsInfo = () => {
 					</p>
 					<p>
 						For example: argument1 = 12383 | type = number
-						<p>argument2 = &#39;ASkhgsauAnwdhz&#39; | type = string</p>
+						<span className="block">
+							argument2 = &#39;ASkhgsauAnwdhz&#39; | type = string
+						</span>
 					</p>
 				</TooltipContent>
 			</Tooltip>

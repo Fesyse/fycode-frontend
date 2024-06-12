@@ -19,12 +19,11 @@ import { useUserStore } from "@/stores/user.store"
 
 export const CreateDescription = () => {
 	const user = useUserStore(s => s.user)
-	const { updateProblem } = useCreateProblemStore()
+	const { updateProblem, problem } = useCreateProblemStore()
 
 	const handleUpdateProblem = useCallback(
 		debounce((problem: Partial<CreateProblem>) => {
-			if (!user) return toast.error("You must be authorized to create problem.")
-			updateProblem(problem, user.id)
+			updateProblem(problem, user?.id)
 		}, 350),
 		[]
 	)
@@ -38,6 +37,7 @@ export const CreateDescription = () => {
 							type="text"
 							className="bg-editor"
 							maxLength={8}
+							defaultValue={problem.title}
 							onChange={e => handleUpdateProblem({ title: e.target.value })}
 						/>
 					</CardTitle>
@@ -53,6 +53,7 @@ export const CreateDescription = () => {
 								<Input
 									type="text"
 									maxLength={10}
+									defaultValue={problem.functionOptions?.name}
 									className="bg-muted/50 text-sm h-8 p-0 max-w-28 px-2"
 								/>
 							</p>

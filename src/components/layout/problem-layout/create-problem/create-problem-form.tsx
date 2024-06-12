@@ -42,11 +42,16 @@ export const CreateProblemForm = () => {
 
 		const keysOfProblem = Object.keys(problem)
 		for (const key of keysOfProblem) {
-			if (key === "testsOptions" || key === "functionOptions") continue
+			if (key === "testsOptions" || key === "functionOptions" || key === "tags")
+				continue
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+			const value = problem[key]
+
 			// there we check if all fields are provided
-			if (!problem[key])
+			console.log(problem)
+			if (typeof value !== "boolean" && !value)
 				return toast.error(
-					`You have ${key} field missing, go back and provide it in order to create problem.`
+					`You have ${key === "useCustomTests" ? "use custom tests" : key} field missing, go back and provide it in order to create problem.`
 				)
 		}
 
