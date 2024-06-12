@@ -1,7 +1,8 @@
 "use client"
 
 import debounce from "lodash.debounce"
-import { useCallback } from "react"
+import { Edit, ScanEye } from "lucide-react"
+import { useCallback, useState } from "react"
 import { type CreateProblem } from "@/types/problem.type"
 import {
 	Card,
@@ -13,12 +14,18 @@ import { Input } from "@/components/shadcn/input"
 import { ResizablePanel } from "@/components/shadcn/resizable"
 import { ScrollArea } from "@/components/shadcn/scroll-area"
 import { Separator } from "@/components/shadcn/separator"
+import { Textarea } from "@/components/shadcn/textarea"
+import { Button } from "../shadcn/button"
+import { MarkdownRenderer } from "../ui/markdown-renderer"
 import { useCreateProblemStore } from "@/stores/problem/create-problem.store"
 import { useUserStore } from "@/stores/user.store"
 
 export const CreateDescription = () => {
 	const user = useUserStore(s => s.user)
 	const { updateProblem, problem } = useCreateProblemStore()
+	const [descriptionTab, setDescriptionTab] = useState<"edit" | "preview">(
+		"edit"
+	)
 
 	const handleUpdateProblem = useCallback(
 		debounce((problem: Partial<CreateProblem>) => {
@@ -46,6 +53,36 @@ export const CreateDescription = () => {
 						className="px-6 max-[780px]:h-full min-[780px]:h-[calc(100vh-12.5rem)]"
 						scrollbarClassName="mr-1"
 					>
+						<div className="grid gap-2 mb-6">
+							<div className="flex gap-2">
+								<Button
+									onClick={() => setDescriptionTab("edit")}
+									className="gap-2"
+								>
+									Edit <Edit strokeWidth={1.5} />
+								</Button>
+								<Button
+									onClick={() => setDescriptionTab("preview")}
+									className="gap-2"
+								>
+									Preview <ScanEye strokeWidth={1.5} />
+								</Button>
+							</div>
+							<p className="text-foreground/50 text-sm">Markdown enabled.</p>
+							{descriptionTab === "edit" ? (
+								<Textarea
+									className="bg-muted/50"
+									defaultValue={problem?.description ?? ""}
+									onChange={e =>
+										handleUpdateProblem({ description: e.target.value })
+									}
+								/>
+							) : !problem.description ? (
+								<p>You need to type something in order to see preview here.</p>
+							) : (
+								<MarkdownRenderer markdown={problem.description} />
+							)}
+						</div>
 						<div className="flex flex-col gap-4">
 							<p className="flex gap-2 items-center">
 								<span className="text-nowrap">function name =</span>

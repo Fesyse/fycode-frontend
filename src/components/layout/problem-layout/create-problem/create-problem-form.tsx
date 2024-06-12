@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Boxes } from "lucide-react"
-import { useFieldArray, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { type z } from "zod"
 import { TestInputTypes } from "@/types/problem.type"
@@ -32,10 +32,10 @@ export const CreateProblemForm = () => {
 			totalChecks: 100
 		}
 	})
-	const { append } = useFieldArray({
-		control: form.control,
-		name: "functionArgs"
-	})
+	// const { append } = useFieldArray({
+	// 	control: form.control,
+	// 	name: "functionArgs"
+	// })
 
 	const handleCreateProblem = (data: z.infer<typeof createProblemSchema>) => {
 		if (!user) return toast.error("You must be authorized to create problem.")
@@ -44,11 +44,11 @@ export const CreateProblemForm = () => {
 		for (const key of keysOfProblem) {
 			if (key === "testsOptions" || key === "functionOptions" || key === "tags")
 				continue
+			// @ts-expect-error typescript says that key is typeof string, not that its keyof CreateProblem
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 			const value = problem[key]
 
 			// there we check if all fields are provided
-			console.log(problem)
 			if (typeof value !== "boolean" && !value)
 				return toast.error(
 					`You have ${key === "useCustomTests" ? "use custom tests" : key} field missing, go back and provide it in order to create problem.`
