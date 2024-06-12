@@ -2,6 +2,7 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { z } from "zod"
+import { TestInputTypes } from "@/types/problem.type"
 
 const MAX_FILE_SIZE = 1000 * 1000 * 4
 const ACCEPTED_IMAGE_TYPES = [
@@ -63,7 +64,23 @@ const imageSchema = z.object({
 		)
 })
 
-const createProblemSchema = z.object({})
+const createProblemSchema = z.object({
+	useCustomTests: z.boolean(),
+	tests: z
+		.array(
+			z.object({
+				input: z.array(z.any())
+			})
+		)
+		.optional(),
+	totalChecks: z.number().optional(),
+	functionArgs: z.array(
+		z.object({
+			name: z.string(),
+			type: z.nativeEnum(TestInputTypes)
+		})
+	)
+})
 
 export {
 	updateUserFormSchema,
