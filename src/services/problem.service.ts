@@ -1,12 +1,13 @@
-import { axiosWithAuth } from "@/api/interceptors"
 import type {
 	AttemptProblem,
+	CreateProblem,
 	ExtendedProblem,
 	GetSomeProblems,
 	GetSomeProblemsResponse,
 	SubmitProblem
 } from "@/types/problem.type"
 import type { Results } from "@/types/test.type"
+import { axiosWithAuth } from "@/api/interceptors"
 
 class ProblemService {
 	private BASE_URL = `/problem`
@@ -22,6 +23,14 @@ class ProblemService {
 		const response = await axiosWithAuth.post<GetSomeProblemsResponse>(
 			`${this.BASE_URL}/get/page`,
 			options
+		)
+		return response.data
+	}
+
+	async create(problem: CreateProblem) {
+		const response = await axiosWithAuth.post<ExtendedProblem>(
+			`${this.BASE_URL}/create`,
+			problem
 		)
 		return response.data
 	}

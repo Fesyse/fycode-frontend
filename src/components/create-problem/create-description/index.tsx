@@ -2,8 +2,11 @@
 
 import debounce from "lodash.debounce"
 import { Edit, ScanEye } from "lucide-react"
+import Image from "next/image"
+import Link from "next/link"
 import { useCallback, useState } from "react"
 import { type CreateProblem } from "@/types/problem.type"
+import { Button } from "@/components/shadcn/button"
 import {
 	Card,
 	CardContent,
@@ -15,8 +18,8 @@ import { ResizablePanel } from "@/components/shadcn/resizable"
 import { ScrollArea } from "@/components/shadcn/scroll-area"
 import { Separator } from "@/components/shadcn/separator"
 import { Textarea } from "@/components/shadcn/textarea"
-import { Button } from "../shadcn/button"
-import { MarkdownRenderer } from "../ui/markdown-renderer"
+import { MarkdownRenderer } from "@/components/ui/markdown-renderer"
+import { CreateTags } from "./create-tags"
 import { useCreateProblemStore } from "@/stores/problem/create-problem.store"
 import { useUserStore } from "@/stores/user.store"
 
@@ -38,10 +41,11 @@ export const CreateDescription = () => {
 		<ResizablePanel minSize={15} defaultSize={40}>
 			<Card className="h-full overflow-hidden rounded-xl">
 				<CardHeader className="bg-muted py-3">
-					<CardTitle>
+					<CardTitle className="flex gap-3 items-center">
+						ID.
 						<Input
 							type="text"
-							className="bg-editor"
+							className="bg-editor max-w-28"
 							maxLength={8}
 							defaultValue={problem.title}
 							onChange={e => handleUpdateProblem({ title: e.target.value })}
@@ -56,12 +60,14 @@ export const CreateDescription = () => {
 						<div className="grid gap-2 mb-6">
 							<div className="flex gap-2">
 								<Button
+									size="sm"
 									onClick={() => setDescriptionTab("edit")}
 									className="gap-2"
 								>
 									Edit <Edit strokeWidth={1.5} />
 								</Button>
 								<Button
+									size="sm"
 									onClick={() => setDescriptionTab("preview")}
 									className="gap-2"
 								>
@@ -91,34 +97,31 @@ export const CreateDescription = () => {
 									maxLength={10}
 									defaultValue={problem.functionOptions?.name}
 									className="bg-muted/50 text-sm h-8 p-0 max-w-28 px-2"
+									onChange={e =>
+										handleUpdateProblem({
+											functionOptions: {
+												args: problem.functionOptions?.args ?? [],
+												name: e.target.value
+											}
+										})
+									}
 								/>
 							</p>
 							<Separator />
-							<div className="flex items-center gap-4">
-								{/* <Tag />
-						{problem.tags?.length ? (
-							<div className="-mb-1 flex items-center gap-3">
-								{problem.tags.map((tag, i) => (
-									<Badge key={i}>{tag}</Badge>
-								))}
-							</div>
-						) : (
-							<span>No tags are pinned by creator.</span>
-						)} */}
-							</div>
-							{/* <Link
-						href={`/user/${problem.creator.id}`}
-						className="mt-auto flex items-center gap-2"
-					>
-						<Image
-							className="h-12 w-12 rounded-full object-cover p-1"
-							src={problem.creator.avatar ?? "/user-round.svg"}
-							width={2048}
-							height={2048}
-							alt="username-image"
-						/>
-						<span>{problem.creator.username}</span>
-					</Link> */}
+							<CreateTags />
+							<Link
+								href={`/user/${user?.id}`}
+								className="mt-auto flex items-center gap-2"
+							>
+								<Image
+									className="h-12 w-12 rounded-full object-cover p-1"
+									src={user?.avatar ?? "/user-round.svg"}
+									width={2048}
+									height={2048}
+									alt="username-image"
+								/>
+								<span>{user?.username}</span>
+							</Link>
 						</div>
 					</ScrollArea>
 				</CardContent>

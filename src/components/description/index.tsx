@@ -80,18 +80,18 @@ export const Description: FC<DescriptionProps> = ({ problem }) => {
 								</p>
 							</TooltipProvider>
 							<Separator />
-							<div className="flex items-center gap-4">
+							<ul className="flex items-center gap-4">
 								<Tag />
 								{problem.tags?.length ? (
-									<div className="-mb-1 flex items-center gap-3">
+									<li className="-mb-1 flex items-center gap-3">
 										{problem.tags.map((tag, i) => (
 											<Badge key={i}>{tag}</Badge>
 										))}
-									</div>
+									</li>
 								) : (
-									<span>No tags are pinned by creator.</span>
+									<li>No tags are pinned by creator.</li>
 								)}
-							</div>
+							</ul>
 							<Link
 								href={`/user/${problem.creator.id}`}
 								className="mt-auto flex items-center gap-2"

@@ -3,7 +3,8 @@ import { Boxes } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { type z } from "zod"
-import { TestInputTypes } from "@/types/problem.type"
+import { type CreateProblem, TestInputTypes } from "@/types/problem.type"
+import { useCreateProblem } from "@/hooks/problem/useCreateProblem"
 import { Button } from "@/components/shadcn/button"
 import { Checkbox } from "@/components/shadcn/checkbox"
 import {
@@ -14,12 +15,13 @@ import {
 	FormMessage
 } from "@/components/shadcn/form"
 import { Label } from "@/components/shadcn/label"
-import { CustomTestsInfo } from "./custom-tests-info"
+import { CustomTestsInfo } from "../custom-tests-info"
 import { createProblemSchema } from "@/lib/schemas"
 import { useCreateProblemStore } from "@/stores/problem/create-problem.store"
 import { useUserStore } from "@/stores/user.store"
 
 export const CreateProblemForm = () => {
+	const { mutate: createProblem } = useCreateProblem()
 	const problem = useCreateProblemStore(s => s.problem)
 	const user = useUserStore(s => s.user)
 	const form = useForm<z.infer<typeof createProblemSchema>>({
@@ -32,34 +34,41 @@ export const CreateProblemForm = () => {
 			totalChecks: 100
 		}
 	})
-	// const { append } = useFieldArray({
-	// 	control: form.control,
-	// 	name: "functionArgs"
-	// })
 
 	const handleCreateProblem = (data: z.infer<typeof createProblemSchema>) => {
 		if (!user) return toast.error("You must be authorized to create problem.")
 
-		const keysOfProblem = Object.keys(problem)
+		const keysOfProblem = Object.keys(problem) as (keyof CreateProblem)[]
 		for (const key of keysOfProblem) {
 			if (key === "testsOptions" || key === "functionOptions" || key === "tags")
 				continue
-			// @ts-expect-error typescript says that key is typeof string, not that its keyof CreateProblem
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-			const value = problem[key]
+			const value = problem[key]!
 
 			// there we check if all fields are provided
-			if (typeof value !== "boolean" && !value)
+			const isAllFieldsProvided = !value.length || !value
+			if (isAllFieldsProvided)
 				return toast.error(
-					`You have ${key === "useCustomTests" ? "use custom tests" : key} field missing, go back and provide it in order to create problem.`
+					`You have ${key} field missing, go back and provide it in order to create problem.`
 				)
 		}
 
+		const newProblem = {
+			...problem,
+			testsOptions: {
+				useCustomTests: data.useCustomTests,
+				tests: data.tests,
+				totalChecks: data.totalChecks
+			},
+			functionOptions: {
+				args: data.functionArgs,
+				name: problem.functionOptions?.name
+			}
+		} as CreateProblem
 		localStorage.setItem(
 			`create-problem-${user.id}`,
-			JSON.stringify({ ...problem, ...data })
+			JSON.stringify(newProblem)
 		)
-		// TODO: create problem via api
+		createProblem(newProblem)
 	}
 	return (
 		<Form {...form}>
