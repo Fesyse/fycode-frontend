@@ -29,8 +29,8 @@ export const ProblemsStats: FC<ProblemsStatsProps> = ({ problemsCount }) => {
 		})
 	}, [selectedProblemsCount, controls])
 	return (
-		<div className="flex items-center justify-around">
-			<div className="relative aspect-square w-44">
+		<div className="flex items-center justify-around max-md:flex-col gap-4">
+			<div className="relative aspect-square w-44 max-lg:w-32">
 				<CircularProgressbar
 					maxValue={1}
 					value={
@@ -44,18 +44,21 @@ export const ProblemsStats: FC<ProblemsStatsProps> = ({ problemsCount }) => {
 				/>
 				<div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 select-none flex-col items-center">
 					<p className="flex items-end">
-						<motion.strong className="text-3xl" animate={controls}>
+						<motion.strong
+							className="text-3xl max-lg:text-xl"
+							animate={controls}
+						>
 							{selectedProblemsCount.userProblems}
 						</motion.strong>
 						<motion.span
-							className="text-sm text-foreground/50"
+							className="text-sm max-lg:text-xs text-foreground/50"
 							animate={controls}
 						>
 							/{selectedProblemsCount.problems}
 						</motion.span>
 					</p>
-					<span className="flex items-center">
-						<Check /> Solved
+					<span className="flex items-center max-lg:text-sm">
+						<Check className="aspect-square max-lg:h-5" /> Solved
 					</span>
 				</div>
 			</div>

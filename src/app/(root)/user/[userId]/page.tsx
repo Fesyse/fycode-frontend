@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation"
 import { Profile } from "@/components/profile"
 import { ProblemsStats } from "@/components/profile/problems-stats"
 import {
@@ -7,7 +8,6 @@ import {
 	CardTitle
 } from "@/components/shadcn/card"
 import { userService } from "@/services/user.service"
-import { redirect } from "next/navigation"
 
 export default async function UserPage({
 	params
