@@ -25,7 +25,6 @@ export const Profile: FC<ProfileProps> = ({ profile }) => {
 					{profile.username} <CopyIdButton id={profile.id} />
 				</p>
 				<p className="mb-3 text-xs text-foreground/50">{profile.email}</p>
-				{/* eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */}
 				<p>Member since: {dayjs(profile.createdAt).format("MMMM D, YYYY")}</p>
 				<p className="max-md:flex max-md:flex-col max-md:items-center max-md:mt-4">
 					Last solved problem:
