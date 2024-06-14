@@ -2,6 +2,7 @@ import { useMutation } from "@tanstack/react-query"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { type CreateProblem } from "@/types/problem.type"
+import { errorCatch } from "@/api/error"
 import { problemService } from "@/services/problem.service"
 
 export const useCreateProblem = () => {
@@ -15,7 +16,7 @@ export const useCreateProblem = () => {
 		},
 		onError(error) {
 			toast.error("An error occured, when tried to create problem.", {
-				description: error.message
+				description: errorCatch(error)
 			})
 		}
 	})

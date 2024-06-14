@@ -1,7 +1,9 @@
-import type { LoginRequest } from "@/types/auth.type"
-import { authService } from "@/services/auth.service"
 import { useMutation } from "@tanstack/react-query"
+import { type AxiosError } from "axios"
 import { toast } from "sonner"
+import type { LoginRequest } from "@/types/auth.type"
+import { errorCatch } from "@/api/error"
+import { authService } from "@/services/auth.service"
 import { useUserStore } from "@/stores/user.store"
 
 export const useLogin = () => {
@@ -17,10 +19,10 @@ export const useLogin = () => {
 			setUser(response.user)
 			toast.success("Successfully logged in!")
 		},
-		onError: error => {
+		onError: (error: AxiosError) => {
 			removeUser()
 			toast.error("An error occurred, when tried to login.", {
-				description: error.message
+				description: errorCatch(error)
 			})
 		}
 	})

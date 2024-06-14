@@ -1,9 +1,10 @@
-import axios from "axios"
-import { toast } from "sonner"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { userService } from "@/services/user.service"
-import { env } from "@/env"
+import axios from "axios"
 import { usePathname } from "next/navigation"
+import { toast } from "sonner"
+import { errorCatch } from "@/api/error"
+import { env } from "@/env"
+import { userService } from "@/services/user.service"
 
 export const useUpdateAvatar = () => {
 	const pathname = usePathname()
@@ -19,8 +20,10 @@ export const useUpdateAvatar = () => {
 			)
 			toast.success("Successfully changed avatar.")
 		},
-		onError() {
-			toast.error("An error occurred, when tried to change avatar.")
+		onError(error) {
+			toast.error("An error occurred, when tried to change avatar.", {
+				description: errorCatch(error)
+			})
 		}
 	})
 }

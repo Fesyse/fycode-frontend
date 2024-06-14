@@ -1,7 +1,8 @@
-import { problemService } from "@/services/problem.service"
 import { useMutation } from "@tanstack/react-query"
 import { useState } from "react"
 import { toast } from "sonner"
+import { errorCatch } from "@/api/error"
+import { problemService } from "@/services/problem.service"
 
 export const useReaction = (problemId: number) => {
 	const [currentType, setCurrentType] = useState<"like" | "dislike">("like")
@@ -21,7 +22,7 @@ export const useReaction = (problemId: number) => {
 			toast.error(`Failed to ${currentType} problem.`, {
 				description: error.message.includes("401")
 					? "You need to authorize to like/dislike problem."
-					: error.message
+					: errorCatch(error)
 			})
 		}
 	})

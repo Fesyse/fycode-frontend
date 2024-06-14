@@ -1,11 +1,12 @@
-import { usePathname } from "next/navigation"
-import axios from "axios"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { type z } from "zod"
+import axios from "axios"
+import { usePathname } from "next/navigation"
 import { toast } from "sonner"
+import { type z } from "zod"
+import { errorCatch } from "@/api/error"
 import { env } from "@/env"
-import { userService } from "@/services/user.service"
 import { type updateUserFormSchema } from "@/lib/schemas"
+import { userService } from "@/services/user.service"
 
 export const useUpdateUser = (userId: string) => {
 	const pathname = usePathname()
@@ -22,8 +23,10 @@ export const useUpdateUser = (userId: string) => {
 			)
 			toast.success("Successfully updated profile.")
 		},
-		onError() {
-			toast.error("An error occurred, when tried to update avatar.")
+		onError(error) {
+			toast.error("An error occurred, when tried to update avatar.", {
+				description: errorCatch(error)
+			})
 		}
 	})
 }
