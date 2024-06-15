@@ -54,13 +54,7 @@ export const Profile: React.FC<ProfileProps> = ({ size }) => {
 
 	return (
 		<div className="flex justify-end">
-			{!isAuthorized || !user || !userFromStore ? (
-				<Button className="flex gap-2" asChild>
-					<Link href={`/auth?callbackUrl=${lastUserPagePath}`}>
-						Sign up <Rocket />
-					</Link>
-				</Button>
-			) : isLoading ? (
+			{isLoading ? (
 				<Skeleton
 					style={{
 						height: size,
@@ -70,7 +64,13 @@ export const Profile: React.FC<ProfileProps> = ({ size }) => {
 						"h-10": !size
 					})}
 				/>
-			) : user && userFromStore && isAuthorized ? (
+			) : !isAuthorized || !user || !userFromStore ? (
+				<Button className="flex gap-2" asChild>
+					<Link href={`/auth?callbackUrl=${lastUserPagePath}`}>
+						Sign up <Rocket />
+					</Link>
+				</Button>
+			) : (
 				<DropdownMenu>
 					<DropdownMenuTrigger>
 						<Image
@@ -130,7 +130,7 @@ export const Profile: React.FC<ProfileProps> = ({ size }) => {
 						</DropdownMenuGroup>
 					</DropdownMenuContent>
 				</DropdownMenu>
-			) : null}
+			)}
 		</div>
 	)
 }

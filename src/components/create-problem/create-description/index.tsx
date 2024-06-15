@@ -5,7 +5,7 @@ import { Edit, ScanEye } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useCallback, useState } from "react"
-import { type CreateProblem } from "@/types/problem.type"
+import { type CreateProblem, Difficulty } from "@/types/problem.type"
 import { Button } from "@/components/shadcn/button"
 import {
 	Card,
@@ -16,10 +16,20 @@ import {
 import { Input } from "@/components/shadcn/input"
 import { ResizablePanel } from "@/components/shadcn/resizable"
 import { ScrollArea } from "@/components/shadcn/scroll-area"
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectTrigger,
+	SelectValue
+} from "@/components/shadcn/select"
 import { Separator } from "@/components/shadcn/separator"
 import { Textarea } from "@/components/shadcn/textarea"
 import { MarkdownRenderer } from "@/components/ui/markdown-renderer"
 import { CreateTags } from "./create-tags"
+import { titleString } from "@/lib/utils"
 import { useCreateProblemStore } from "@/stores/problem/create-problem.store"
 import { useUserStore } from "@/stores/user.store"
 
@@ -36,6 +46,7 @@ export const CreateDescription = () => {
 		}, 350),
 		[user]
 	)
+	console.log(problem)
 
 	return (
 		<ResizablePanel minSize={15} defaultSize={40}>
@@ -50,6 +61,23 @@ export const CreateDescription = () => {
 							defaultValue={problem.title}
 							onChange={e => handleUpdateProblem({ title: e.target.value })}
 						/>
+						<Select
+							value={problem.description}
+							onValueChange={(difficulty: Difficulty) =>
+								updateProblem({ difficulty }, user?.id)
+							}
+						>
+							<SelectTrigger className="w-28 ml-auto bg-editor">
+								{titleString(problem.difficulty ?? "Difficulty")}
+							</SelectTrigger>
+							<SelectContent className="bg-editor">
+								<SelectGroup>
+									<SelectItem value={Difficulty.EASY}>Easy</SelectItem>
+									<SelectItem value={Difficulty.MEDIUM}>Medium</SelectItem>
+									<SelectItem value={Difficulty.HARD}>Hard</SelectItem>
+								</SelectGroup>
+							</SelectContent>
+						</Select>
 					</CardTitle>
 				</CardHeader>
 				<CardContent className="flex h-full flex-col justify-between bg-editor px-0 pt-2">
