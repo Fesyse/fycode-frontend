@@ -21,9 +21,7 @@ import {
 	SelectContent,
 	SelectGroup,
 	SelectItem,
-	SelectLabel,
-	SelectTrigger,
-	SelectValue
+	SelectTrigger
 } from "@/components/shadcn/select"
 import { Separator } from "@/components/shadcn/separator"
 import { Textarea } from "@/components/shadcn/textarea"
