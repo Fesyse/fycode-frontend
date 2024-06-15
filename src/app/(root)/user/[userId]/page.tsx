@@ -23,7 +23,7 @@ export default async function UserPage({
 
 	const problemsCount = await userService.getProblemsCount(params.userId)
 	return (
-		<div>
+		<>
 			<head>
 				<title>{profile.username + " | Fycode"}</title>
 			</head>
@@ -45,6 +45,6 @@ export default async function UserPage({
 					</CardContent>
 				</Card>
 			</div>
-		</div>
+		</>
 	)
 }

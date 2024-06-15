@@ -114,7 +114,18 @@ export const Dashboard = () => {
 						))}
 					</TableHeader>
 					<TableBody suppressHydrationWarning>
-						{table.getRowModel().rows?.length ? (
+						{!table.getRowModel().rows?.length ? (
+							<TableRow>
+								<TableCell
+									colSpan={columns.length}
+									className="h-24 text-center"
+								>
+									No results.
+								</TableCell>
+							</TableRow>
+						) : isLoading || isRefetching ? (
+							<SkeletonTable />
+						) : (
 							table.getRowModel().rows.map(row => (
 								<TableRow
 									// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
@@ -132,17 +143,6 @@ export const Dashboard = () => {
 									))}
 								</TableRow>
 							))
-						) : isLoading || isRefetching ? (
-							<SkeletonTable />
-						) : (
-							<TableRow>
-								<TableCell
-									colSpan={columns.length}
-									className="h-24 text-center"
-								>
-									No results.
-								</TableCell>
-							</TableRow>
 						)}
 					</TableBody>
 				</Table>

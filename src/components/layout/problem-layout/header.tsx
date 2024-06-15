@@ -47,10 +47,9 @@ export const Header: FC<HeaderProps> = ({ problemId }) => {
 								tests: tests.map((test, i) => ({
 									input: test.input.map(arg => {
 										if (!arg.value.length) {
-											toast.error(
+											throw new Error(
 												`At test ${i + 1} argument ${arg.name} is not provided.`
 											)
-											throw new Error()
 										}
 
 										return parseValue(arg.value, arg.type)
@@ -60,7 +59,10 @@ export const Header: FC<HeaderProps> = ({ problemId }) => {
 						}
 					: { type, data: { code: editorValue } }
 			attemptProblem(opts)
-		} catch {}
+		} catch (err) {
+			const error = err as Error
+			toast.error(error?.message)
+		}
 	}
 
 	return (

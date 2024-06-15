@@ -21,10 +21,15 @@ export default async function Page({ params }: { params: { id: string } }) {
 	}
 
 	return (
-		<ProblemResizablePanelGroup className="gap-3" direction="horizontal">
-			<Description problem={problem} />
-			<ResizableHandle withHandle />
-			<CodeEditor problem={problem} />
-		</ProblemResizablePanelGroup>
+		<>
+			<head suppressContentEditableWarning suppressHydrationWarning>
+				<title>{`${problem.title} | Fycode`}</title>
+			</head>
+			<ProblemResizablePanelGroup className="gap-3" direction="horizontal">
+				<Description problem={problem} />
+				<ResizableHandle withHandle />
+				<CodeEditor problem={problem} />
+			</ProblemResizablePanelGroup>
+		</>
 	)
 }

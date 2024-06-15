@@ -1,20 +1,21 @@
-import { Button } from "@/components/shadcn/button"
+import { type ColumnDef } from "@tanstack/react-table"
+import type { MotionProps } from "framer-motion"
+import { ArrowUpDown } from "lucide-react"
 import {
 	Difficulty,
-	Order,
 	type GetSomeProblems,
+	Order,
 	type Problem
 } from "@/types/problem.type"
+import { Button } from "@/components/shadcn/button"
 import {
 	DropdownMenu,
-	DropdownMenuTrigger,
+	DropdownMenuCheckboxItem,
 	DropdownMenuContent,
 	DropdownMenuSeparator,
-	DropdownMenuCheckboxItem
+	DropdownMenuTrigger
 } from "@/components/shadcn/dropdown-menu"
-import { type ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown } from "lucide-react"
-import type { MotionProps } from "framer-motion"
+import { titleString } from "./utils"
 
 type GetColumns = ({
 	problemsOptions,
@@ -135,7 +136,9 @@ export const getColumns: GetColumns = ({
 			</DropdownMenu>
 		),
 		cell: ({ row }) => (
-			<div className="text-right font-medium">{row.getValue("difficulty")}</div>
+			<div className="text-right font-medium">
+				{titleString(row.getValue("difficulty"))}
+			</div>
 		)
 	}
 ]

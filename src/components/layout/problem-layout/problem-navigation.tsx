@@ -53,7 +53,7 @@ export const ProblemNavigation: FC<ProblemNavigation> = ({
 					<div className="flex gap-1 justify-between">
 						<TooltipProvider>
 							<Tooltip>
-								<TooltipTrigger>
+								<TooltipTrigger asChild>
 									<Button
 										onClick={() => handleButtonSubmit("prev")}
 										variant="ghost"
@@ -65,7 +65,7 @@ export const ProblemNavigation: FC<ProblemNavigation> = ({
 								<TooltipContent>Previous problem</TooltipContent>
 							</Tooltip>
 							<Tooltip>
-								<TooltipTrigger>
+								<TooltipTrigger asChild>
 									<Button
 										onClick={() => handleButtonSubmit("random")}
 										variant="ghost"
@@ -79,7 +79,7 @@ export const ProblemNavigation: FC<ProblemNavigation> = ({
 								</TooltipContent>
 							</Tooltip>
 							<Tooltip>
-								<TooltipTrigger>
+								<TooltipTrigger asChild>
 									<Button
 										onClick={() => handleButtonSubmit("next")}
 										variant="ghost"
@@ -96,7 +96,7 @@ export const ProblemNavigation: FC<ProblemNavigation> = ({
 			) : (
 				<TooltipProvider>
 					<Tooltip>
-						<TooltipTrigger>
+						<TooltipTrigger asChild>
 							<Button
 								asChild
 								size="smallIcon"
@@ -113,7 +113,7 @@ export const ProblemNavigation: FC<ProblemNavigation> = ({
 						</TooltipContent>
 					</Tooltip>
 					<Tooltip>
-						<TooltipTrigger>
+						<TooltipTrigger asChild>
 							<Button
 								size="smallIcon"
 								onClick={() => handleButtonSubmit("prev")}
@@ -128,7 +128,7 @@ export const ProblemNavigation: FC<ProblemNavigation> = ({
 						</TooltipContent>
 					</Tooltip>
 					<Tooltip>
-						<TooltipTrigger>
+						<TooltipTrigger asChild>
 							<Button
 								size="smallIcon"
 								onClick={() => handleButtonSubmit("next")}
@@ -143,7 +143,7 @@ export const ProblemNavigation: FC<ProblemNavigation> = ({
 						</TooltipContent>
 					</Tooltip>
 					<Tooltip>
-						<TooltipTrigger>
+						<TooltipTrigger asChild>
 							<Button
 								size="smallIcon"
 								onClick={() => handleButtonSubmit("random")}
