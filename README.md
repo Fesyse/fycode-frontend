@@ -10,6 +10,15 @@ make sure you have installed:
 - [Node.js](https://nodejs.org/en/)
 - [pnpm](https://pnpm.io/)
 
+add necessary enviroment variables
+
+```env
+NEXT_PUBLIC_SERVER_URL=""
+NEXT_PUBLIC_CLIENT_URL=""
+
+NODE_ENV="development" # change to "production" in production mode
+```
+
 then install all dependencies
 
 ```bash
