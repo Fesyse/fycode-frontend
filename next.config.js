@@ -19,7 +19,7 @@ const serverAvatarsUrl = {
 			? // @ts-expect-error ts thinks env.NEXT_PUBLIC_SERVER_URL.split("://")[1] can be undefined
 				env.NEXT_PUBLIC_SERVER_URL.split("://")[1].split(":")[1]?.split("/")[0]
 			: undefined,
-	pathname: "api/user/avatar/**"
+	pathname: "/api/user/avatar/**"
 }
 
 /** @type {import("next").NextConfig} */
