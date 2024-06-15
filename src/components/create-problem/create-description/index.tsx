@@ -34,7 +34,7 @@ export const CreateDescription = () => {
 		debounce((problem: Partial<CreateProblem>) => {
 			updateProblem(problem, user?.id)
 		}, 350),
-		[]
+		[user]
 	)
 
 	return (
