@@ -66,13 +66,6 @@ const imageSchema = z.object({
 
 const createProblemSchema = z.object({
 	useCustomTests: z.boolean(),
-	tests: z
-		.array(
-			z.object({
-				input: z.array(z.any())
-			})
-		)
-		.optional(),
 	totalChecks: z.number().optional(),
 	functionArgs: z.array(
 		z.object({

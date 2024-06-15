@@ -28,7 +28,6 @@ export const CreateSolution = () => {
 	const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null)
 
 	const setEditorValue = (editorValue: string) => {
-		console.log(user)
 		updateProblem({ solution: editorValue }, user?.id)
 	}
 

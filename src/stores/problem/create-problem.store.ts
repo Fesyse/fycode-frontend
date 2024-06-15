@@ -39,7 +39,6 @@ export const useCreateProblemStore = create<CreateProblemStore>(set => ({
 		if (!userId) return toast.error("You must be authorized to create problem.")
 		set(state => {
 			const updatedProblem = { ...state.problem, ...problem }
-			console.log(updatedProblem)
 			localStorage.setItem(
 				`create-problem-${userId}`,
 				JSON.stringify(updatedProblem)

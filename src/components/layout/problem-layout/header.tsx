@@ -107,7 +107,7 @@ export const Header: FC<HeaderProps> = ({ problemId }) => {
 			<div
 				style={{
 					// change if problem navigation or burger sizes are different
-					width: isMobile ? 40 : 217
+					width: isCreateProblemPage ? 40 : isMobile ? 40 : 217
 				}}
 				className="flex justify-end"
 			>

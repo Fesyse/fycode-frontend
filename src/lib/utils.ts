@@ -1,6 +1,6 @@
-import type { Argument } from "@/types/test.type"
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
+import type { Argument } from "@/types/test.type"
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs))
@@ -15,7 +15,10 @@ export function randomInt(min: number, max: number) {
 }
 
 export function titleString(str: string) {
-	return str[0]?.toUpperCase() + str.slice(1, str.length)
+	return str
+		.split("-")
+		.map(st => st[0]?.toUpperCase() + st.slice(1, str.length))
+		.join(" ")
 }
 
 export function getDefaultArgumentValue(type: Argument["type"]) {

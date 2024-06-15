@@ -12,10 +12,13 @@ import {
 	FormControl,
 	FormField,
 	FormItem,
+	FormLabel,
 	FormMessage
 } from "@/components/shadcn/form"
+import { Input } from "@/components/shadcn/input"
 import { Label } from "@/components/shadcn/label"
 import { CustomTestsInfo } from "../custom-tests-info"
+import { ArgumentsField } from "./arguments-field"
 import { createProblemSchema } from "@/lib/schemas"
 import { useCreateProblemStore } from "@/stores/problem/create-problem.store"
 import { useUserStore } from "@/stores/user.store"
@@ -28,12 +31,15 @@ export const CreateProblemForm = () => {
 		resolver: zodResolver(createProblemSchema),
 		mode: "onSubmit",
 		defaultValues: {
-			functionArgs: [{ name: "Argument1", type: TestInputTypes.string }],
-			useCustomTests: false,
-			tests: undefined,
+			functionArgs: problem.functionOptions?.args ?? [
+				{ name: "argument", type: TestInputTypes.string }
+			],
+			useCustomTests: problem.testsOptions?.useCustomTests ?? false,
 			totalChecks: 100
 		}
 	})
+
+	const isTotalChecksFieldDisabled = form.watch("useCustomTests")
 
 	const handleCreateProblem = (data: z.infer<typeof createProblemSchema>) => {
 		if (!user) return toast.error("You must be authorized to create problem.")
@@ -56,7 +62,6 @@ export const CreateProblemForm = () => {
 			...problem,
 			testsOptions: {
 				useCustomTests: data.useCustomTests,
-				tests: data.tests,
 				totalChecks: data.totalChecks
 			},
 			functionOptions: {
@@ -70,17 +75,25 @@ export const CreateProblemForm = () => {
 		)
 		createProblem(newProblem)
 	}
+
 	return (
 		<Form {...form}>
-			<form onSubmit={form.handleSubmit(handleCreateProblem)}>
+			<form
+				className="flex flex-col gap-4"
+				onSubmit={form.handleSubmit(handleCreateProblem)}
+			>
 				<FormField
 					control={form.control}
 					name="useCustomTests"
-					render={() => (
+					render={({ field }) => (
 						<FormItem>
 							<FormControl>
 								<div className="flex items-center gap-2">
-									<Checkbox id="use-custom-tests" />
+									<Checkbox
+										id="use-custom-tests"
+										checked={field.value}
+										onCheckedChange={field.onChange}
+									/>
 									<Label
 										className="flex items-end gap-1"
 										htmlFor="use-custom-tests"
@@ -93,7 +106,29 @@ export const CreateProblemForm = () => {
 						</FormItem>
 					)}
 				/>
-				<Button className="gap-2 mt-6" type="submit">
+				<FormField
+					control={form.control}
+					name="totalChecks"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Total checks</FormLabel>
+							<FormControl>
+								<Input
+									type="number"
+									placeholder="100"
+									disabled={isTotalChecksFieldDisabled}
+									{...field}
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<div className="flex flex-col gap-2">
+					<FormLabel>Function arguments</FormLabel>
+					<ArgumentsField control={form.control} />
+				</div>
+				<Button className="gap-2 mt-2" type="submit">
 					Create <Boxes strokeWidth={1.5} />
 				</Button>
 			</form>

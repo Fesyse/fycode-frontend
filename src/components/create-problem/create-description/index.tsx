@@ -44,7 +44,6 @@ export const CreateDescription = () => {
 		}, 350),
 		[user]
 	)
-	console.log(problem)
 
 	return (
 		<ResizablePanel minSize={15} defaultSize={40}>
