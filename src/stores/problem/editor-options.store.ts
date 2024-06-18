@@ -23,7 +23,7 @@ export type EditorOptionsActions = {
 export type EditorOptionsStore = EditorOptionsState & EditorOptionsActions
 
 const defaultEditorOptions: EditorOptions = {
-	fontSize: 12,
+	fontSize: 14,
 	tabSize: 2,
 	minimap: { enabled: false },
 	cursorBlinking: "expand",

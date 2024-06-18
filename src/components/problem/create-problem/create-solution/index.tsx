@@ -19,11 +19,13 @@ import {
 	type CreateProblemToolbarProps
 } from "./create-problem-toolbar"
 import { useCreateProblemStore } from "@/stores/problem/create-problem.store"
+import { useEditorOptionsStore } from "@/stores/problem/editor-options.store"
 import { useUserStore } from "@/stores/user.store"
 
 export const CreateSolution = () => {
 	const [language, setLanguage] = useState<Language>(Language.JAVASCRIPT)
 	const { updateProblem, getProblem, problem } = useCreateProblemStore()
+	const editorOptions = useEditorOptionsStore(s => s.editorOptions)
 	const user = useUserStore(s => s.user)
 	const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null)
 
@@ -61,13 +63,7 @@ export const CreateSolution = () => {
 					<Editor
 						theme="vs-dark"
 						language={language}
-						options={{
-							minimap: { enabled: false },
-							cursorBlinking: "expand",
-							cursorStyle: "line-thin",
-							cursorSmoothCaretAnimation: "on",
-							tabSize: 2
-						}}
+						options={editorOptions}
 						value={problem.solution ?? ""}
 						onMount={onMount}
 						onChange={v => handleEditorValueChange(v ?? "")}

@@ -12,6 +12,7 @@ import {
 	TooltipProvider,
 	TooltipTrigger
 } from "@/components/shadcn/tooltip"
+import { CodeEditorOptions } from "../../code-editor/toolbar/code-editor-options"
 import { useCreateProblemStore } from "@/stores/problem/create-problem.store"
 import { useUserStore } from "@/stores/user.store"
 
@@ -103,6 +104,14 @@ export const CreateProblemToolbar: FC<CreateProblemToolbarProps> = ({
 							>
 								<Maximize2 size={18} />
 							</Button>
+						</TooltipTrigger>
+						<TooltipContent className="border-muted bg-editor">
+							Toggle fullscreen mode
+						</TooltipContent>
+					</Tooltip>
+					<Tooltip>
+						<TooltipTrigger>
+							<CodeEditorOptions />
 						</TooltipTrigger>
 						<TooltipContent className="border-muted bg-editor">
 							Toggle fullscreen mode
