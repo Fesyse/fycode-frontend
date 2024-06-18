@@ -4,7 +4,7 @@ import { Editor, type OnMount } from "@monaco-editor/react"
 import { Code } from "lucide-react"
 import { type editor } from "monaco-editor"
 import { type FC, useEffect, useRef, useState } from "react"
-import { Languages } from "@/types/languages.type"
+import { Language } from "@/types/language.type"
 import { type ExtendedProblem } from "@/types/problem.type"
 import {
 	Card,
@@ -28,7 +28,7 @@ type CodeEditorProps = {
 }
 
 export const CodeEditor: FC<CodeEditorProps> = ({ problem }) => {
-	const [language, setLanguage] = useState<Languages>(Languages.JAVASCRIPT)
+	const [language, setLanguage] = useState<Language>(Language.JAVASCRIPT)
 	const { editorValue, getEditorValue, setEditorValue } = useEditorValueStore()
 	const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null)
 	const [tabsetHeight, setTabsetHeight] = useState(40)

@@ -3,7 +3,7 @@ import babelPlugin from "prettier/plugins/babel"
 import estreePlugin from "prettier/plugins/estree"
 import { type FC } from "react"
 import { toast } from "sonner"
-import type { Languages } from "@/types/languages.type"
+import type { Language } from "@/types/language.type"
 import type { ExtendedProblem } from "@/types/problem.type"
 import { Button } from "@/components/shadcn/button"
 import {
@@ -17,8 +17,8 @@ import { type EditorValueActions } from "@/stores/problem/editor.store"
 
 export type OptionsProps = {
 	problem: ExtendedProblem | undefined
-	language: Languages
-	setLanguage: React.Dispatch<React.SetStateAction<Languages>>
+	language: Language
+	setLanguage: React.Dispatch<React.SetStateAction<Language>>
 	editorValue: string
 	setEditorValue: EditorValueActions["setEditorValue"]
 }

@@ -3,7 +3,7 @@ import babelPlugin from "prettier/plugins/babel"
 import estreePlugin from "prettier/plugins/estree"
 import { type FC } from "react"
 import { toast } from "sonner"
-import { type Languages } from "@/types/languages.type"
+import { type Language } from "@/types/language.type"
 import { SelectLanguage } from "@/components/code-editor/select-language"
 import { Button } from "@/components/shadcn/button"
 import {
@@ -16,8 +16,8 @@ import { useCreateProblemStore } from "@/stores/problem/create-problem.store"
 import { useUserStore } from "@/stores/user.store"
 
 export type CreateProblemOptionsProps = {
-	language: Languages
-	setLanguage: React.Dispatch<React.SetStateAction<Languages>>
+	language: Language
+	setLanguage: React.Dispatch<React.SetStateAction<Language>>
 	editorValue: string
 }
 

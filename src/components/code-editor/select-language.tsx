@@ -1,6 +1,6 @@
 import { ChevronDown } from "lucide-react"
 import { type FC } from "react"
-import { Languages } from "@/types/languages.type"
+import { Language } from "@/types/language.type"
 import { Button } from "@/components/shadcn/button"
 import {
 	DropdownMenu,
@@ -13,8 +13,8 @@ import {
 import { titleString } from "@/lib/utils"
 
 type SelectLanguageProps = {
-	setLanguage: React.Dispatch<React.SetStateAction<Languages>>
-	language: Languages
+	setLanguage: React.Dispatch<React.SetStateAction<Language>>
+	language: Language
 }
 
 export const SelectLanguage: FC<SelectLanguageProps> = ({
@@ -36,7 +36,7 @@ export const SelectLanguage: FC<SelectLanguageProps> = ({
 			<DropdownMenuContent className="bg-editor w-56">
 				<DropdownMenuLabel>Language</DropdownMenuLabel>
 				<DropdownMenuSeparator />
-				{Object.values(Languages).map(lang => (
+				{Object.values(Language).map(lang => (
 					<DropdownMenuCheckboxItem
 						key={lang}
 						checked={language === lang}

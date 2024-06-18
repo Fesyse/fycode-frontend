@@ -2,7 +2,7 @@
 
 import { Code } from "lucide-react"
 import { useState } from "react"
-import { Languages } from "@/types/languages.type"
+import { Language } from "@/types/language.type"
 import {
 	Card,
 	CardContent,
@@ -21,7 +21,7 @@ import { TabsetLoading } from "./tabset/tabset-loading"
 import { useEditorValueStore } from "@/stores/problem/editor.store"
 
 export const CodeEditorLoading = () => {
-	const [language, setLanguage] = useState<Languages>(Languages.JAVASCRIPT)
+	const [language, setLanguage] = useState<Language>(Language.JAVASCRIPT)
 	const { editorValue, setEditorValue } = useEditorValueStore()
 
 	const optionsProps: OptionsProps = {

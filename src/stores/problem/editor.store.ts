@@ -1,15 +1,15 @@
-import type { Languages } from "@/types/languages.type"
 import { create } from "zustand"
+import type { Language } from "@/types/language.type"
 
 export type EditorValueState = {
 	editorValue: string
 }
 
 export type EditorValueActions = {
-	getEditorValue: (language: Languages, problemId: number) => string
+	getEditorValue: (language: Language, problemId: number) => string
 	setEditorValue: (
 		editorValue: string,
-		language: Languages,
+		language: Language,
 		problemId: number
 	) => void
 }

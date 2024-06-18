@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader } from "@/components/shadcn/card"
 import { ScrollArea } from "@/components/shadcn/scroll-area"
 import { Results } from "./results"
 import { Tests } from "./tests"
+import { useResultsStore } from "@/stores/problem/results.store"
 
 export type TabsetProps = {
 	problem: ExtendedProblem
@@ -18,7 +19,7 @@ export const Tabset: FC<TabsetProps> = memo(function Tabset({
 	problem,
 	height
 }) {
-	const [tab, setTab] = useState<"tests" | "results">("tests")
+	const { tab, setTab } = useResultsStore()
 	const isMobile = useMediaQuery("(max-width: 760px)")
 
 	const motionSectionProps: MotionProps = {

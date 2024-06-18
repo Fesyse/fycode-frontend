@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion"
-import { Plus } from "lucide-react"
+import { Plus, X } from "lucide-react"
 import { type FC, useEffect, useState } from "react"
 import type { ExtendedProblem } from "@/types/problem.type"
 import { Button } from "@/components/shadcn/button"
@@ -14,7 +14,9 @@ type TestsProps = {
 }
 
 export const Tests: FC<TestsProps> = ({ problem }) => {
-	const { tests, getTests, addTest, updateTest } = useTestsStore(s => s)
+	const { tests, getTests, addTest, updateTest, removeTest } = useTestsStore(
+		s => s
+	)
 	const [selectedTestId, setSelectedTestId] = useState<number>(0)
 
 	useEffect(() => {
@@ -24,15 +26,20 @@ export const Tests: FC<TestsProps> = ({ problem }) => {
 
 	return (
 		<div className="flex flex-col gap-6">
-			<ul className="flex gap-2">
+			<ul className="flex gap-2 flex-wrap">
 				{tests.map((_, i) => (
 					<Button
 						key={i}
 						onClick={() => setSelectedTestId(i)}
-						className="bg-muted text-foreground hover:bg-muted/75"
+						className="bg-muted text-foreground hover:bg-muted/75 gap-2"
 						variant="outline"
 					>
-						Test {i + 1}
+						Test {i + 1}{" "}
+						<X
+							role="button"
+							size={16}
+							onClick={() => removeTest(i, problem.id)}
+						/>
 					</Button>
 				))}
 				{tests.length < 8 ? (

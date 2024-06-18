@@ -5,7 +5,7 @@ import debounce from "lodash.debounce"
 import { Code } from "lucide-react"
 import { type editor } from "monaco-editor"
 import { useCallback, useEffect, useRef, useState } from "react"
-import { Languages } from "@/types/languages.type"
+import { Language } from "@/types/language.type"
 import {
 	Card,
 	CardContent,
@@ -22,7 +22,7 @@ import { useCreateProblemStore } from "@/stores/problem/create-problem.store"
 import { useUserStore } from "@/stores/user.store"
 
 export const CreateSolution = () => {
-	const [language, setLanguage] = useState<Languages>(Languages.JAVASCRIPT)
+	const [language, setLanguage] = useState<Language>(Language.JAVASCRIPT)
 	const { updateProblem, getProblem, problem } = useCreateProblemStore()
 	const user = useUserStore(s => s.user)
 	const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null)

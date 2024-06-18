@@ -1,12 +1,14 @@
-import type { Results } from "@/types/test.type"
 import { create } from "zustand"
+import type { Results } from "@/types/test.type"
 
 export type ResultsState = {
 	results: Results | undefined
 	error: string | undefined
+	tab: "tests" | "results"
 }
 
 export type ResultsActions = {
+	setTab: (tab: ResultsState["tab"]) => void
 	getResults: (problemId: number) => Results | undefined
 	setResults: (results: Results, problemId: number) => void
 	setError: (message: string) => void
@@ -18,6 +20,8 @@ export type ResultsStore = ResultsState & ResultsActions
 export const useResultsStore = create<ResultsStore>(set => ({
 	results: undefined,
 	error: undefined,
+	tab: "tests",
+	setTab: tab => set({ tab }),
 	getResults: problemId => {
 		const resultsFromStorage = localStorage.getItem(
 			`problem-results-${problemId}`
