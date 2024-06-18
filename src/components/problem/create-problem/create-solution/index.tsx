@@ -31,7 +31,9 @@ export const CreateSolution = () => {
 		updateProblem({ solution: editorValue }, user?.id)
 	}
 
-	const handleEditorValueChange = useCallback(debounce(setEditorValue, 500), [])
+	const handleEditorValueChange = useCallback(debounce(setEditorValue, 500), [
+		user
+	])
 
 	const onMount: OnMount = editor => {
 		editorRef.current = editor

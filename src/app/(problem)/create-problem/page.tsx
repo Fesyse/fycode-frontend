@@ -1,8 +1,10 @@
 import type { Metadata } from "next"
-import { CreateDescription } from "@/components/create-problem/create-description"
-import { CreateSolution } from "@/components/create-problem/create-solution"
+import { CreateCustomTests } from "@/components/problem/create-problem/create-custom-tests"
+import { CreateDescription } from "@/components/problem/create-problem/create-description"
+import { CreateSolution } from "@/components/problem/create-problem/create-solution"
 import {
 	ResizableHandle,
+	ResizablePanel,
 	ResizablePanelGroup
 } from "@/components/shadcn/resizable"
 
@@ -15,7 +17,13 @@ export default function CreateProblemPage() {
 		<ResizablePanelGroup className="gap-3" direction="horizontal">
 			<CreateDescription />
 			<ResizableHandle withHandle />
-			<CreateSolution />
+			<ResizablePanel minSize={30} defaultSize={60}>
+				<ResizablePanelGroup className="gap-3" direction="vertical">
+					<CreateSolution />
+					<ResizableHandle withHandle />
+					<CreateCustomTests />
+				</ResizablePanelGroup>
+			</ResizablePanel>
 		</ResizablePanelGroup>
 	)
 }

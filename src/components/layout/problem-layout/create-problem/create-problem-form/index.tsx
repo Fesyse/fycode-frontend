@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Boxes } from "lucide-react"
+import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { type z } from "zod"
@@ -20,12 +21,13 @@ import { Label } from "@/components/shadcn/label"
 import { CustomTestsInfo } from "../custom-tests-info"
 import { ArgumentsField } from "./arguments-field"
 import { createProblemSchema } from "@/lib/schemas"
+import { parseValue } from "@/lib/utils"
 import { useCreateProblemStore } from "@/stores/problem/create-problem.store"
 import { useUserStore } from "@/stores/user.store"
 
 export const CreateProblemForm = () => {
 	const { mutate: createProblem } = useCreateProblem()
-	const problem = useCreateProblemStore(s => s.problem)
+	const { problem, getProblem } = useCreateProblemStore()
 	const user = useUserStore(s => s.user)
 	const form = useForm<z.infer<typeof createProblemSchema>>({
 		resolver: zodResolver(createProblemSchema),
@@ -58,9 +60,45 @@ export const CreateProblemForm = () => {
 				)
 		}
 
+		// there we check if there atleast 3 tests
+		if (
+			data.useCustomTests &&
+			(!problem.testsOptions?.tests || problem.testsOptions?.tests?.length < 3)
+		)
+			return toast.error(
+				"If you are using custom tests, you must provide 3 at minimum."
+			)
+		// there we check if tests amount arguments equals to provided function arguments
+		if (
+			!problem.testsOptions!.tests!.every(
+				test => test.input.length === data.functionArgs.length
+			)
+		)
+			return toast.error(
+				`Every of your tests must contain at max/min ${data.functionArgs.length} arguments.`
+			)
+
+		let tests
+		try {
+			tests = problem.testsOptions!.tests!.map(test => ({
+				input: test.input.map((arg, i) =>
+					parseValue(arg as string, data.functionArgs[i]!.type)
+				)
+			}))
+		} catch {
+			return toast.error(
+				"An error occured parsing custom tests, make sure you provided arguments with no errors.",
+				{
+					descriptionClassName: "text-foreground/50",
+					description: 'type = String Array, argument = ["a","b","c"]'
+				}
+			)
+		}
+
 		const newProblem = {
 			...problem,
 			testsOptions: {
+				tests,
 				useCustomTests: data.useCustomTests,
 				totalChecks: data.totalChecks
 			},
@@ -69,12 +107,20 @@ export const CreateProblemForm = () => {
 				name: problem.functionOptions?.name
 			}
 		} as CreateProblem
-		localStorage.setItem(
-			`create-problem-${user.id}`,
-			JSON.stringify(newProblem)
-		)
+		localStorage.removeItem(`create-problem-${user.id}`)
 		createProblem(newProblem)
 	}
+
+	useEffect(() => {
+		const problem = getProblem(user?.id)
+		form.reset({
+			functionArgs: problem.functionOptions?.args ?? [
+				{ name: "argument", type: TestInputTypes.string }
+			],
+			useCustomTests: problem.testsOptions?.useCustomTests ?? false,
+			totalChecks: 100
+		})
+	}, [user])
 
 	return (
 		<Form {...form}>
