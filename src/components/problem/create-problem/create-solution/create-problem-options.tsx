@@ -4,7 +4,7 @@ import estreePlugin from "prettier/plugins/estree"
 import { type FC } from "react"
 import { toast } from "sonner"
 import { type Language } from "@/types/language.type"
-import { SelectLanguage } from "@/components/code-editor/select-language"
+import { SelectLanguage } from "@/components/problem/code-editor/select-language"
 import { Button } from "@/components/shadcn/button"
 import {
 	Tooltip,

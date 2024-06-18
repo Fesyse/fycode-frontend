@@ -1,5 +1,5 @@
-import { CodeEditorLoading } from "@/components/code-editor/code-editor-loading"
-import { DescriptionLoading } from "@/components/description/description-loading"
+import { CodeEditorLoading } from "@/components/problem/code-editor/code-editor-loading"
+import { DescriptionLoading } from "@/components/problem/description/description-loading"
 import {
 	ResizableHandle,
 	ResizablePanel,

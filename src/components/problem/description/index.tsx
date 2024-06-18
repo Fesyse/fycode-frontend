@@ -24,7 +24,7 @@ import {
 	TooltipTrigger
 } from "@/components/shadcn/tooltip"
 import { MarkdownRenderer } from "@/components/ui/markdown-renderer"
-import { ResizablePanel } from "../shadcn/resizable"
+import { ResizablePanel } from "../../shadcn/resizable"
 import { formatNumber } from "@/lib/utils"
 
 type DescriptionProps = {

@@ -1,8 +1,13 @@
 import { redirect } from "next/navigation"
 import { toast } from "sonner"
-import { CodeEditor } from "@/components/code-editor"
-import { Description } from "@/components/description"
-import { ResizableHandle } from "@/components/shadcn/resizable"
+import { CodeEditor } from "@/components/problem/code-editor"
+import { Description } from "@/components/problem/description"
+import { Tabset } from "@/components/problem/tabset"
+import {
+	ResizableHandle,
+	ResizablePanel,
+	ResizablePanelGroup
+} from "@/components/shadcn/resizable"
 import { ProblemResizablePanelGroup } from "@/components/ui/problem-resizable-panel-group"
 import { problemService } from "@/services/problem.service"
 import { userService } from "@/services/user.service"
@@ -28,7 +33,14 @@ export default async function Page({ params }: { params: { id: string } }) {
 			<ProblemResizablePanelGroup className="gap-3" direction="horizontal">
 				<Description problem={problem} />
 				<ResizableHandle withHandle />
-				<CodeEditor problem={problem} />
+				<ResizablePanel minSize={30} defaultSize={60}>
+					<ResizablePanelGroup className="gap-3" direction="vertical">
+						<CodeEditor problem={problem} />
+						<ResizableHandle withHandle />
+
+						<Tabset problem={problem} />
+					</ResizablePanelGroup>
+				</ResizablePanel>
 			</ProblemResizablePanelGroup>
 		</>
 	)

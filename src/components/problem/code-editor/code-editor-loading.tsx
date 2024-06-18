@@ -16,8 +16,8 @@ import {
 } from "@/components/shadcn/resizable"
 import { Separator } from "@/components/shadcn/separator"
 import { Skeleton } from "@/components/shadcn/skeleton"
+import { TabsetLoading } from "../tabset/tabset-loading"
 import { Options, type OptionsProps } from "./options"
-import { TabsetLoading } from "./tabset/tabset-loading"
 import { useEditorValueStore } from "@/stores/problem/editor.store"
 
 export const CodeEditorLoading = () => {
