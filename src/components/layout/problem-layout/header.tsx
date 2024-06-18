@@ -7,7 +7,7 @@ import {
 	type AttemptFunctionProps,
 	useAttemptProblem
 } from "@/hooks/problem/useAttemptProblem"
-import { useMediaQuery } from "@/hooks/useMediaQuery"
+import { mediaQueryOptions, useMediaQuery } from "@/hooks/useMediaQuery"
 import { Profile } from "@/components/layout/root-layout/header/profile"
 import { Button } from "@/components/shadcn/button"
 import { Logo } from "@/components/ui/logo"
@@ -30,7 +30,7 @@ export const Header: FC<HeaderProps> = ({ problemId }) => {
 	const pathname = usePathname()
 	const isCreateProblemPage = pathname.startsWith("/create-problem")
 
-	const isMobile = useMediaQuery("(max-width: 720px)")
+	const isMobile = useMediaQuery(mediaQueryOptions.small)
 
 	const handleAttempt = async (type: "attempt" | "submit") => {
 		if (!user) {

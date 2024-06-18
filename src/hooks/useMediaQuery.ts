@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useEffect, useState } from "react"
 
 export const useMediaQuery = (query: string) => {
 	const [matches, setMatches] = useState(false)
@@ -14,4 +14,10 @@ export const useMediaQuery = (query: string) => {
 	}, [matches, query])
 
 	return matches
+}
+
+export const mediaQueryOptions = {
+	small: "(max-width: 720px)",
+	medium: "(max-width: 1024px)",
+	large: "(max-width: 1440px)"
 }

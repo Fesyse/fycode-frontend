@@ -1,6 +1,6 @@
 import { PartyPopper } from "lucide-react"
 import { useState } from "react"
-import { useMediaQuery } from "@/hooks/useMediaQuery"
+import { mediaQueryOptions, useMediaQuery } from "@/hooks/useMediaQuery"
 import { Button } from "@/components/shadcn/button"
 import {
 	Dialog,
@@ -22,7 +22,7 @@ import { CreateProblemForm } from "./create-problem-form"
 
 export const CreateProblemButton = () => {
 	const [open, setOpen] = useState(false)
-	const isMobile = useMediaQuery("(max-width: 720px)")
+	const isMobile = useMediaQuery(mediaQueryOptions.small)
 
 	const content = {
 		button: (
