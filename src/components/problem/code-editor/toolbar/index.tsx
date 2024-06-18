@@ -3,8 +3,8 @@ import babelPlugin from "prettier/plugins/babel"
 import estreePlugin from "prettier/plugins/estree"
 import { type FC } from "react"
 import { toast } from "sonner"
-import { type Language } from "@/types/language.type"
-import { SelectLanguage } from "@/components/problem/code-editor/select-language"
+import type { Language } from "@/types/language.type"
+import type { ExtendedProblem } from "@/types/problem.type"
 import { Button } from "@/components/shadcn/button"
 import {
 	Tooltip,
@@ -12,26 +12,30 @@ import {
 	TooltipProvider,
 	TooltipTrigger
 } from "@/components/shadcn/tooltip"
-import { useCreateProblemStore } from "@/stores/problem/create-problem.store"
-import { useUserStore } from "@/stores/user.store"
+import { SelectLanguage } from "../select-language"
+import { CodeEditorOptions } from "./code-editor-options"
+import { type EditorValueActions } from "@/stores/problem/editor.store"
 
-export type CreateProblemOptionsProps = {
+export type ToolbarProps = {
+	problem: ExtendedProblem | undefined
 	language: Language
 	setLanguage: React.Dispatch<React.SetStateAction<Language>>
 	editorValue: string
+	setEditorValue: EditorValueActions["setEditorValue"]
 }
 
-export const CreateProblemOptions: FC<CreateProblemOptionsProps> = ({
+export const Toolbar: FC<ToolbarProps> = ({
+	problem,
 	language,
-	setLanguage
+	setLanguage,
+	editorValue,
+	setEditorValue
 }) => {
-	const { problem, updateProblem } = useCreateProblemStore()
-	const user = useUserStore(s => s.user)
-
 	const formatCode = async () => {
+		if (!problem) return
 		try {
 			const prettier = await import("prettier/standalone")
-			const formattedCode = await prettier.format(problem?.solution ?? "", {
+			const formattedCode = await prettier.format(editorValue, {
 				semi: false,
 				trailingComma: "none",
 				tabWidth: 2,
@@ -42,17 +46,21 @@ export const CreateProblemOptions: FC<CreateProblemOptionsProps> = ({
 				plugins: [babelPlugin, estreePlugin]
 			})
 
-			updateProblem({ solution: formattedCode }, user?.id)
+			setEditorValue(formattedCode, language, problem.id)
 		} catch {
 			toast.error(
 				"An error occurred, when tried to format code. Check your code for containing errors."
 			)
 		}
 	}
-	const resetEditor = () => {
-		updateProblem({ solution: "" }, user?.id)
+	const resetToDefaultCode = () => {
+		if (!problem) return
+		setEditorValue(
+			`function ${problem.functionOptions.name}(${problem.functionOptions.args.map(arg => arg.name).join(", ")}) {\n\treturn\n}\n`,
+			language,
+			problem.id
+		)
 	}
-
 	function toggleFullScreen() {
 		if (!document.fullscreenElement) {
 			void document.documentElement.requestFullscreen()
@@ -85,7 +93,7 @@ export const CreateProblemOptions: FC<CreateProblemOptionsProps> = ({
 							<Button
 								variant="ghost"
 								size="smallIcon"
-								onClick={() => resetEditor()}
+								onClick={() => resetToDefaultCode()}
 							>
 								<RotateCcw size={18} />
 							</Button>
@@ -106,6 +114,14 @@ export const CreateProblemOptions: FC<CreateProblemOptionsProps> = ({
 						</TooltipTrigger>
 						<TooltipContent className="border-muted bg-editor">
 							Toggle fullscreen mode
+						</TooltipContent>
+					</Tooltip>
+					<Tooltip>
+						<TooltipTrigger>
+							<CodeEditorOptions />
+						</TooltipTrigger>
+						<TooltipContent className="border-muted bg-editor">
+							Code editor options
 						</TooltipContent>
 					</Tooltip>
 				</div>

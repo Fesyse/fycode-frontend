@@ -15,9 +15,9 @@ import {
 import { ResizablePanel } from "@/components/shadcn/resizable"
 import { Separator } from "@/components/shadcn/separator"
 import {
-	CreateProblemOptions,
-	type CreateProblemOptionsProps
-} from "./create-problem-options"
+	CreateProblemToolbar,
+	type CreateProblemToolbarProps
+} from "./create-problem-toolbar"
 import { useCreateProblemStore } from "@/stores/problem/create-problem.store"
 import { useUserStore } from "@/stores/user.store"
 
@@ -38,7 +38,7 @@ export const CreateSolution = () => {
 		editor.focus()
 	}
 
-	const optionsProps: CreateProblemOptionsProps = {
+	const toolbarProps: CreateProblemToolbarProps = {
 		language,
 		setLanguage,
 		editorValue: problem?.solution ?? ""
@@ -54,7 +54,7 @@ export const CreateSolution = () => {
 					</CardTitle>
 				</CardHeader>
 				<CardContent className="h-full bg-editor p-0">
-					<CreateProblemOptions {...optionsProps} />
+					<CreateProblemToolbar {...toolbarProps} />
 					<Separator />
 					<Editor
 						theme="vs-dark"

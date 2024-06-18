@@ -21,6 +21,10 @@ export function titleString(str: string) {
 		.join(" ")
 }
 
+export function range(size: number, startAt = 0) {
+	return [...Array(size).keys()].map(i => i + startAt)
+}
+
 export function getDefaultArgumentValue(type: Argument["type"]) {
 	switch (type) {
 		case "number":

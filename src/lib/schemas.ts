@@ -75,10 +75,39 @@ const createProblemSchema = z.object({
 	)
 })
 
+export const cursorBlinkingEnum = [
+	"blink",
+	"smooth",
+	"phase",
+	"expand",
+	"solid"
+] as const
+export const cursorStyleEnum = [
+	"line",
+	"block",
+	"underline",
+	"line-thin",
+	"block-outline",
+	"underline-thin"
+] as const
+export const cursorSmoothCaretAnimationEnum = ["off", "explicit", "on"] as const
+
+const editorOptionsSchema = z.object({
+	minimap: z.object({
+		enabled: z.boolean()
+	}),
+	fontSize: z.number().min(12).max(32),
+	tabSize: z.number().min(1).max(6),
+	cursorBlinking: z.enum(cursorBlinkingEnum),
+	cursorStyle: z.enum(cursorStyleEnum),
+	cursorSmoothCaretAnimation: z.enum(cursorSmoothCaretAnimationEnum)
+})
+
 export {
 	updateUserFormSchema,
 	loginFormSchema,
 	registerFormSchema,
 	imageSchema,
-	createProblemSchema
+	createProblemSchema,
+	editorOptionsSchema
 }

@@ -17,14 +17,14 @@ import {
 import { Separator } from "@/components/shadcn/separator"
 import { Skeleton } from "@/components/shadcn/skeleton"
 import { TabsetLoading } from "../tabset/tabset-loading"
-import { Options, type OptionsProps } from "./options"
+import { Toolbar, type ToolbarProps } from "./toolbar"
 import { useEditorValueStore } from "@/stores/problem/editor.store"
 
 export const CodeEditorLoading = () => {
 	const [language, setLanguage] = useState<Language>(Language.JAVASCRIPT)
 	const { editorValue, setEditorValue } = useEditorValueStore()
 
-	const optionsProps: OptionsProps = {
+	const toolbarProps: ToolbarProps = {
 		problem: undefined,
 		language,
 		setLanguage,
@@ -47,7 +47,7 @@ export const CodeEditorLoading = () => {
 							</CardTitle>
 						</CardHeader>
 						<CardContent className="h-full bg-editor p-0">
-							<Options {...optionsProps} />
+							<Toolbar {...toolbarProps} />
 							<Separator />
 							<div className="grid grid-cols-[4rem_1fr]">
 								<div className="mx-auto grid gap-1 border-r border-border text-sm">

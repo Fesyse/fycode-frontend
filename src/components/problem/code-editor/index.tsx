@@ -14,8 +14,10 @@ import {
 } from "@/components/shadcn/card"
 import { ResizablePanel } from "@/components/shadcn/resizable"
 import { Separator } from "@/components/shadcn/separator"
-import { Options, type OptionsProps } from "./options"
+import { Toolbar, type ToolbarProps } from "./toolbar"
+import { useEditorOptionsStore } from "@/stores/problem/editor-options.store"
 import { useEditorValueStore } from "@/stores/problem/editor.store"
+import { useUserStore } from "@/stores/user.store"
 
 type CodeEditorProps = {
 	problem: ExtendedProblem
@@ -23,6 +25,9 @@ type CodeEditorProps = {
 }
 
 export const CodeEditor: FC<CodeEditorProps> = ({ problem }) => {
+	const { editorOptions, getEditorOptions } = useEditorOptionsStore()
+	const user = useUserStore(s => s.user)
+
 	const [language, setLanguage] = useState<Language>(Language.JAVASCRIPT)
 	const { editorValue, getEditorValue, setEditorValue } = useEditorValueStore()
 	const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null)
@@ -32,7 +37,7 @@ export const CodeEditor: FC<CodeEditorProps> = ({ problem }) => {
 		editor.focus()
 	}
 
-	const optionsProps: OptionsProps = {
+	const toolbarProps: ToolbarProps = {
 		problem,
 		language,
 		setLanguage,
@@ -57,6 +62,10 @@ export const CodeEditor: FC<CodeEditorProps> = ({ problem }) => {
 			)
 		}
 	}, [getEditorValue, language, problem, setEditorValue])
+
+	useEffect(() => {
+		getEditorOptions(user?.id)
+	}, [getEditorOptions, user])
 	return (
 		<ResizablePanel minSize={50} defaultSize={75}>
 			<Card className="relative h-full w-full overflow-hidden rounded-xl">
@@ -66,18 +75,12 @@ export const CodeEditor: FC<CodeEditorProps> = ({ problem }) => {
 					</CardTitle>
 				</CardHeader>
 				<CardContent className="h-full bg-editor p-0">
-					<Options {...optionsProps} />
+					<Toolbar {...toolbarProps} />
 					<Separator />
 					<Editor
 						theme="vs-dark"
 						language={language}
-						options={{
-							minimap: { enabled: false },
-							cursorBlinking: "expand",
-							cursorStyle: "line-thin",
-							cursorSmoothCaretAnimation: "on",
-							tabSize: 2
-						}}
+						options={editorOptions}
 						value={editorValue}
 						onMount={onMount}
 						onChange={v => setEditorValue(v ?? "", language, problem?.id ?? 1)}
