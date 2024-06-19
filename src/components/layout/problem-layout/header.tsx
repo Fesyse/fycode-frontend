@@ -38,6 +38,8 @@ export const Header: FC<HeaderProps> = ({ problemId }) => {
 			return router.push(`/auth?callbackUrl=/problem/${problemId}`)
 		}
 		try {
+			if (tests.length < 3)
+				throw new Error("You must provide 3 tests atleast to attempt problem.")
 			const opts: AttemptFunctionProps =
 				type === "attempt"
 					? {
