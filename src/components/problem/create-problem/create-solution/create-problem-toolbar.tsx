@@ -4,6 +4,7 @@ import estreePlugin from "prettier/plugins/estree"
 import { type FC } from "react"
 import { toast } from "sonner"
 import { type Language } from "@/types/language.type"
+import useKeyboardShortcut from "@/hooks/useKeyboardShortcut"
 import { SelectLanguage } from "@/components/problem/code-editor/select-language"
 import { Button } from "@/components/shadcn/button"
 import {
@@ -29,7 +30,7 @@ export const CreateProblemToolbar: FC<CreateProblemToolbarProps> = ({
 	const { problem, updateProblem } = useCreateProblemStore()
 	const user = useUserStore(s => s.user)
 
-	const formatCode = async () => {
+	async function formatCode() {
 		try {
 			const prettier = await import("prettier/standalone")
 			const formattedCode = await prettier.format(problem?.solution ?? "", {
@@ -50,7 +51,7 @@ export const CreateProblemToolbar: FC<CreateProblemToolbarProps> = ({
 			)
 		}
 	}
-	const resetEditor = () => {
+	function resetEditor() {
 		updateProblem({ solution: "" }, user?.id)
 	}
 
@@ -61,6 +62,12 @@ export const CreateProblemToolbar: FC<CreateProblemToolbarProps> = ({
 			void document.exitFullscreen()
 		}
 	}
+
+	useKeyboardShortcut(formatCode, {
+		code: "KeyF",
+		ctrlKey: true,
+		shiftKey: true
+	})
 
 	return (
 		<div className="flex items-center justify-between px-1.5 py-1">
@@ -77,8 +84,18 @@ export const CreateProblemToolbar: FC<CreateProblemToolbarProps> = ({
 								<Highlighter size={18} />
 							</Button>
 						</TooltipTrigger>
-						<TooltipContent className="border-muted bg-editor">
-							Format code
+						<TooltipContent className="border-muted bg-editor flex gap-2 items-center">
+							<span>Format code</span>
+							<div className="flex gap-1 items-center text-xs">
+								<span className="border px-1 py-0.5 border-foreground/50 rounded">
+									Ctrl
+								</span>
+								+
+								<span className="border px-1 py-0.5 border-foreground/50 rounded">
+									Shift
+								</span>
+								+ <span>F</span>
+							</div>
 						</TooltipContent>
 					</Tooltip>
 					<Tooltip>
