@@ -1,3 +1,5 @@
+"use client"
+
 import { Highlighter, Maximize2, RotateCcw } from "lucide-react"
 import babelPlugin from "prettier/plugins/babel"
 import estreePlugin from "prettier/plugins/estree"
@@ -5,6 +7,7 @@ import { type FC } from "react"
 import { toast } from "sonner"
 import type { Language } from "@/types/language.type"
 import type { ExtendedProblem } from "@/types/problem.type"
+import useKeyboardShortcut from "@/hooks/useKeyboardShortcut"
 import { Button } from "@/components/shadcn/button"
 import {
 	Tooltip,
@@ -31,7 +34,7 @@ export const Toolbar: FC<ToolbarProps> = ({
 	editorValue,
 	setEditorValue
 }) => {
-	const formatCode = async () => {
+	async function formatCode() {
 		if (!problem) return
 		try {
 			const prettier = await import("prettier/standalone")
@@ -53,7 +56,7 @@ export const Toolbar: FC<ToolbarProps> = ({
 			)
 		}
 	}
-	const resetToDefaultCode = () => {
+	function resetToDefaultCode() {
 		if (!problem) return
 		setEditorValue(
 			`function ${problem.functionOptions.name}(${problem.functionOptions.args.map(arg => arg.name).join(", ")}) {\n\treturn\n}\n`,
@@ -68,6 +71,12 @@ export const Toolbar: FC<ToolbarProps> = ({
 			void document.exitFullscreen()
 		}
 	}
+
+	useKeyboardShortcut(formatCode, {
+		code: "KeyF",
+		ctrlKey: true,
+		shiftKey: true
+	})
 
 	return (
 		<div className="flex items-center justify-between px-1.5 py-1">
@@ -84,8 +93,18 @@ export const Toolbar: FC<ToolbarProps> = ({
 								<Highlighter size={18} />
 							</Button>
 						</TooltipTrigger>
-						<TooltipContent className="border-muted bg-editor">
-							Format code
+						<TooltipContent className="border-muted bg-editor flex gap-2 items-center">
+							<span>Format code</span>
+							<div className="flex gap-1 items-center text-xs">
+								<span className="border px-1 py-0.5 border-foreground/50 rounded">
+									Ctrl
+								</span>
+								+
+								<span className="border px-1 py-0.5 border-foreground/50 rounded">
+									Shift
+								</span>
+								+ <span>F</span>
+							</div>
 						</TooltipContent>
 					</Tooltip>
 					<Tooltip>
