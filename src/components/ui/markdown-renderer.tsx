@@ -95,7 +95,7 @@ export const MarkdownRenderer: FC<MarkdownRendererProps> = ({ markdown }) => {
 					return match ? (
 						<div className="rounded-xl border border-border">
 							<SyntaxHighlighter
-								// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+								// @ts-expect-error dependency types are not good
 								style={vscDarkPlus}
 								PreTag="div"
 								language={match[1]}

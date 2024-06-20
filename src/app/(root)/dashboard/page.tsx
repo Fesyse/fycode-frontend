@@ -1,5 +1,7 @@
-import { Dashboard } from "@/components/dashboard"
 import type { Metadata } from "next"
+import { Suspense } from "react"
+import { Dashboard } from "@/components/dashboard"
+
 export const metadata: Metadata = {
 	title: "Dashboard"
 }
@@ -13,7 +15,9 @@ export default function DashboardPage() {
 					Find new problems for you, to challenge yourself!
 				</h2>
 			</div>
-			<Dashboard />
+			<Suspense>
+				<Dashboard />
+			</Suspense>
 		</div>
 	)
 }

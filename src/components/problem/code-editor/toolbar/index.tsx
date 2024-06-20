@@ -72,7 +72,7 @@ export const Toolbar: FC<ToolbarProps> = ({
 		}
 	}
 
-	useKeyboardShortcut(formatCode, {
+	useKeyboardShortcut(() => void formatCode(), {
 		code: "KeyF",
 		ctrlKey: true,
 		shiftKey: true

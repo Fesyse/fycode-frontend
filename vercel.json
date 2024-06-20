@@ -1,0 +1,25 @@
+{
+	"version": 2,
+	"builds": [
+		{
+			"src": "package.json",
+			"use": "@vercel/next"
+		}
+	],
+	"images": {
+		"sizes": [2048, 75, 40],
+		"remotePatterns": [
+			{
+				"protocol": "http",
+				"hostname": "localhost",
+				"port": "3000",
+				"pathname": "/api/user/avatar/**"
+			}
+		]
+	},
+	"env": {
+		"NEXT_PUBLIC_SERVER_URL": "http://localhost:4200/api",
+		"NEXT_PUBLIC_CLIENT_URL": "http://localhost:3000",
+		"NODE_ENV": "production"
+	}
+}
