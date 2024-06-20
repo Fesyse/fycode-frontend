@@ -20,7 +20,7 @@ export default async function middleware(request: NextRequest) {
 	if (token?.value === "undefined" || !token?.value)
 		token = {
 			name: EnumTokens.ACCESS_TOKEN,
-			value: (await getNewTokens())?.accessToken
+			value: ((await getNewTokens()) ?? {})?.accessToken
 		}
 
 	if (isAuthPage) {
